@@ -70,8 +70,8 @@ UserSchema.pre('save', function(next) {
 	if (!this.isModified('password')) {
 		console.log('UserSchema pre: skipping password hash...');
 		return next();
-	} 
-	
+	}
+
 	console.log('UserSchema pre: hashing password...');
 	this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
 	next();

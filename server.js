@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'client')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(bodyParser.json());
 app.use(session({
-	secret: 'SomethingReallySecret',
+	secret: '*****',
  	resave: true,
 	saveUninitialized:true
 }));

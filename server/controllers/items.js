@@ -1,11 +1,10 @@
 var mongoose = require('mongoose'),
 	_ = require('underscore');
 
-var Note = mongoose.model('Note'),
-	User = mongoose.model('User')
-	Workspace = mongoose.model('Workspace');
+var Item = mongoose.model('Item');
 
-function NotesController() {
+function ItemsController() {
+
 	var processError = function(error) {
 		var errors = [];
 
@@ -16,38 +15,22 @@ function NotesController() {
 		return errors;
 	};
 
-	this.get = function(req, res) {
-		if (!req.session.user) {
-			res.json({error: 'user is not logged in'});
-			return;
-		}
 
-		// get all of user's notes
-		Note.find({ userId: req.session.user._id, active: true }, function(error, notes) {
-			if (error) {
-				console.log('notes.js - create(): error retrieving created note\n', error);
-				res.json({ errors: processError(error) });
-				return;
-			}
-
-			res.json({notes: notes});
+	this.index = function(req, res){
+		Campus.findOne({ name: req.session.user.campusName })
+			.populate('items'),
+			.exec(function(error, campus){
+				res.json({items: campus.items});
 		});
-	};
+	}
 
 	this.create = function(req, res) {
-		if (!req.session.user) {
-			// user is not logged in
-			res.redirect('/');
-			return;
-		}
 
-		var uniqueHashtags = req.body.hashtags && req.body.hashtags.length > 0 ? _.filter(req.body.hashtags, function(elem, pos, arr) { return arr.indexOf(elem) === pos }) : [];
+		var item = new Item({
+			createdBy: req.session.user._id,
+			name: req.body.name,
+			description: req.body.description,
 
-		var note = new Note({
-			userId: req.session.user._id,
-			title: req.body.title,
-			content: req.body.content,
-			hashtags: uniqueHashtags
 		});
 
 		note.save(function(error, note) {
@@ -85,6 +68,21 @@ function NotesController() {
 			});
 		});
 	};
+
+	this.get = function(req, res) {
+
+		Item.findOne({ _id: req.params.item_id, active: true }, function(error, item) {
+			if (error) {
+				console.log('items.js - get(): error retrieving item\n', error);
+				res.json({ errors: processError(error) });
+				return;
+			}
+
+			res.json(item);
+		});
+	};
+
+
 
 	this.update = function(req, res) {
 		if (!req.session.user) {
@@ -245,4 +243,4 @@ function NotesController() {
 	};
 };
 
-module.exports = new NotesController();
+module.exports = new ItemsController();

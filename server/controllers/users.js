@@ -3,10 +3,9 @@
 var mongoose = require('mongoose');
 
 var User = mongoose.model('User'),
-	Workspace = mongoose.model('Workspace'),
-	Note = mongoose.model('Note');
 
 function UsersController() {
+
 	var processError = function(error) {
 		var errors = [];
 
@@ -24,16 +23,15 @@ function UsersController() {
 	var generateResponseData = function(user) {
 		var response = {};
 
-		response.firstName = user.firstName;
-		response.lastName = user.lastName;
-		response.alias = user.alias;
+		response.name = user.name;
 		response.email = user.email;
-		// todo: may want to remove all 'active' attributes from each hashtag obj.
-		response.hashtags = user.hashtags;
-		response.settings = user.settings;
+		response.campusName = user.campusName;
+		response.avatar = user.avatar;
+		response.adminLvl = user.adminLvl;
 
 		return response;
 	};
+
 
 	this.create = function(req, res) {
 		var user = new User(req.body);
@@ -53,41 +51,8 @@ function UsersController() {
 				res.json({ errors: processError(error) });
 				return;
 			}
-
-			// create default workspace for newly registered user
-			var workspace = new Workspace({ userId: user._id });
-
-			// create user's default workspace
-			workspace.save(function(error, workspace) {
-				if (error) {
-					console.log('users.js - create(): error retrieving created user\n', error);
-					res.json({ errors: processError(error) });
-					return;
-				}
-
-				// update user's current workspace to default
-				User.findByIdAndUpdate(workspace.userId, { $set: { metadata: {currentWorkspaceId: workspace._id }}}, { new: true }, function (error, updatedUser) {
-					if (error) {
-						console.log('users.js - create(): error saving updated user\n', error);
-						res.json({ errors: processError(error) });
-						return;
-					}
-
-					// 'login' user
-					req.session.user = updatedUser;
-					req.session.save(function(error) {
-						if (error) {
-							console.log('users.js - create(): error saving updated user to session\n', error);
-							res.json({ errors: error });
-							return;
-						}
-
-						console.log('users.js - create(): successfully saved user to session...now logged in.');
-					});
-
-					res.json({ user: generateResponseData(updatedUser) });
-				});
-			});
+			req.session.user = user;
+			res.json({ user: user.name });
 		});
 	};
 
@@ -113,33 +78,39 @@ function UsersController() {
 
 			req.session.user = user;
 			console.log('user in session==>', req.session.user);
-			req.session.save(function(error) {
-				if (error) {
-					console.log('users.js - authenticate(): error saving updated user to session\n', error);
-					res.json({ errors: error });
-					return;
-				}
+			// req.session.save(function(error) {
+			// 	if (error) {
+			// 		console.log('users.js - authenticate(): error saving updated user to session\n', error);
+			// 		res.json({ errors: error });
+			// 		return;
+			// 	}
+			//
+			// 	console.log('users.js - authenticate(): successfully saved user to session...now logged in.');
+			// });
 
-				console.log('users.js - authenticate(): successfully saved user to session...now logged in.');
-			});
-
-			res.json({ user: generateResponseData(user) });
+			res.json({ user: user.name });
 		});
 	};
 
 	this.deauthenticate = function(req, res) {
-		req.session.destroy(function(error) {
-			console.log('user successfully removed from session.');
-			res.redirect('/');
-		});
+		req.session.user = false;
+		console.log('logged out');
 	};
 
+	this.index = function(req, res){
+		Campus.findOne({ name: req.session.user.campusName })
+			.populate('users'),
+			.exec(function(error, campus){
+				res.json({users: campus.users});
+		});
+	}
+
 	this.show = function(req, res) {
-		if (!req.session.user) {
-			console.log('not logged in redirecting');
-			res.json({error: 'not logged in'})
-			return;
-		}
+		// if (!req.session.user) {
+		// 	console.log('not logged in redirecting');
+		// 	res.json({error: 'not logged in'})
+		// 	return;
+		// }
 
 		User.findOne({ _id: req.session.user._id }, function(error, user) {
 			if (!user) {
@@ -157,15 +128,14 @@ function UsersController() {
 	};
 
 	this.update = function(req, res) {
-		if (!req.session.user) {
-			console.log('not logged in redirecting');
-			res.redirect('/');
-			return;
-		}
+		// if (!req.session.user) {
+		// 	console.log('not logged in redirecting');
+		// 	return;
+		// }
 
 		console.log('user update info-->', req.body);
 
-		var passwordUpdate = req.body.firstName ? false : true;
+		var passwordUpdate = req.body.name ? false : true;
 
 		console.log('first name present?', passwordUpdate);
 
@@ -193,12 +163,9 @@ function UsersController() {
 			if (passwordUpdate) {
 				user.password = req.body.password;
 			} else {
-				user.firstName = req.body.firstName;
-				user.lastName = req.body.lastName;
-				user.alias = req.body.alias;
+				user.name = req.body.name;
 				user.email = req.body.email;
-				user.settings.timerViewable = req.body.settings.timerViewable;
-				user.markModified('settings')
+				user.avatar = req.body.avatar;
 			}
 
 			user.save(function(error, updatedUser) {
@@ -210,9 +177,33 @@ function UsersController() {
 
 				console.log('users.js - update(): user settings successfully updated.');
 
-				res.json({ user: updatedUser});
+				res.json({ user: updatedUser.name});
 			});
 		});
+
+		this.updateAdminLvl = function(req, res) {
+			User.findOne({ _id: req.params.id }, function(error, user) {
+				if (error) {
+					console.log('users.js - update(): error retrieving user.\n', error);
+					res.json({ errors: processError(error) });
+					return;
+				}
+
+				user.adminLvl = req.body.adminLvl;
+				user.save(function(error, updatedUser) {
+					if (error) {
+						console.log('users.js - update(): error saving user.\n', error);
+						res.json({ errors: processError(error) });
+						return;
+					}
+
+					console.log('users.js - update(): user settings successfully updated.');
+
+					res.json({ user: updatedUser});
+				});
+			});
+		};
+
 	};
 };
 
