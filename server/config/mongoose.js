@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 	path = require('path'),
 	modelsPath = path.join(__dirname, '../models'),
 	reg = new RegExp('.js$', 'i'),
-	dbURI = 'mongodb://localhost/mindscape';
+	dbURI = 'mongodb://localhost/groceries';
 
 mongoose.connect(dbURI);
 

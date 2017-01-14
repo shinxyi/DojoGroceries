@@ -6,7 +6,7 @@
     "Shin Yi Tan <shinxyi.tan@gmail.com>"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/rdrwoodall/mindscape",
+  "homepage": "https://github.com/shinxyi/DojoGroceries",
   "ignore": [
     "**/.*",
     "node_modules",

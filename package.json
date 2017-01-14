@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rdrwoodall/mindscape.git"
+    "url": "git+https://github.com/shinxyi/DojoGroceries"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rdrwoodall/mindscape/issues"
+    "url": "https://github.com/shinxyi/DojoGroceries/issues"
   },
-  "homepage": "https://github.com/rdrwoodall/mindscape#readme",
+  "homepage": "https://github.com/shinxyi/DojoGroceries#readme",
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
