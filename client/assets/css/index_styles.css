@@ -1,0 +1,131 @@
+@font-face {
+  font-family: sourceFont;
+  src: url('/assets/static/fonts/source-sans-pro/SourceSansPro-Regular.otf');
+}
+
+* {
+  font-family: sourceFont, sans-serif;
+}
+
+a{
+  text-decoration: none;
+  color: white;
+}
+
+a:hover{
+  color: grey;
+}
+
+body{
+  overflow: hidden;
+  background-color: #1a1b1d;
+}
+
+#welcome{
+  background-image: url('/assets/static/images/mindscape.jpeg');
+  background-size: 100% auto;
+  width: 100%;
+  background-repeat: no-repeat;
+  padding-top: 57.09%;
+}
+
+#center{
+  position: absolute;
+  background-color: transparent;
+  top: 0px;
+  height: 150px;
+  width: 100%;
+}
+
+#logo{
+  background-image: url('/assets/static/images/mindscape-logo.png');
+  background-size: cover;
+  background-color: transparent;
+  width: 350px;
+  height: 130px;
+  margin: 16% auto;
+  position: relative;
+}
+
+#logo:hover{
+  background-image: url('/assets/static/images/mindscape-logo-glow.png');
+  /*TO-DO: need to fade in and out on-off hover with jquery*/
+}
+
+
+#learnmore{
+  background-color: transparent;
+  text-align: center;
+  width: 500px;
+  margin: 5% auto;
+  letter-spacing: 3px;
+}
+
+    #learnmore a{
+      color:white;
+    }
+
+    #learnmore a:hover{
+      text-decoration: none;
+    }
+
+#popup{
+  color:#fc9986;
+  letter-spacing: 10px;
+  background-color: transparent;
+  display:none;
+}
+
+#about{
+  width: 100%;
+  height:800px;
+  padding: 20% 0%;
+  position: relative;
+}
+
+#info{
+  width: 1200px;
+  margin: 0px auto;
+}
+
+.info{
+  margin: 0px 40px;
+  display: inline-block;
+  vertical-align: top;
+  width: 500px;
+  height: 400px;
+  /*background-color: yellow;*/
+}
+
+  .info h2{
+    color:white;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+  }
+
+  .info p{
+    margin-left: 25px;
+    color: #8c8c8c;
+  }
+
+  .info a{
+    color:#fc9986;
+    font-size: 18px;
+  }
+
+
+video{
+  vertical-align: center;
+  width: 500px;
+}
+
+#footer{
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  color: #ccc;
+}
+
+  #footer a{
+    color:white;
+  }

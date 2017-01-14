@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = "app">
+<head>
+  <meta charset="UTF-8">
+  <title>m i n d / s c a p e</title>
+  <link rel="icon" type="image/png" href="/assets/static/images/favicon.png">
+  <!-- jquery for BOOSTRAP & jquery-ui-->
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <!-- BOOSTRAP -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- BOWER stuff -->
+  <script src='angular/angular.js'></script>
+  <script src='angular-ui-router/release/angular-ui-router.js'></script>
+  <script src='angular-cookies/angular-cookies.js'></script>
+
+  <!--my app stuff-->
+  <script src="app/app.js" charset="utf-8"></script>
+  <script src='app/factories/usersFactory.js'></script>
+  <script src='app/factories/notesFactory.js'></script>
+  <script src='app/factories/workspacesFactory.js'></script>
+  <script src='app/controllers/userController.js'></script>
+  <script src='app/controllers/noteController.js'></script>
+  <script src='app/controllers/workspaceController.js'></script>
+
+  <!--css stuff-->
+  <link rel="stylesheet" href="/assets/css/index_styles.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/index_login.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/index_reg.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/dashboard.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/workspace.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/sideNotes.css" type="text/css">
+
+</head>
+<body>
+  <div ui-view>
+  </div>
+</body>
+</html>

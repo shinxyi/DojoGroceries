@@ -1,0 +1,65 @@
+<script src="assets/js/sideNotes.js"></script>
+
+<div id="bigleft">
+<div id="left">
+
+  <div id="left_top">
+    <form class="form-inline">
+      <h2> notes </h2>
+      <div class="form-group">
+        <input type="search" class="form-control input-sm" placeholder="Search..." ng-model="noteCtrl.searchNotes"/>
+      </div>
+      <a href="#"><span class="glyphicon glyphicon-fullscreen full" aria-hidden="true"></span></a>
+    </form>
+  </div>
+
+  <div id="add_note">
+    <span class="glyphicon glyphicon-plus icons" aria-hidden="true"></span>
+    <input name="title" type="text" class="input" placeholder="NEW NOTE TITLE" ng-model="noteCtrl.new.title" />
+    <textarea class="noteContent" rows="3" placeholder="start brain storming..." ng-model="noteCtrl.new.content"></textarea>
+    <input class="hashes" placeholder="#hashtags #cats #dogs #etc" ng-model="noteCtrl.new.hashes"/>
+    <a ng-click="noteCtrl.newNote()"><span class="glyphicon glyphicon-ok update" aria-hidden="true"></span></a>
+  </div>
+
+
+  <!-- BEGIN Angular Repeat stuff here...  -->
+  <div class="note" ng-repeat="note in noteCtrl.notes | filter:noteCtrl.searchNotes track by $index" id="{{note._id}}">
+
+    <div class="note_view">
+      <div class="edit-icon">
+        <a><span class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="noteCtrl.getNote(note._id)"></span></a>
+      </div>
+      <h4>{{note.title}}</h4>
+      <sup><a ng-repeat="(key, name) in note.workspaces" class="link" href="">#{{name}}</a> </sup>
+      <!-- TO_DO: come back for these links to workspaces and hashtags!! -->
+      <div class="noteContent">{{note.content}}</div>
+      <div class="hashes">
+          <a href="" class="link" ng-repeat="hash in note.hashtags">{{hash}}</a>
+      </div>
+      <a ng-click="noteCtrl.addToWorkspace(note._id, $index)"><span class="glyphicon glyphicon-share update" aria-hidden="true"></span></a>
+    </div>
+
+    <div class="note_edit">
+      <div class="edit-icon">
+        <a><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="noteCtrl.deleteNote(note._id, $index)"></span></a>
+      </div>
+      <input name="title" type="text" class="input" ng-model="noteCtrl.edit.title" />
+      <textarea class="noteContent" rows="3" ng-model="noteCtrl.edit.content"></textarea>
+      <div class="current_hashes">
+          <span class="glyphicon glyphicon-plus-sign plus" aria-hidden="true"></span>
+          <span class="deletable" ng-repeat="hash in note.hashtags" ng-click="noteCtrl.removeHash(hash)">{{hash}}</span>
+      </div>
+      <div class="new_hashes">
+        <span class="glyphicon glyphicon-minus-sign minus" aria-hidden="true"></span>
+        <input class="new_hashes_input" ng-model="noteCtrl.edit.hashes" placeholder="#newHash"/>
+      </div>
+      <a ng-click="noteCtrl.updateNote($index)"><span class="glyphicon glyphicon-check update" aria-hidden="true"></span></a>
+    </div>
+
+  </div>
+
+  <!-- END Angular Repeat stuff here...  -->
+</div>
+
+<input type="hidden" ng-mouseover="noteCtrl.clearTrackHash()">
+</div>

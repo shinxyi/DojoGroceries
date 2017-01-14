@@ -1,0 +1,173 @@
+<script src="/assets/js/jquery.simple.timer.js"></script>
+<script src="assets/js/dash.js"></script>
+
+<div ng-controller= "userController as userCtrl">
+
+
+<!--1: SETTING GOALS -->
+<div id="focus" class="darken-bg">
+  <div id="setGoal">
+    <h1>What's your goal for today?</h1>
+    <form name="set_goal" ng-submit="userCtrl.updateGoal()">
+      <p>Your previous focus | </p>
+      <input type="text" ng-model="userCtrl.new.goal" />
+      <input type="submit" tabindex="-1"/>
+    </form>
+  </div>
+</div>
+
+<!--2: SETTINGS -->
+<div id="settings" class="darken-bg">
+  <div id="editSettings">
+    <h1>Settings</h1>
+    <a id="cancelSettings"><span class="glyphicon glyphicon-remove remove" aria-hidden="true"></span></a>
+    <div id="reg_erorrs" ng-if="userCtrl.errors2">
+      <ul>
+        <li ng-repeat="err2 in userCtrl.errors2">{{err2}}</li>
+      </ul>
+    </div>
+
+    <form id="updating" ng-submit="userCtrl.updateInfo('info')"> <!--Update Info Form-->
+      <table>
+        <tbody>
+          <tr>
+            <td><label for="first_name">first name:</label></td>
+            <td class="input"><input type="text" name="first_name" placeholder="first name" ng-model="userCtrl.info2.firstName" /></td>
+          </tr>
+          <tr>
+            <td><label for="last_name">last name:</label></td>
+            <td class="input"><input type="text" name="last_name" placeholder="last name" ng-model="userCtrl.info2.lastName" /></td>
+          </tr>
+          <tr>
+            <td><label for="alias">alias:</label></td>
+            <td class="input"><input type="text" name="alias" placeholder="alias" ng-model="userCtrl.info2.alias" /></td>
+          </tr>
+          <tr>
+            <td><label for="email">email:</label></td>
+            <td class="input"><input type="email" name="email" placeholder="email" ng-model="userCtrl.info2.email" /></td>
+          </tr>
+          <tr>
+            <td><label for="timer">timer:</label></td>
+            <td class="left">
+              <input type="radio" name="timer" value="true" ng-model="userCtrl.info2.settings.timerViewable">show<br>
+              <input type="radio" name="timer" value="false" ng-model="userCtrl.info2.settings.timerViewable">hide
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><br></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input type="submit" value="update info" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+
+
+    <form id="updatingPW" ng-submit="userCtrl.updateInfo('password')"> <!--Update Password Form -->
+      <table>
+        <tbody>
+          <tr>
+            <td><label for="password">new password:</label></td>
+            <td class="input"><input type="password" name="password" placeholder="at least 8 characters" ng-model="userCtrl.info3.password"/></td>
+          </tr>
+          <tr>
+            <td><label for="confirm_password">confirm password:</label></td>
+            <td class="input"><input type="password" name="confirm_password" placeholder="repeat above" ng-model="userCtrl.info3.password2"/></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><br></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input type="submit" value="update password" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+
+  </div>
+</div>
+
+<!--3: TIMER -->
+<div id="timer" class="darken-bg">
+  <div id="setTime">
+    <a id="cancelSettings"><span class="glyphicon glyphicon-remove remove" aria-hidden="true"></span></a>
+    <h1>Time to Focus</h1>
+    <h3>Set how long you want to focus for.</h3>
+
+    <form name="set_timer" ng-submit="userCtrl.setTimer()">
+      <table>
+        <tbody>
+          <tr>
+            <td><input type="number" name="hours" min="0" max="12" ng-model="userCtrl.timer.hours" placeholder="0"/></td>
+            <td><span> : </span></td>
+            <td><input type="number" name="minutes"  min="0" max="59" ng-model="userCtrl.timer.mins" placeholder="0"/></td>
+          </tr>
+          <tr>
+            <td>hours</td>
+            <td></td>
+            <td>minutes</td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="submit" value="start"/>
+      <a ng-click="userCtrl.stopTimer()">cancel timer</a>
+
+    </form>
+  </div>
+</div>
+
+<!--4: TIMER COMPLETE: CONGRATS!! -->
+<div id="congrats" class="darken-bg">
+  <div id="sayCongrats">
+    <a id="cancelSettings"><span class="glyphicon glyphicon-remove remove" aria-hidden="true" ng-click="userCtrl.stopTimer()"></span></a>
+    <h1>Time's Up!</h1>
+    <h3>Good job on staying focused.</h3>
+    <div>Now go treat yourself or something.</div>
+  </div>
+</div>
+
+
+
+<!--5: NAVIGATION BAR -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+			<a class="navbar-brand" href="#">
+		    <img alt="Brand" id="favi" src="/assets/static/images/favicon.png">
+	   	</a>
+    </div>
+		<p class="navbar-text"><b>today's focus</b>
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			{{ userCtrl.new.goal }}
+		</p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="timer"></li>
+				<li><a><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">M E N U <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+          <ul class="dropdown-menu">
+            <li><a name="settings" ng-click="userCtrl.getUser()"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a ng-click="userCtrl.logout()"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+</div>
+
+<div class="content">
+  <div class="filler"></div>
+  <div class="true" ui-view="sideNotes"></div>
+  <div class="true" ui-view="workSpace"></div>
+</div>

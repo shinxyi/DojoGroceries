@@ -1,0 +1,291 @@
+.jst-hours, .jst-minutes, .jst-seconds{
+  display: inline;
+}
+
+.timer{
+  top: 13px;
+}
+
+img#favi{
+  margin-top: -3px;
+  padding-left: 20px;
+  height: 30px;
+}
+
+.filler{
+  height: 50px;
+}
+
+.true{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.content{
+  width: 3000px;
+}
+
+.darken-bg{
+  background: rgba(0,0,0,0.9);
+  width: 100%;
+  height: 100%;
+  z-index:10;
+  top:0;
+  left:0;
+  position: fixed;
+}
+
+#setGoal, #editSettings, #setTime, #sayCongrats{
+  background-color: white;
+  border-radius: 5px;
+  width: 900px;
+  height: 150px;
+  left: 50%;
+  top: 50%;
+  margin: -100px 0 0 -450px;
+  position: relative;
+}
+
+#setGoal h1, #setTime h1, #sayCongrats h1{
+  font-weight: 600;
+  font-size: 50px;
+  color: #cecece;
+  left: 50%;
+  margin: 20px 0px 0px -280px;
+  position: absolute;
+}
+
+#settings, #timer, #congrats{
+  display: none;
+}
+
+a#cancelSettings{
+  position: absolute;
+  top: 3px;
+  right: 13px;
+  color: #cecece;
+  font-size: 20px;
+}
+
+a#cancelSettings:hover{
+  color: #000;
+  cursor: pointer;
+}
+
+
+#updating{
+  width: 350px;
+  height: 150px;
+  position: relative;
+  left: 75px;
+  top: 43px;
+  font-size: 18px;
+  letter-spacing: 5px;
+  display: inline-block;
+  border-right: 1px solid #dbdbdb;
+}
+
+#updating .input{
+  padding: 0px;
+  width: 150px;
+}
+
+#updating input{
+  width: 200px;
+}
+
+#updating input[type="radio"]{
+  width: 20px;
+}
+
+#updating .left{
+  text-align: left;
+  padding-top: 10px;
+}
+
+#updating input[type="submit"]{
+  background-color: #cecece;
+  width: 150px;
+  top: 0px;
+  left: 7px;
+}
+
+#updating input[type="submit"]:hover{
+  background-color: #1c2023;
+}
+
+#editSettings{
+  height: 250px;
+  margin-top: -125px;
+}
+
+#editSettings h1{
+  font-weight: 600;
+  font-size: 50px;
+  color: #cecece;
+  top: 15px;
+  right: 70px;
+  position: absolute;
+}
+
+#updatingPW{
+  position: absolute;
+  display: inline-block;
+  top: 120px;
+  margin-left: 120px;
+  width: 375px;
+}
+
+#updatingPW input{
+  width: 200px;
+}
+
+#updatingPW input[type="submit"]{
+  background-color: #cecece;
+  width: 200px;
+  top: 14px;
+  left: 7px;
+  height: 26.5px;
+}
+
+#updatingPW input[type="submit"]:hover{
+  background-color: #1c2023;
+}
+
+#setTime{
+  height: 400px;
+  width: 600px;
+  margin: -175px 0 0 -300px;
+}
+
+#setTime h1{
+  margin: 30px 0px 0px -145px;
+}
+
+#setTime h3, #sayCongrats h3{
+  font-weight: 300;
+  font-size: 18px;
+  font-style: italic;
+  color: #cecece;
+  left: 50%;
+  margin: 90px 0px 0px -130px;
+  position: absolute;
+}
+
+#sayCongrats{
+  width: 350px;
+  height: 200px;
+  margin-left: -175px;
+}
+
+#sayCongrats h1{
+  margin-left: -111px;
+}
+
+#sayCongrats h3{
+  margin-left: -108px;
+}
+
+#sayCongrats div{
+  position: absolute;
+  height: 65px;
+  width:300px;
+  left: 50%;
+  margin-left: -150px;
+  bottom: 10px;
+  text-align: center;
+}
+
+
+form p{
+  position: absolute;
+  bottom: 25px;
+  left: 190px;
+  z-index: 12;
+  color: #696969;
+}
+
+form[name="set_goal"] input{
+  position: absolute;
+  width: 550px;
+  height: 30px;
+  background-color: #cecece;
+  padding-left: 150px;
+  left: 50%;
+  margin-left: -275px;
+  bottom: 30px;
+}
+
+form[name="set_goal"] input[type="submit"]{
+position: absolute;
+left: -9999px;
+width: 1px;
+height: 1px;
+}
+
+form[name="settings"] input{
+  position: absolute;
+  width: 550px;
+  height: 30px;
+  background-color: #cecece;
+  padding-left: 150px;
+  left: 50%;
+  margin-left: -275px;
+  bottom: 30px;
+}
+
+form[name="set_timer"] {
+  position: absolute;
+  top: 150px;
+  left:50%;
+  margin-left: -155px;
+}
+
+form[name="set_timer"] table{
+  font-size: 30px;
+  text-align: center;
+
+}
+
+form[name="set_timer"] span{
+  font-size: 70px;
+}
+
+
+form[name="set_timer"] input{
+  width: 100px;
+  height: 100px;
+  background-color: #1a1b1d;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 5px;
+  display: inline-block;
+  font-size: 50px;
+  margin: 0px 10px;
+  color: #fff;
+}
+
+form[name="set_timer"] input[type="submit"]{
+  font-size: 18px;
+  width: 150px;
+  height: 30px;
+  background-color: #6eaf82;
+  margin-top: 10px;
+}
+
+form[name="set_timer"] input[type="submit"]:hover{
+  background-color: #4eaa6a;
+}
+
+
+form[name="set_timer"] a{
+  display: block;
+  color: #cecece;
+  margin-top: 15px;
+  text-align: center;
+}
+
+form[name="set_timer"] a:hover{
+  color:#1a1b1d;
+  cursor: pointer;
+}
