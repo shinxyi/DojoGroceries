@@ -10,4 +10,6 @@
     $('.glyphicon-time').click(function(){
       $('#timer').css('display', 'block');
     })
+
+    $(document).foundation();
   })

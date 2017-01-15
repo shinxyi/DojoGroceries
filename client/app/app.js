@@ -1,4 +1,4 @@
-var app = angular.module('app', [ 'ui.router', 'ngCookies']);
+var app = angular.module('app', [ 'ui.router']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -32,17 +32,20 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
         '': {
           templateUrl: 'assets/partials/dash.html',
-          controller: 'noteController',
-          controllerAs: 'noteCtrl'
+          controller: 'itemController',
+          controllerAs: 'itemCtrl'
 
         },
-        'sideNotes@dashboard': {
-    			templateUrl: 'assets/partials/sideNotes.html'
+        'suggestions@dashboard': {
+    			templateUrl: 'assets/partials/suggestions.html'
     		},
-        'workSpace@dashboard': {
-          templateUrl: '/assets/partials/workspace.html',
-          controller: 'workspaceController',
-          controllerAs: 'wsCtrl'
+        'databaseSide@dashboard': {
+          templateUrl: '/assets/partials/databaseSide.html'
+        },
+        'database@dashboard': {
+          templateUrl: '/assets/partials/database.html',
+          controller: 'categoryController',
+          controllerAs: 'categoryCtrl'
         }
       }
     })

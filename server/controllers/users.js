@@ -72,10 +72,14 @@ function UsersController() {
 					return;
 				}
 
-				req.session.user = user;
-				console.log('user in session==>', req.session.user);
+				if(user.adminLvl>1){
+					req.session.user = user;
+					console.log('user in session==>', req.session.user);
+				}else{
+					console.log('User cannot be logged in b/c admin lvl too low.', user);
+				}
 
-				res.json({ user: user.name });
+				res.json({ user: user.adminLvl });
 			});
 		};
 

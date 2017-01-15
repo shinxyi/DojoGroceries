@@ -5,8 +5,10 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
     usersFactory.login(self.info, function(returnedData){
       if(returnedData.errors){
         self.errors = returnedData.errors;
+      }else if(returnedData.user<1){
+        self.errors = ['Your account has yet to be approved. Please check with an admin for your approval.'];
       }else{
-        $location.url('/about');
+        $location.url('/dashboard');
       }
     })
   };

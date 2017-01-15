@@ -11,9 +11,20 @@ var ItemSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		required: [true, 'UserId required to create item.']
 	},
+	img: {
+		type: String,
+		validate: {
+			validator: function( value ) {
+				return /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/.test( value );
+			},
+			message: "Image url is not in the proper format with jpg, jpeg, png, or gif ending."
+		}
+
+	},
 	name: {
 		type: String,
 		minlength: [2, 'Item name requires at least 2 characters.'],
+		required: [true, 'Name required to create item.']
 	},
 	id: {
 		type: String,
