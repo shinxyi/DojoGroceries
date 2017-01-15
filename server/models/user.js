@@ -4,24 +4,10 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
 var UserSchema = new mongoose.Schema({
-	active: {
-		type: Boolean,
-		default: true
-	},
-	firstName: {
+	name: {
 		type: String,
-		required: [true, 'First name field is required.'],
-		minlength: [2, 'First name field requires at least 2 characters.']
-	},
-	lastName: {
-		type: String,
-		required: [true, 'Last name field is required.'],
-		minlength: [2, 'Last name field requires at least 2 characters.']
-	},
-	alias: {
-		type: String,
-		required: [true, 'Alias field is required.'],
-		minlength: [3, 'Alias field requires at least 3 characters.']
+		required: [true, 'Name field is required.'],
+		minlength: [2, 'Name field requires at least 2 characters.']
 	},
 	email: {
 		type: String,
@@ -38,33 +24,17 @@ var UserSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: [true, 'Password field is required'],
-		minlength: [8, 'Password field requires at least 8 characters.'],
-//		maxlength: [32, "Password field may not be more than 32 characters"],
-//		validate: {
-//           validator: function( value ) {
-//             return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,32}/.test( value );
-//           },
-//           message: "Password failed validation, you must have at least 1 number, uppercase and special character"
-//         }
-
+		minlength: [8, 'Password field requires at least 8 characters.']
 	},
-	hashtags: [{
-		type: String,
-		unique: true
-	}],
-	settings: {
-		timerViewable: {
-			type: Boolean,
-			default: true
-		}
+	adminLvl: {
+		type: Number,
+		default: 0
 	},
-	metadata: {
-		currentWorkspaceId : {
-			type: mongoose.Schema.Types.ObjectId,
-			default: null
-		}
-	}
-}, { timestamps: true });
+	votes: {
+			 type: Object,
+			 default: {}
+		 }
+},{ timestamps: true, minimize: false});
 
 UserSchema.pre('save', function(next) {
 	if (!this.isModified('password')) {

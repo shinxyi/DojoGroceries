@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
 	_ = require('underscore');
 
-var Item = mongoose.model('Item');
+var Item = mongoose.model('Item'),
+	User = mongoose.model('User');
 
 function ItemsController() {
 
@@ -15,12 +16,16 @@ function ItemsController() {
 		return errors;
 	};
 
+	var lastSunday = function(){
+		var s = moment().format('YYYYMMDD');
+		var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
+	  d.setDate(d.getDate() - d.getDay());
+	  return d;
+	}
 
 	this.index = function(req, res){
-		Campus.findOne({ name: req.session.user.campusName })
-			.populate('items'),
-			.exec(function(error, campus){
-				res.json({items: campus.items});
+		Item.find({active: true}, function(err, items) {
+				res.json(items);
 		});
 	}
 
@@ -30,217 +35,108 @@ function ItemsController() {
 			createdBy: req.session.user._id,
 			name: req.body.name,
 			description: req.body.description,
-
+			id: req.body.id,
+			from: req.body.from,
+			price: req.body.price,
+			categories: req.body.categories,
+			voting_list: req.body.voting_list
 		});
 
-		note.save(function(error, note) {
+		item.save(function(error, item) {
 			if (error) {
-				console.log('notes.js - create(): error retrieving created note\n', error);
+				console.log('items.js - create(): error retrieving created item\n', error);
 				res.json({ errors: processError(error) });
 				return;
 			}
+			res.json({ item: item });
+		});
+	};
 
-			// update user's hashtags with new hashtags of note
-			User.findOne({ _id: req.session.user._id }, 'hashtags', function(error, user) {
-				if (error) {
-					console.log('notes.js - create(): error retrieving user\'s hashtags\n', error);
-					res.json({ errors: processError(error) });
-					return;
-				}
+	this.vote = function(req,res){
+		var itemId = req.params.item_id;
+		Item.findOne({_id: itemId}, function(error, item){
+			if(error){
+				res.json({errors: ['Cannot find item to vote...']});
+			}else{
+				User.findOne({_id: req.session.user._id}, function(err,user){
+					if(!(user.votes.hasOwnProperty(itemId))){
+						user.votes[itemId] = req.body.userVote;
+						user.markModified('votes');
+						user.save(function (err){
 
-				console.log('LOOKING FOR USER??', user);
+							var week = lastSunday();
 
-				for (var i = 0; i < uniqueHashtags.length; i++) {
-					user.hashtags.push(uniqueHashtags[i]);
-				}
+							if(!(item.voting_list.hasOwnProperty(week))){
+								item.voting_list[week] = 0;
+							}
 
-				user.hashtags = user.hashtags && user.hashtags.length > 0 ? _.filter(user.hashtags, function(elem, pos, arr) { return arr.indexOf(elem) === pos }) : [];
+							if(req.body.userVote===1){
+								item.voting_list[week]++;
+							}else{
+								if(item.voting_list[week]<2){
+									delete item.voting_list[week];
+								}else{
+									item.voting_list[week]--;
+								}
+							}
+							item.markModified('voting_list');
+							item.save(function(err){
+								res.json({ 'updatedItem': item, 'updatedUser': user });
+							});
+						});
+					}else if(user.votes[itemId] == req.body.userVote){
+						res.json({errors: ['Already voted...']});
+					}else{
+						user.votes[itemId] = -user.votes[itemId];
+						user.markModified('votes');
+						user.save(function(err){
+							if(err){
+								res.json({errors: ['cannot save vote...']});
+							}else{
+								var week = lastSunday();
 
-				User.findByIdAndUpdate(req.session.user._id, { $set: { hashtags: user.hashtags }}, { new: true }, function(error, updatedUser) {
-					if (error) {
-						console.log('notes.js - create(): error updating user\'s hashtags\n', error);
-						res.json({ errors: processError(error) });
-						return;
+								if(!(item.voting_list.hasOwnProperty(week))){
+									item.voting_list[week] = 0;
+								}
+
+								if(req.body.userVote===1){
+									item.voting_list[week]++;
+								}else{
+									if(item.voting_list[week]<2){
+										delete item.voting_list[week];
+									}else{
+										item.voting_list[week]--;
+									}
+								}
+								item.markModified('voting_list');
+								item.save(function(err){
+									res.json({ 'updatedItem': item, 'updatedUser': user })
+								});
+							}
+						})
 					}
+				})
+			}
+		})
+	}
 
-					res.json({ user: updatedUser, note: note });
-				});
+	this.destroy = function(req, res){
+		Item.findOne({_id: req.params.item_id}, function(err, item) {
+			if(item.createdBy != req.session.user._id){
+				console.log('This item cannot be deleted by this user...\n');
+				res.json({errors: ['This item cannot be deleted by this user...'] })
+				return;
+			}
+
+			item.active = false;
+
+			item.save(function(error, item){
+				console.log('item successfully deleted');
+				res.json({ item: item });
 			});
 		});
-	};
+	}
 
-	this.get = function(req, res) {
-
-		Item.findOne({ _id: req.params.item_id, active: true }, function(error, item) {
-			if (error) {
-				console.log('items.js - get(): error retrieving item\n', error);
-				res.json({ errors: processError(error) });
-				return;
-			}
-
-			res.json(item);
-		});
-	};
-
-
-
-	this.update = function(req, res) {
-		if (!req.session.user) {
-			// user is not logged in
-			res.redirect('/');
-			return;
-		} else if (!req.params.noteId) {
-			res.json({ errors: ['NoteId required to update note.'] });
-			return;
-		}
-		// filter newHashtags
-		var uniqueNewHashtags = req.body.newHashtags && req.body.newHashtags.length > 0 ? _.filter(req.body.newHashtags, function(elem, pos, arr) { return arr.indexOf(elem) === pos }) : [];
-
-		// combine existing and new hashtags
-		for (var i = 0; i < uniqueNewHashtags.length; i++) {
-			req.body.hashtags.push(uniqueNewHashtags[i]);
-		}
-
-		// filter all hashtags
-		var uniqueHashtags = req.body.hashtags && req.body.hashtags.length > 0 ? _.filter(req.body.hashtags, function(elem, pos, arr) { return arr.indexOf(elem) === pos }) : [];
-
-		Note.findByIdAndUpdate(req.params.noteId, { $set: { title: req.body.title, content: req.body.content, hashtags: uniqueHashtags }}, { new: true }, function (error, updatedNote) {
-			if (error) {
-				console.log('notes.js - update(): error updating note\n', error);
-				res.json({ errors: processError(error) });
-				return;
-			}
-
-			// update user's hashtags with new hashtags of note
-			User.findOne({ _id: req.session.user._id }, 'hashtags', function(error, user) {
-				if (error) {
-					console.log('notes.js - update(): error retrieving user\'s hashtags\n', error);
-					res.json({ errors: processError(error) });
-					return;
-				}
-
-				for (var i = 0; i < uniqueNewHashtags.length; i++) {
-					user.hashtags.push(uniqueNewHashtags[i]);
-				}
-
-				var uniqueUserHashtags = user.hashtags && user.hashtags.length > 0 ? _.filter(user.hashtags, function(elem, pos, arr) { return arr.indexOf(elem) === pos }) : [];
-
-				User.findByIdAndUpdate(req.session.user._id, { $set: { hashtags: uniqueUserHashtags }}, { new: true }, function(error, updatedUser) {
-					if (error) {
-						console.log('notes.js - update(): error updating user\'s hashtags\n', error);
-						res.json({ errors: processError(error) });
-						return;
-					}
-
-					console.log('updatedUser:', updatedUser);
-					console.log('updatedNote:', updatedNote);
-
-					res.json({ user: updatedUser, note: updatedNote });
-				});
-			});
-		});
-	};
-
-	this.addToWorkspace = function(req, res) {
-		if (!req.session.user) {
-			// user is not logged in
-			console.log('notes.js - delete(): user not logged in, redirecting...');
-			res.redirect('/');
-			return;
-		} else if (!req.params.noteId) {
-			res.json({ errors: ['NoteId required to delete note.'] });
-			return;
-		}
-
-		Note.findOne({ _id: req.params.noteId }, function(error, note) {
-			if (error) {
-				console.log('notes.js - addToWorkspace(): error retrieving note to add to workspace.\n', error);
-				res.json({ errors: processError(error) });
-				return;
-			}
-
-			console.log('note before adding to workspace:', note);
-
-			// retrieve workspace name
-			Workspace.findOne({ _id: req.session.user.metadata.currentWorkspaceId }, function(error, workspace) {
-				if (error) {
-					console.log('notes.js - addToWorkspace(): error retrieving workspace name.\n', error);
-					res.json({ errors: processError(error) });
-					return;
-				}
-
-				note.workspaces[workspace._id] = workspace.name;
-				note.markModified('workspaces');
-				note.save(function(error, updatedNote) {
-					if (error) {
-						console.log('notes.js - addToWorkspace(): error retrieving workspace name.\n', error);
-						res.json({ errors: processError(error) });
-						return;
-					}
-
-					console.log('successfully added note to workspace:', updatedNote);
-
-					res.json({ note: updatedNote });
-				});
-			});
-		});
-	};
-
-	this.deleteFromWorkspace = function(req, res) {
-		if (!req.session.user) {
-			// user is not logged in
-			console.log('notes.js - delete(): user not logged in, redirecting...');
-			res.redirect('/');
-			return;
-		} else if (!req.params.noteId) {
-			res.json({ errors: ['NoteId required to delete note.'] });
-			return;
-		}
-
-		Note.findOne({ _id: req.params.noteId }, function(error, note) {
-			if (error) {
-				console.log('notes.js - addToWorkspace(): error retrieving note to add to workspace.\n', error);
-				res.json({ errors: processError(error) });
-				return;
-			}
-
-			delete note.workspaces[req.session.user.metadata.currentWorkspaceId];
-			note.markModified('workspaces');
-			note.save(function(error, updatedNote) {
-				if (error) {
-					console.log('notes.js - addToWorkspace(): error retrieving workspace name.\n', error);
-					res.json({ errors: processError(error) });
-					return;
-				}
-
-				console.log('successfully removed note from workspace:', updatedNote);
-
-				res.json({ note: updatedNote });
-			});
-		});
-	};
-
-	this.delete = function(req, res) {
-		if (!req.session.user) {
-			// user is not logged in
-			console.log('notes.js - delete(): user not logged in, redirecting...');
-			res.redirect('/');
-			return;
-		} else if (!req.params.noteId) {
-			res.json({ errors: ['NoteId required to delete note.'] });
-			return;
-		}
-
-		Note.findByIdAndUpdate(req.params.noteId, { $set: { active: false }}, { new: true }, function (error, deletedNote) {
-			if (error) {
-				console.log('notes.js - delete(): error deleting note\n', error);
-				res.json({ errors: processError(error) });
-				return;
-			}
-
-			res.json(deletedNote);
-		});
-	};
 };
 
 module.exports = new ItemsController();
