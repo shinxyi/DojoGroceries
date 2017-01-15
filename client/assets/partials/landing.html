@@ -1,101 +1,15 @@
-<script src="assets/js/index.js"></script>
-
-<div id="welcome">
-	</div>
-	<div id="center">
-		<div id="logo">
-
-			<div id="login_reg">
-
-				<div id="login"><!--Login Form-->
-
-					<div id="link_register">
-						<i>login</i> + <span><b>register</b></span>
-					</div>
-					<form id="logging_in" ng-submit="userCtrl.login()">
-						<div id="login_erorrs" ng-if="userCtrl.errors">
-							<ul>
-								<li ng-repeat="err in userCtrl.errors">{{err}}</li>
-							</ul>
-						</div>
-						<table>
-							<tbody>
-								<tr>
-									<td><label for="email">email:</label></td>
-									<td class="input"><input type="email" name="email" placeholder="email@example.com" ng-model="userCtrl.info.email"/></td>
-								</tr>
-								<tr>
-									<td><label for"password">password:</label></td>
-									<td class="input"><input type="password" name="password" placeholder="your password" ng-model="userCtrl.info.password"/></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td><input type="submit" value="login" /></td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
-			</div><!--End of Login Form-->
-
-			<div id="register">
-				<div id="link_login">
-					<span><b>login</b></span> + <i>register</i>
-				</div>
-				<div id="reg_erorrs" ng-if="userCtrl.errors2">
-					<ul>
-						<li ng-repeat="err2 in userCtrl.errors2">{{err2}}</li>
-					</ul>
-				</div>
-				<form id="registering" ng-submit="userCtrl.reg()"> <!--Registration Form-->
-					<table>
-						<tbody>
-							<tr>
-								<td><label for="first_name">first name:</label></td>
-								<td class="input"><input type="text" name="first_name" placeholder="first name" ng-model="userCtrl.info2.firstName" /></td>
-							</tr>
-							<tr>
-								<td><label for="last_name">last name:</label></td>
-								<td class="input"><input type="text" name="last_name" placeholder="last name" ng-model="userCtrl.info2.lastName" /></td>
-							</tr>
-							<tr>
-								<td><label for="alias">alias:</label></td>
-								<td class="input"><input type="text" name="alias" placeholder="alias" ng-model="userCtrl.info2.alias" /></td>
-							</tr>
-							<tr>
-								<td><label for="email">email:</label></td>
-								<td class="input"><input type="email" name="email" placeholder="email" ng-model="userCtrl.info2.email" /></td>
-							</tr>
-							<tr>
-								<td><label for="password">password:</label></td>
-								<td class="input"><input type="password" name="password" placeholder="at least 8 characters" ng-model="userCtrl.info2.password"/></td>
-							</tr>
-							<tr>
-								<td><label for="confirm_password">confirm password:</label></td>
-								<td class="input"><input type="password" name="confirm_password" placeholder="repeat above" ng-model="userCtrl.info2.password2"/></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><br></td>
-							</tr>
-
-							<tr>
-								<td></td>
-								<td><input type="submit" value="register" /></td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-			</div> <!--End of Registration From-->
-		</div>
-
-		</div>
-
-
-
-		<div id= "learnmore">
-			<a href="#/about">you + focus = your next big idea</a>
-			<div id="popup">learn more</div>
-		</div>
-
-	</div>
-	</div>
+<div id="landing" class="row">
+  <div class="medium-4 columns landingbg"></div>
+  <div class="medium-8 columns inherit">
+    <div class="row">
+      <div class="medium-2 columns"><br></div>
+      <div id="helloForm" class="medium-8 columns inherit">
+				<h2><b> DALLAS DOJO</b></h2>
+				<h3>Groceries List</h3>
+				<div id="login" ui-view="login"></div>
+        <div class="hidden" id="register" ui-view="register"></div>
+      </div>
+      <div class="medium-2 columns"><br></div>
+    </div>
+  </div>
+</div>

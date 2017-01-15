@@ -7,9 +7,20 @@ app.config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('hello',{
       url: '/',
-      templateUrl: 'assets/partials/landing.html',
-      controller: 'userController',
-      controllerAs: 'userCtrl'
+      views:{
+
+        '': {
+          templateUrl: 'assets/partials/landing.html',
+          controller: 'userController',
+          controllerAs: 'userCtrl'
+        },
+        'login@hello': {
+    			templateUrl: 'assets/partials/login.html'
+    		},
+        'register@hello': {
+          templateUrl: '/assets/partials/register.html',
+        }
+      }
     })
     .state('about',{
       url: '/about',

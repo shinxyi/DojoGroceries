@@ -1,0 +1,37 @@
+<script src="assets/js/index.js"></script>
+
+<div class="callout alert" ng-if="userCtrl.errors2">
+  <ul>
+    <li ng-repeat="err2 in userCtrl.errors2">{{err2}}</li>
+  </ul>
+</div>
+
+<div class="callout success" ng-if="userCtrl.success">
+  <ul>
+    <li ng-repeat="success in userCtrl.success">{{success}}</li>
+  </ul>
+</div>
+
+<form ng-submit="userCtrl.reg()">
+  <fieldset class="fieldset">
+    <legend>Register</legend>
+    <label>Name
+      <input type="text" name="name" ng-model="userCtrl.info2.name" />
+    </label>
+    <label>Email
+      <input type="email" name="email" ng-model="userCtrl.info2.email" />
+    </label>
+    <label>Password
+      <input type="password" name="password" ng-model="userCtrl.info2.password" />
+      <sup>Your password must have at least 8 characters.</sup>
+    </label>
+    <label>Confirm Password
+      <input type="password" name="password2" ng-model="userCtrl.info2.password2" />
+    </label>
+    <div class="right">
+      <input type="submit" class="button" value="Register!">
+    </div>
+    </fieldset>
+</form>
+
+<a name="login">Already have an account? Login!</a>

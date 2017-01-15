@@ -41,7 +41,7 @@ function UsersController() {
 					res.json({ errors: processError(error) });
 					return;
 				}
-				req.session.user = user;
+				console.log('user successfully created==>', user);
 				res.json({ user: user.name });
 			});
 		};
@@ -74,15 +74,6 @@ function UsersController() {
 
 				req.session.user = user;
 				console.log('user in session==>', req.session.user);
-				// req.session.save(function(error) {
-				// 	if (error) {
-				// 		console.log('users.js - authenticate(): error saving updated user to session\n', error);
-				// 		res.json({ errors: error });
-				// 		return;
-				// 	}
-				//
-				// 	console.log('users.js - authenticate(): successfully saved user to session...now logged in.');
-				// });
 
 				res.json({ user: user.name });
 			});
