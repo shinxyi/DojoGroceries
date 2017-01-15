@@ -6,7 +6,7 @@ var Category = mongoose.model('Category');
 
 function CategoriesController() {
 	this.index = function(req, res) {
-		Category.find({active: true}, function(error, categories) {
+		Category.find({active: true}).select('name').exec(function(error, categories) {
 				res.json({categories: categories});
 		});
 	};

@@ -1,6 +1,7 @@
 "use strict";
 
 var mongoose = require('mongoose'),
+    moment = require('moment'),
     Comment = mongoose.model('Comment'),
     Item = mongoose.model('Item');
 
@@ -8,12 +9,12 @@ console.log('comments controller');
 
 function CommentsController() {
 
-    var lastSunday = function(){
-  		var s = moment().format('YYYYMMDD');
-  		var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
-  	  d.setDate(d.getDate() - d.getDay());
-  	  return d;
-  	}
+  var lastSunday = function(){
+		var s = moment().format('YYYYMMDD');
+		var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
+	  d.setDate(d.getDate() - d.getDay());
+	  return d.toString().split(' ').join('');
+	}
 
     this.create = function(req,res){
       console.log('comment is being created!!!', req.body);
@@ -45,7 +46,8 @@ function CommentsController() {
     };
 
     this.flag = function(req, res) {
-      Comment.find({_id: req.params.comment_id}, function(err, comment) {
+      Comment.findOne({_id: req.params.comment_id}, function(err, comment) {
+        console.log('trying to update this comment, ->', comment);
         comment.active = comment.active==2 ? 1 : 2;
         comment.save(function(err){
           if(err){

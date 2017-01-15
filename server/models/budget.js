@@ -7,20 +7,12 @@ var BudgetSchema = new mongoose.Schema({
 	},
 	budget: {
 		type: Number,
+		required: [true, 'Budget is necessary.'],
 		min: [0,'Budget cannot be less than 0']
 	},
 	spendings: {
-		type: Number,
-		required: [true, 'Content required to save a quote.']
+		type: Number
 	}
 }, { timestamps: true });
-
-BudgetSchema.methods.setPrice = function(num){
-	return num*100;
-}
-
-BudgetSchema.methods.getPrice = function(num){
-	return (num/100).toFixed(2);
-}
 
 mongoose.model('Budget', BudgetSchema);

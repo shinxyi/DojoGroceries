@@ -48,13 +48,6 @@ UserSchema.pre('save', function(next) {
 
 });
 
-UserSchema.methods.passwordsPresent = function() {
-	return this.password && this.password2 ? true : false;
-};
-
-UserSchema.methods.passwordsMatch = function() {
-	return this.password === this.password2 ? true : false;
-};
 
 UserSchema.methods.validCandidatePassword = function(candidatePassword) {
 	return bcrypt.compareSync(candidatePassword, this.password);

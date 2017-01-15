@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-	_ = require('underscore');
+	moment = require('moment');
 
 var Item = mongoose.model('Item'),
 	User = mongoose.model('User');
@@ -20,14 +20,21 @@ function ItemsController() {
 		var s = moment().format('YYYYMMDD');
 		var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
 	  d.setDate(d.getDate() - d.getDay());
-	  return d;
+	  return d.toString().split(' ').join('');
 	}
 
 	this.index = function(req, res){
-		Item.find({active: true}, function(err, items) {
+		var week = lastSunday();
+
+		Item.find({active: true})
+			.populate({path:'comments',
+								match: {$and:[{active: {$gt: 0}}, {week: week}]}
+							})
+			.exec(function(err, items) {
 				res.json(items);
 		});
 	}
+
 
 	this.create = function(req, res) {
 
@@ -38,8 +45,7 @@ function ItemsController() {
 			id: req.body.id,
 			from: req.body.from,
 			price: req.body.price,
-			categories: req.body.categories,
-			voting_list: req.body.voting_list
+			category: req.body.category
 		});
 
 		item.save(function(error, item) {
@@ -48,6 +54,12 @@ function ItemsController() {
 				res.json({ errors: processError(error) });
 				return;
 			}
+
+			if(req.body.vote){
+				res.redirect('/items/'+ item._id +'/1');
+				return;
+			}
+
 			res.json({ item: item });
 		});
 	};
@@ -57,34 +69,50 @@ function ItemsController() {
 		Item.findOne({_id: itemId}, function(error, item){
 			if(error){
 				res.json({errors: ['Cannot find item to vote...']});
+				return;
 			}else{
+				req.params.vote = parseInt(req.params.vote);
+				console.log('type of vote-> ', typeof req.params.vote);
+				console.log('vote-> ', req.params.vote);
+
 				User.findOne({_id: req.session.user._id}, function(err,user){
 					if(!(user.votes.hasOwnProperty(itemId))){
-						user.votes[itemId] = req.body.userVote;
+						user.votes[itemId] = req.params.vote;
 						user.markModified('votes');
 						user.save(function (err){
 
 							var week = lastSunday();
 
+							console.log('vote: ==>', req.params.vote);
+
 							if(!(item.voting_list.hasOwnProperty(week))){
+								console.log('this item has not been voted on before');
+								console.log('week info=> ',week);
+								console.log('typeof=> ', typeof week);
+
 								item.voting_list[week] = 0;
+
+								console.log('checking item voting list', item.voting_list);
 							}
 
-							if(req.body.userVote===1){
+							if(req.params.vote>0){
 								item.voting_list[week]++;
+								console.log('checking item voting list (vote: 1)', item.voting_list);
 							}else{
 								if(item.voting_list[week]<2){
 									delete item.voting_list[week];
 								}else{
 									item.voting_list[week]--;
 								}
+								console.log('checking item voting list (vote: 0)', item.voting_list);
+
 							}
 							item.markModified('voting_list');
 							item.save(function(err){
 								res.json({ 'updatedItem': item, 'updatedUser': user });
 							});
 						});
-					}else if(user.votes[itemId] == req.body.userVote){
+					}else if(user.votes[itemId] == req.params.vote){
 						res.json({errors: ['Already voted...']});
 					}else{
 						user.votes[itemId] = -user.votes[itemId];
@@ -94,12 +122,14 @@ function ItemsController() {
 								res.json({errors: ['cannot save vote...']});
 							}else{
 								var week = lastSunday();
-
+								console.log('item voting list.... ', item);
 								if(!(item.voting_list.hasOwnProperty(week))){
 									item.voting_list[week] = 0;
+									console.log('item voting list....2 ', item);
+
 								}
 
-								if(req.body.userVote===1){
+								if(req.params.vote>0){
 									item.voting_list[week]++;
 								}else{
 									if(item.voting_list[week]<2){
@@ -121,6 +151,10 @@ function ItemsController() {
 	}
 
 	this.destroy = function(req, res){
+		if(req.session.user.adminLvl<9){
+			res.json({errors: ['You are not allowed to delete things.']});
+			return;
+		}
 		Item.findOne({_id: req.params.item_id}, function(err, item) {
 			if(item.createdBy != req.session.user._id){
 				console.log('This item cannot be deleted by this user...\n');

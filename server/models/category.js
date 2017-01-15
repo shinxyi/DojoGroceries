@@ -6,10 +6,10 @@ var CategorySchema = new mongoose.Schema({
 		minlength: [2, 'Category requires at least 2 characters.'],
 		required: [true, 'Category name is required.']
 	},
-	active: [{
+	active: {
 		type: Boolean,
 		default: true
-	}]
+	}
 }, { timestamps: true });
 
 mongoose.model('Category', CategorySchema);

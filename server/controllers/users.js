@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-var User = mongoose.model('User'),
+var User = mongoose.model('User');
 
 function UsersController() {
 
@@ -34,14 +34,6 @@ function UsersController() {
 		this.create = function(req, res) {
 			var user = new User(req.body);
 
-			if (!user.passwordsPresent) {
-				res.json({ errors: ['Both password fields required to register. ']});
-				return;
-			} else if (!user.passwordsMatch) {
-				res.json({ errors: ['Passwords do not match. ']})
-				return;
-			}
-
 			// create user
 			user.save(function(error, user) {
 				if (error) {
@@ -55,7 +47,13 @@ function UsersController() {
 		};
 
 		this.authenticate = function(req, res) {
+
 			var password = req.body.password || undefined;
+			if(!password || password.length<1){
+				console.log('users.js authenticate(): no user found with supplied email.');
+				res.json({ errors: ['Invalid email/password combination.'] });
+				return;
+			}
 
 			User.findOne({email: req.body.email}, function(error, user) {
 				if (!user) {
@@ -92,12 +90,12 @@ function UsersController() {
 
 		this.deauthenticate = function(req, res) {
 			req.session.user = false;
-			console.log('logged out');
+			console.log('logged out =>', req.session.user);
 		};
 
 
 		this.index = function(req, res){
-			User.find({}, function(err, users) {
+			User.find({}).select('-password').exec(function(err, users) {
 					res.json(users);
 			});
 		}
@@ -126,6 +124,5 @@ function UsersController() {
 		};
 
 	};
-};
 
 module.exports = new UsersController();

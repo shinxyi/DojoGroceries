@@ -21,8 +21,8 @@ module.exports = function(app) {
 
 	app.get('/items', items.index);
 	app.post('/items', items.create);
-	app.post('/items/:item_id', items.vote);
 	app.delete('/items/:item_id', items.destroy);
+	app.get('/items/:item_id/:vote', items.vote);
 
 ///////
 

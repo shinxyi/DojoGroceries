@@ -22,7 +22,7 @@ var ItemSchema = new mongoose.Schema({
 	from: {
 		type: String,
 		required: [true, 'Store information is required to create item.']
-	}
+	},
 	description: {
 		type: String
 	},
