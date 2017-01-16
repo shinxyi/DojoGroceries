@@ -3,13 +3,16 @@
       $('#settings').css('display', 'block');
     })
 
-    $(document).on('click', 'a#cancelSettings', function(){
-      $(this).parent().parent().css('display', 'none');
+    $('a[name="return"]').click(function(){
+      $('#database').addClass('hidden');
+      $('#suggestions').removeClass('hidden');
     })
 
-    $('.glyphicon-time').click(function(){
-      $('#timer').css('display', 'block');
+    $('a[name="database"]').click(function(){
+      $('#suggestions').addClass('hidden');
+      $('#database').removeClass('hidden');
     })
 
     $(document).foundation();
+
   })

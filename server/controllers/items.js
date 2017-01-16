@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+	request = require('request'),
 	moment = require('moment');
 
 var Item = mongoose.model('Item'),
@@ -35,6 +36,9 @@ function ItemsController() {
 		});
 	}
 
+	this.week = function(req,res){
+		res.json({ week: lastSunday()});
+	}
 
 	this.create = function(req, res) {
 

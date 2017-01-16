@@ -1,4 +1,4 @@
-app.controller('userController', ['usersFactory', '$location', function(usersFactory, $location) {
+app.controller('userController', ['usersFactory', '$location', '$cookies', function(usersFactory, $location, $cookies) {
   var self= this;
 
   self.login = function(){
@@ -8,6 +8,8 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
       }else if(returnedData.user<1){
         self.errors = ['Your account has yet to be approved. Please check with an admin for your approval.'];
       }else{
+        $cookies.put('user_id', returnedData.user_id);
+        $cookies.put('user_voting_list', returnedData.user_voting_list);
         $location.url('/dashboard');
       }
     })

@@ -79,13 +79,14 @@ function UsersController() {
 					console.log('User cannot be logged in b/c admin lvl too low.', user);
 				}
 
-				res.json({ user: user.adminLvl });
+				res.json({ user_id: user._id, user_voting_list: user.voting_list });
 			});
 		};
 
 		this.deauthenticate = function(req, res) {
 			req.session.user = false;
 			console.log('logged out =>', req.session.user);
+			res.json({user: false})
 		};
 
 

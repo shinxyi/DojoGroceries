@@ -23,6 +23,7 @@ module.exports = function(app) {
 	app.post('/items', items.create);
 	app.delete('/items/:item_id', items.destroy);
 	app.get('/items/:item_id/:vote', items.vote);
+	app.get('/items/week', items.week);
 
 ///////
 

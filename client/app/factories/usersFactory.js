@@ -15,8 +15,8 @@ app.factory('usersFactory', ['$http',  function($http) {
   };
 
   this.logout = function(callback) {
-  	$http.get('/users/deauthenticate').then(function() {
-  		callback();
+  	$http.get('/users/deauthenticate').then(function(returnedData) {
+  		callback(returnedData);
   	});
   };
 

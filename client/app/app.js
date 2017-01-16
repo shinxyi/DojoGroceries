@@ -1,4 +1,4 @@
-var app = angular.module('app', [ 'ui.router']);
+var app = angular.module('app', [ 'ui.router', 'ngCookies']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -39,9 +39,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         'suggestions@dashboard': {
     			templateUrl: 'assets/partials/suggestions.html'
     		},
-        'databaseSide@dashboard': {
-          templateUrl: '/assets/partials/databaseSide.html'
-        },
         'database@dashboard': {
           templateUrl: '/assets/partials/database.html',
           controller: 'categoryController',

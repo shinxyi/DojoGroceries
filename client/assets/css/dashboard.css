@@ -9,3 +9,23 @@
 .accordion{
   margin-bottom: 30px;
 }
+
+.top-bar{
+  margin-bottom: 30px;
+}
+
+.vote{
+  text-align: right;
+  position: absolute;
+  top: 15px;
+  right:15px;
+}
+
+.vote:hover{
+  color:green;
+  cursor: pointer;
+}
+
+.suggested{
+  position: relative;
+}

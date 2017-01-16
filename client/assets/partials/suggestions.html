@@ -1,1 +1,53 @@
-SUGGESTIONS
+<script src="assets/js/dash.js"></script>
+<script src="assets/js/db.js"></script>
+
+<div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li class="menu-text">Dojo Groceries</li>
+      <li class="active"><a>Home</a></li>
+      <li><a name="database">Database</a></li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a ng-click="userCtrl.logout()">Logout</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="medium-10 columns">
+    <h2>Suggested This Week!</h2>
+    <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
+
+    <div>
+      <div class="callout secondary media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:item.voting_list[itemCtrl.thisweek.week]:true" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek.week)" >
+        <div class="vote">
+          <span class="success badge">{{ item.voting_list[itemCtrl.thisweek.week] }}</span> vote(s)
+        </div>
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <img src="{{ item.img }}" ng-if="item.img"/>
+            <img src="/assets/static/images/placeholder.png" ng-if="!item.img"/>
+          </div>
+        </div>
+        <div class="media-object-section">
+
+          <h4><b>{{ item.name }}</b> | {{ item.price | currency }}</h4>
+          <div class="indent">
+            <h6><b>Category:</b> {{ item.category }}</h6>
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="medium-2 columns">
+    <h3>Don't see anything you like?</h3>
+
+    <a name="database">Suggest something from the database!</a>
+  </div>
+</div>

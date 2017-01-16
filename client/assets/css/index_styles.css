@@ -23,3 +23,8 @@
 .right{
   text-align: right;
 }
+
+.left{
+  height: 500px;
+  overflow-y: auto;
+}
