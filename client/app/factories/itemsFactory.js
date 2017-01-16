@@ -6,7 +6,7 @@ app.factory('itemsFactory', ['$http', function($http) {
 
 
   this.getAllItems = function(callback){
-  	console.log('made it to itemsFactory');
+  	console.log('GETTING ALL ITEMS!!!');
   	$http.get('/items').then(function(response) {
       callback(response.data);
   	});

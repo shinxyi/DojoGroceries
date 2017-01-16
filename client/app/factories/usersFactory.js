@@ -2,19 +2,32 @@ app.factory('usersFactory', ['$http',  function($http) {
 
   function UsersFactory(){
 
+  console.log('loading users Factory');
+  var storedUser = {};
+
+  var callbacks = {};
+
+  this.registerCbs = function(name, callback){
+    callbacks[name]=callback;
+  }
+
   this.login = function(user, callback){
 	console.log('user ->', user);
     if(!user||!(user.hasOwnProperty('email'))){
         callback({errors: ['Fields cannot be empty!']});
     }else{
       $http.post('/users/authenticate', user).then(function(returned_data){
-		      console.log('returned_data.data ->', returned_data.data);
+          storedUser = returned_data.data;
+          console.log('user??? ->', storedUser);
           callback(returned_data.data);
       });
     }
   };
 
   this.logout = function(callback) {
+    console.log('user!!! ->', storedUser);
+    storedUser={};
+    console.log('user** ->', storedUser);
   	$http.get('/users/deauthenticate').then(function(returnedData) {
   		callback(returnedData);
   	});
@@ -35,6 +48,23 @@ app.factory('usersFactory', ['$http',  function($http) {
       }
   };
 
+  this.vote = function(item_id, callback){
+    var vote;
+    console.log('storedUser?? --->', storedUser);
+
+    if(storedUser.votes.hasOwnProperty(item_id) && storedUser.votes[item_id]>0){
+      vote = '-1';
+    }else if(!(storedUser.votes.hasOwnProperty(item_id)) || storedUser.votes[item_id]<1){
+      vote = '1';
+    }
+
+    $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){
+      console.log('storedUser --->', storedUser);
+      storedUser = returned_data.data;
+      callback(returned_data.data);
+      callbacks['updateItems']();
+    })
+  }
 
   this.updateInfo = function( user, callback){
     if(!user.password &&

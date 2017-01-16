@@ -10,9 +10,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       views:{
 
         '': {
-          templateUrl: 'assets/partials/landing.html',
-          controller: 'userController',
-          controllerAs: 'userCtrl'
+          templateUrl: 'assets/partials/landing.html'
         },
         'login@hello': {
     			templateUrl: 'assets/partials/login.html'

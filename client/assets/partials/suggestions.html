@@ -25,7 +25,11 @@
     <div>
       <div class="callout secondary media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:item.voting_list[itemCtrl.thisweek.week]:true" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek.week)" >
         <div class="vote">
-          <span class="success badge">{{ item.voting_list[itemCtrl.thisweek.week] }}</span> vote(s)
+          <span ng-click="userCtrl.vote(item._id)">
+            <span ng-if="userCtrl.user.votes.hasOwnProperty(item._id) && userCtrl.user.votes[item._id]>0" class="success badge">{{ item.voting_list[itemCtrl.thisweek.week] }}</span>
+            <span ng-if="!userCtrl.user.votes.hasOwnProperty(item._id) || userCtrl.user.votes[item._id]<0" class="warning badge">{{ item.voting_list[itemCtrl.thisweek.week] }}</span>
+            vote(s)
+          </spn>
         </div>
         <div class="media-object-section">
           <div class="thumbnail">

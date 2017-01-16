@@ -1,10 +1,9 @@
-app.controller('itemController', ['itemsFactory', '$location', '$cookies', function(itemsFactory, $location, $cookies) {
+app.controller('itemController', ['itemsFactory', 'usersFactory', '$location', function(itemsFactory, usersFactory, $location) {
 
   var self= this;
 
   var trackHash = {};
 
-  console.log('invoking getAllNotes');
   var refresh = function(){
     itemsFactory.getAllItems(function(returnedData){
       if(returnedData.error){
@@ -17,6 +16,11 @@ app.controller('itemController', ['itemsFactory', '$location', '$cookies', funct
   }
 
   refresh();
+
+  usersFactory.registerCbs('updateItems', function(){
+    refresh();
+  })
+
 
   itemsFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -58,6 +62,7 @@ app.controller('itemController', ['itemsFactory', '$location', '$cookies', funct
           }
         })
       }
+
 
 
 }]);

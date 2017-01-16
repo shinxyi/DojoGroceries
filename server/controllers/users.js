@@ -78,8 +78,15 @@ function UsersController() {
 				}else{
 					console.log('User cannot be logged in b/c admin lvl too low.', user);
 				}
-
-				res.json({ user_id: user._id, user_voting_list: user.voting_list });
+				var returnedUser = user;
+				var returnedUser = {
+						_id: user._id,
+						name: user.name,
+						votes: user.votes,
+						adminLvl: user.adminLvl
+				}
+				console.log('user before sending back->', returnedUser);
+				res.json(returnedUser);
 			});
 		};
 
