@@ -28,6 +28,9 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
     usersFactory.create(self.info2, function(returnedData){
       if(returnedData.errors){
         self.errors2 = returnedData.errors;
+      }else if(!returnedData.hasOwnProperty('user')){
+        self.user = returnedData;
+        $location.url('/dashboard');
       }else{
         self.success = [returnedData.user + ', your account has been successfully created. Please wait for an admin to approve your account.'];
         self.info2={};

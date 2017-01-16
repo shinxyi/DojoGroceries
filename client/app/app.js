@@ -32,10 +32,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: 'assets/partials/dash.html',
           controller: 'itemController',
           controllerAs: 'itemCtrl'
-
         },
         'suggestions@dashboard': {
-    			templateUrl: 'assets/partials/suggestions.html'
+    			templateUrl: 'assets/partials/suggestions.html',
+          controller: 'commentController',
+          controllerAs: 'commentCtrl'
     		},
         'database@dashboard': {
           templateUrl: '/assets/partials/database.html',

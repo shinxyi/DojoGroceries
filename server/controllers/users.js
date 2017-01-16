@@ -34,16 +34,32 @@ function UsersController() {
 		this.create = function(req, res) {
 			var user = new User(req.body);
 
-			// create user
-			user.save(function(error, user) {
-				if (error) {
-					console.log('users.js - create(): error creating user\n', error);
-					res.json({ errors: processError(error) });
-					return;
+			User.findOne({}, function(error, found){
+				if(!found){
+					user.adminLvl = 9;
 				}
-				console.log('user successfully created==>', user);
-				res.json({ user: user.name });
-			});
+				user.save(function(error, user) {
+					if (error) {
+						console.log('users.js - create(): error creating user\n', error);
+						res.json({ errors: processError(error) });
+						return;
+					}
+					console.log('user successfully created==>', user);
+
+					if(!found){
+						var returnedUser = {
+								_id: user._id,
+								name: user.name,
+								votes: user.votes,
+								adminLvl: user.adminLvl
+						}
+						res.json(returnedUser);
+						return;
+					}
+					res.json({ user: user.name });
+				});
+
+			})
 		};
 
 		this.authenticate = function(req, res) {

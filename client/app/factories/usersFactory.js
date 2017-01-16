@@ -43,7 +43,7 @@ app.factory('usersFactory', ['$http',  function($http) {
           callback({errors: ['Password length must be between 8-32 characters!']});
       }else{
           $http.post('/users', user).then(function(returned_data){
-          callback(returned_data.data);
+            callback(returned_data.data);
         })
       }
   };

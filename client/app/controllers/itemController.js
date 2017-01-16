@@ -1,4 +1,4 @@
-app.controller('itemController', ['itemsFactory', 'usersFactory', '$location', function(itemsFactory, usersFactory, $location) {
+app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, $location) {
 
   var self= this;
 
@@ -30,6 +30,16 @@ app.controller('itemController', ['itemsFactory', 'usersFactory', '$location', f
     });
   })
 
+  commentsFactory.registerCbs('updateItems', function(){
+    itemsFactory.getAllItems(function(returnedData){
+      if(returnedData.error){
+        $location.url('/');
+        return;
+      }
+      self.items = returnedData
+      console.log(returnedData);
+    });
+  })
 
   itemsFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
