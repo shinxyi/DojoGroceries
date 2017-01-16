@@ -116,7 +116,13 @@ function ItemsController() {
 							}
 							item.markModified('voting_list');
 							item.save(function(err){
-								res.json({ 'updatedItem': item, 'updatedUser': user });
+								var returnedUser = {
+										_id: user._id,
+										name: user.name,
+										votes: user.votes,
+										adminLvl: user.adminLvl
+								}
+								res.json(returnedUser)
 							});
 						});
 					}else if(user.votes[itemId] == req.params.vote){

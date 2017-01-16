@@ -4,6 +4,8 @@ app.controller('itemController', ['itemsFactory', 'usersFactory', '$location', f
 
   var trackHash = {};
 
+  self.thisweek;
+
   var refresh = function(){
     itemsFactory.getAllItems(function(returnedData){
       if(returnedData.error){
@@ -18,7 +20,14 @@ app.controller('itemController', ['itemsFactory', 'usersFactory', '$location', f
   refresh();
 
   usersFactory.registerCbs('updateItems', function(){
-    refresh();
+    itemsFactory.getAllItems(function(returnedData){
+      if(returnedData.error){
+        $location.url('/');
+        return;
+      }
+      self.items = returnedData
+      console.log(returnedData);
+    });
   })
 
 
@@ -40,6 +49,10 @@ app.controller('itemController', ['itemsFactory', 'usersFactory', '$location', f
         }
       })
   };
+
+  self.popularVote = function(item){
+    return item.voting_list[self.thisweek.week];
+  }
 
   self.walmart = function(){
       itemsFactory.walmart(self.walmart.id, function(returnedData){

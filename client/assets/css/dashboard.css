@@ -26,6 +26,13 @@
   cursor: pointer;
 }
 
-.suggested{
+.suggested, .suggest-able{
   position: relative;
+}
+
+.suggest{
+  text-align: right;
+  position: absolute;
+  bottom: 15px;
+  right:15px;
 }

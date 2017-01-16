@@ -1,4 +1,4 @@
-app.controller('userController', ['usersFactory', '$location', '$cookies', function(usersFactory, $location, $cookies) {
+app.controller('userController', ['usersFactory', '$location', function(usersFactory, $location) {
   var self= this;
 
   self.user = {};

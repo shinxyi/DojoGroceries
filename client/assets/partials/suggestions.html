@@ -23,7 +23,7 @@
     <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
     <div>
-      <div class="callout secondary media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:item.voting_list[itemCtrl.thisweek.week]:true" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek.week)" >
+      <div class="callout secondary media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek.week)" >
         <div class="vote">
           <span ng-click="userCtrl.vote(item._id)">
             <span ng-if="userCtrl.user.votes.hasOwnProperty(item._id) && userCtrl.user.votes[item._id]>0" class="success badge">{{ item.voting_list[itemCtrl.thisweek.week] }}</span>
