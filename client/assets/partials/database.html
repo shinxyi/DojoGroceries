@@ -1,22 +1,6 @@
 <script src="assets/js/dash.js"></script>
 <script src="assets/js/db.js"></script>
 
-<div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
-      <li class="menu-text">Dojo Groceries</li>
-      <li><a name="return">Home</a></li>
-      <li class="active"><a name="database">Database</a></li>
-    </ul>
-  </div>
-  <div class="top-bar-right">
-    <ul class="menu">
-      <li><a ng-click="userCtrl.logout()">Logout</a></li>
-    </ul>
-  </div>
-</div>
-
-
 <div class="row">
 
   <div class="medium-6 columns">
@@ -24,7 +8,8 @@
     <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
     <div class="left">
-      <div class="callout media-object suggest-able" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:createdAt:true" ng-if="!item.voting_list.hasOwnProperty(itemCtrl.thisweek.week)">
+      <div class="callout media-object suggest-able" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:createdAt:true" ng-if="!item.voting_list.hasOwnProperty(userCtrl.thisweek.week)">
+
         <div class="media-object-section">
           <div class="thumbnail">
             <img src="{{ item.img }}" ng-if="item.img"/>
@@ -39,7 +24,12 @@
           </div>
         </div>
         <div class="suggest">
-          <button type="button" class="success button" ng-click="userCtrl.vote(item._id)">Suggest!</button>
+          <div ng-if="userCtrl.user.adminLvl==9">
+            <a ng-click="itemCtrl.removeFromGroceries(item._id)" ng-if="item.grocery_list[0].week==userCtrl.thisweek.week"><span class="remove"><i class="fi-minus"></i> Remove from Grocery List</span></a>
+            <a ng-click="itemCtrl.addToGroceries(item._id)" ng-if="item.grocery_list[0].week!=userCtrl.thisweek.week"> <span class="add"><i class="fi-plus"></i> Add to Grocery List</span></a>
+          </div>
+
+          <button type="button" class="success button" ng-click="userCtrl.vote(item._id)" ng-if="userCtrl.user.adminLvl<9">Suggest!</button>
         </div>
 
       </div>
@@ -153,6 +143,6 @@
       </form>
     </fieldset>
 
-    <a name="return">Return to This Week's Suggestions</a>
+    <a name="suggestions">Return to This Week's Suggestions</a>
   </div>
 </div>

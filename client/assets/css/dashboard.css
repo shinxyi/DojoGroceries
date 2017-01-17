@@ -14,7 +14,7 @@
   margin-bottom: 30px;
 }
 
-.vote{
+.vote, .votes{
   text-align: right;
   position: absolute;
   top: 15px;
@@ -25,6 +25,24 @@
   color:green;
   cursor: pointer;
 }
+
+.add{
+  color:lightgreen;
+}
+
+.add:hover{
+  color:green;
+}
+
+.remove{
+  margin-left: -25px;
+  color:grey;
+}
+
+.remove:hover{
+  color:red;
+}
+
 
 .suggested, .suggest-able{
   position: relative;

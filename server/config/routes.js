@@ -16,6 +16,7 @@ module.exports = function(app) {
 	app.get('/users/deauthenticate', users.deauthenticate);
 	app.get('/users', users.index);
 	app.put('/users/:id', users.updateAdminLvl); //for admin to change user levels
+	app.get('/users/week', users.week);
 
 ///////
 
@@ -23,7 +24,6 @@ module.exports = function(app) {
 	app.post('/items', items.create);
 	app.delete('/items/:item_id', items.destroy);
 	app.get('/items/:item_id/:vote', items.vote);
-	app.get('/items/week', items.week);
 
 ///////
 

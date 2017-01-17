@@ -3,8 +3,10 @@
   <div class="top-bar-left">
     <ul class="dropdown menu" data-dropdown-menu>
       <li class="menu-text">Dojo Groceries</li>
-      <li class="active"><a name="suggestions">Home</a></li>
+      <li class="active"><a name="home">Home</a></li>
+      <li><a name="suggestions">Suggestions</a></li>
       <li><a name="database">Database</a></li>
+      <li><a name="users">Users</a></li>
     </ul>
   </div>
   <div class="top-bar-right">
@@ -15,6 +17,8 @@
 </div>
 
 <div class="content">
-  <div id="suggestions" class="view" ui-view="suggestions"></div>
+  <div id="home" class="view" ui-view="home"></div>
+  <div id="suggestions" class="view hidden" ui-view="suggestions"></div>
   <div id="database" class="view hidden" ui-view="database"></div>
+  <div id="users" class="view hidden" ui-view="users"></div>
 </div>

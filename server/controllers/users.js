@@ -1,6 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+	moment = require('moment');
 
 var User = mongoose.model('User');
 
@@ -30,6 +31,16 @@ function UsersController() {
 			return response;
 		};
 
+		var lastSunday = function(){
+			var s = moment().format('YYYYMMDD');
+			var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
+		  d.setDate(d.getDate() - d.getDay());
+		  return d.toString().split(' ').join('');
+		}
+
+		this.week = function(req,res){
+			res.json({ week: lastSunday()});
+		}
 
 		this.create = function(req, res) {
 			var user = new User(req.body);

@@ -36,10 +36,6 @@ function ItemsController() {
 		});
 	}
 
-	this.week = function(req,res){
-		res.json({ week: lastSunday()});
-	}
-
 	this.create = function(req, res) {
 
 		console.log('user ->', req.session.user);
