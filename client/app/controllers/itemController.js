@@ -6,6 +6,11 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   self.thisweek;
 
+  usersFactory.getWeek(function(returnedData){
+    self.thisweek = returnedData;
+    console.log('this week->', self.thisweek);
+  })
+
   var refresh = function(){
     itemsFactory.getAllItems(function(returnedData){
       if(returnedData.error){
@@ -30,6 +35,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     });
   })
 
+
   commentsFactory.registerCbs('updateItems', function(){
     itemsFactory.getAllItems(function(returnedData){
       if(returnedData.error){
@@ -39,11 +45,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       self.items = returnedData
       console.log(returnedData);
     });
-  })
-
-  itemsFactory.getWeek(function(returnedData){
-    self.thisweek = returnedData;
-    console.log('this week->', self.thisweek);
   })
 
   self.create = function(){
@@ -86,6 +87,17 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         })
       }
 
+  self.addToGroceries = function(item_id){
+    itemsFactory.addToGroceries(item_id, function(){
+      refresh();
+    })
+  }
+
+  self.removeFromGroceries = function(item_id){
+    itemsFactory.removeFromGroceries(item_id, function(){
+      refresh();
+    })
+  }
 
 
 }]);

@@ -20,13 +20,6 @@ app.factory('itemsFactory', ['$http', function($http) {
     	});
     };
 
-  this.getWeek= function (callback){
-    $http.get('/items/week').then(function(response){
-      callback(response.data);
-    })
-  }
-
-
   this.walmart = function(id, callback){
     if(typeof id != "number"){
       callback({ errors: ['Walmart UPC# is incorrect format.']})
@@ -59,6 +52,19 @@ app.factory('itemsFactory', ['$http', function($http) {
       console.log(data); //TO_DO: get returned data in HTML and parse through returned.
      });
   }
+
+  this.addToGroceries = function(item_id, callback){
+    $http.post('/groceries/' + item_id).then(function(response) {
+      callback();
+    });
+  }
+
+  this.removeFromGroceries = function(item_id, callback){
+    $http.delete('/groceries/' + item_id).then(function(response) {
+      callback();
+    });
+  }
+
 
 }
 

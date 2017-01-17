@@ -11,6 +11,13 @@ app.factory('usersFactory', ['$http',  function($http) {
     callbacks[name]=callback;
   }
 
+  this.getWeek= function (callback){
+    $http.get('/users/week').then(function(response){
+      callback(response.data);
+    })
+  }
+
+
   this.login = function(user, callback){
 	console.log('user ->', user);
     if(!user||!(user.hasOwnProperty('email'))){

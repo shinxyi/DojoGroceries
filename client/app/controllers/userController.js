@@ -3,6 +3,13 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
 
   self.user = {};
 
+  self.thisweek;
+
+  usersFactory.getWeek(function(returnedData){
+    self.thisweek = returnedData;
+    console.log('this week->', self.thisweek);
+  })
+
   self.login = function(){
     usersFactory.login(self.info, function(returnedData){
       if(returnedData.errors){

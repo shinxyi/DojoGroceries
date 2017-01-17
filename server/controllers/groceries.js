@@ -34,6 +34,11 @@ function GroceriesController() {
 	this.addItem = function(req, res) {
 		var week = lastSunday();
 
+		if(req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to make this change...']})
+			return;
+		}
+
 		Item.findOne({_id: req.params.item_id , active: true}, function(error, item) {
 			if(error|| !item){
 				res.json({errors: ['Item to add cannot be found...']});

@@ -28,3 +28,12 @@
   height: 500px;
   overflow-y: auto;
 }
+
+.icon{
+  font-family: icons;
+}
+
+@font-face {
+  font-family: icons;
+  src: url('/assets/static/fonts/foundation-icons.woff');
+}
