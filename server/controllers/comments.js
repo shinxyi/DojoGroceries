@@ -17,25 +17,35 @@ function CommentsController() {
 	}
 
     this.create = function(req,res){
-      console.log('comment is being created!!!', req.body);
 
       Item.findOne({_id: req.params.item_id }, function(err, item){
         if(!item){
           res.json({errors: ['Cannot find the item the user is trying to comment to.']});
           return;
         }
+
+        console.log('checking user->', req.session.user);
         var comment = new Comment(req.body);
         comment._item = item._id;
         comment.week = lastSunday();
         comment.userName = req.session.user.name;
         comment.userId = req.session.user._id;
+        console.log('comment is being created!!!', req.body);
 
         comment.save(function(err){
+          console.log('comment is being created22', req.body);
+          if(err){
+            console.log('err->',err);
+            res.json({errors: err});
+            // res.json({errors: ['Failed to save comment']});
+            return;
+          }
+
           if(!err){
             item.comments.push(comment);
             item.save(function(err){
               if(err){
-                res.json({errors: 'Failed to save comment to item'});
+                res.json({errors: ['Failed to save comment to item']});
               }else{
                 res.json(comment);
               }
@@ -62,18 +72,19 @@ function CommentsController() {
     this.destroy = function(req, res) {
 
       Comment.findOne({_id: req.params.comment_id}, function(err, comment) {
-        if(comment.userId!=req.session.user._id){
-          res.json({errors:['Cannot delete comment of another user...']});
-          return;
+        if(comment.userId==req.session.user._id|| req.session.user.adminLvl==9){
+          comment.active = 0;
+          comment.save(function(err){
+            if(err){
+              res.json({errors: ['Comment active status cannot be changed']});
+            }else{
+              res.json(comment);
+            }
+          })
+        }else{
+            res.json({errors:['Cannot delete comment of another user...']});
+            return;
         }
-        comment.active = 0;
-        comment.save(function(err){
-          if(err){
-            res.json({errors: ['Comment active status cannot be changed']});
-          }else{
-            res.json(comment);
-          }
-        })
       });
     };
 

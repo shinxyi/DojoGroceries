@@ -27,7 +27,7 @@
         </fieldset>
       </div>
 
-      <div id="inbox" ng-controller="commentController as commentCtrl">
+      <div id="inbox">
         <fieldset class="fieldset">
           <legend><span class="secondary label">Inbox:</label></legend>
             <a name="users"><b>{{ userCtrl.pendingUsersCount }}</b> user(s) waiting on approval.</a>
@@ -39,6 +39,7 @@
               <p>{{ comment.content }}</p>
               <div class="right">
                 <span class="flag"><a ng-click="commentCtrl.flag(comment._id)"><i class="fi-check"></i> Un-Flag</a></span>
+                <a ng-click="commentCtrl.delete(comment._id)">Delete</a>
               </div>
             </div>
         </fieldset>

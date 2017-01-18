@@ -8,7 +8,9 @@ app.controller('commentController', ['commentsFactory', '$location', function(co
 
   commentsFactory.registerCbs('updateComments', function(){
     commentsFactory.getFlaggedComments(function(returnedData){
+      console.log('getting updated comments!');
       self.inbox = returnedData;
+      console.log(self.inbox);
     });
   })
 

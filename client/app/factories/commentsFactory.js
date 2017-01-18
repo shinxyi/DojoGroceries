@@ -22,7 +22,7 @@ app.factory('commentsFactory', ['$http', function($http) {
   };
 
   this.delete = function(comment_id){
-    	$http.delete('/comments/'+ comment_id).then(function (response) {
+    	$http.deslete('/comments/'+ comment_id).then(function (response) {
         if(!response.data.errors){
           callbacks['updateItems']();
           callbacks['updateComments']();

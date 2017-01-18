@@ -99,7 +99,7 @@ function UsersController() {
 					return;
 				}
 
-				if(user.adminLvl>1){
+				if(user.adminLvl>0){
 					req.session.user = user;
 					console.log('user in session==>', req.session.user);
 				}else{
