@@ -21,6 +21,30 @@ app.factory('commentsFactory', ['$http', function($http) {
     	});
   };
 
+  this.delete = function(comment_id){
+    	$http.delete('/comments/'+ comment_id).then(function (response) {
+        if(!response.data.errors){
+          callbacks['updateItems']();
+          callbacks['updateComments']();
+        }
+    	});
+  };
+
+  this.flag = function(comment_id){
+    	$http.put('/comments/'+ comment_id).then(function (response) {
+        if(!response.data.errors){
+          callbacks['updateItems']();
+          callbacks['updateComments']();
+        }
+    	});
+  };
+
+  this.getFlaggedComments = function(callback){
+    $http.get('/comments/flagged').then(function (returnedData) {
+      callback(returnedData.data);
+    });
+  };
+
 
 }
 

@@ -60,7 +60,12 @@ function CommentsController() {
     };
 
     this.destroy = function(req, res) {
+
       Comment.findOne({_id: req.params.comment_id}, function(err, comment) {
+        if(comment.userId!=req.session.user._id){
+          res.json({errors:['Cannot delete comment of another user...']});
+          return;
+        }
         comment.active = 0;
         comment.save(function(err){
           if(err){

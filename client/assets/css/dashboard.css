@@ -58,3 +58,11 @@
 .comment{
   width: 500px;
 }
+
+.flag a{
+  color:grey;
+}
+
+.flagged, .flag a:hover{
+  color: red;
+}

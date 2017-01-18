@@ -12,7 +12,7 @@
         <div class="vote" ng-if="userCtrl.user.adminLvl<9">
           <span ng-click="userCtrl.vote(item._id)">
             <span ng-if="userCtrl.user.votes.hasOwnProperty(item._id) && userCtrl.user.votes[item._id]>0" class="success badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
-            <span ng-if="!userCtrl.user.votes.hasOwnProperty(item._id) || userCtrl.user.votes[item._id]<0" class="warning badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
+            <span ng-if="!userCtrl.user.votes.hasOwnProperty(item._id) || userCtrl.user.votes[item._id]<0" class="warning badge"> <i class="fi-arrow-up"></i> {{ item.voting_list[userCtrl.thisweek.week] }}</span>
             vote(s)
           </span>
         </div>
@@ -39,6 +39,15 @@
               <b>{{ comment.userName }}</b> says:
               <sup>{{ comment.createdAt | date: 'EEE MM/dd/yy h:mm a'}}</sup>
               <p>{{ comment.content }}</p>
+              <div class="right" ng-if="comment.userId!=userCtrl.user._id && comment.active==2">
+                <span class="flag"><a ng-click="commentCtrl.flag(comment._id)"><i class="fi-flag"></i> Flag</a></span>
+              </div>
+              <div class="right" ng-if="comment.userId!=userCtrl.user._id && comment.active==1">
+                <span class="flagged"><i class="fi-flag"></i> Flagged</span>
+              </div>
+              <div class="right" ng-if="comment.userId==userCtrl.user._id">
+                <a ng-click="commentCtrl.delete(comment._id)">Delete</a>
+              </div>
             </div>
 
             <div class="callout alert" ng-if="commentCtrl.errors">

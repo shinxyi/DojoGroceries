@@ -2,6 +2,16 @@ app.controller('commentController', ['commentsFactory', '$location', function(co
 
   var self= this;
 
+  commentsFactory.getFlaggedComments(function(returnedData){
+    self.inbox = returnedData;
+  });
+
+  commentsFactory.registerCbs('updateComments', function(){
+    commentsFactory.getFlaggedComments(function(returnedData){
+      self.inbox = returnedData;
+    });
+  })
+
   self.comment = function(item_id, comment, index){
     console.log('comment->', comment);
       commentsFactory.create(item_id, comment, function(returnedData){
@@ -14,4 +24,11 @@ app.controller('commentController', ['commentsFactory', '$location', function(co
       })
   };
 
+  self.delete = function(comment_id){
+    commentsFactory.delete(comment_id);
+  }
+
+  self.flag = function(comment_id){
+    commentsFactory.flag(comment_id);
+  }
 }]);

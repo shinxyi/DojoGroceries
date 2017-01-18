@@ -73,28 +73,30 @@ app.factory('usersFactory', ['$http',  function($http) {
     })
   }
 
-  this.updateInfo = function( user, callback){
-    if(!user.password &&
-	     !(user.hasOwnProperty('firstName') || user.hasOwnProperty('lastName') || user.hasOwnProperty('alias') || user.hasOwnProperty('email'))){
-      callback({errors: ['All fields required for updaing user information!']});
-	    return;
-    } else if (!user.password){
-	    user.settings.timerViewable = user.settings.timerViewable == 'false'? false : true;
-	  }else{
-  	  if(user.password != user.password2){
-  		callback({errors: ['Passwords do not match!']});
-  		return;
-  	  }else if(user.password.length<8||user.password.length>32){
-  		callback({errors: ['Password length must be between 8-32 characters!']});
-  		return;
-  	  }
+  this.index = function(callback){
+    $http.get('/users').then(function(returnedData){
+      callback(returnedData.data);
+    })
+  }
+
+
+  this.editAdminLvl = function(user_id, adminLvl){
+    console.log('my admin lvl->',storedUser.adminLvl);
+    console.log('type of adminLvl->', typeof adminLvl);
+    if(storedUser.adminLvl<9||typeof adminLvl != 'number' || adminLvl<9&&adminLvl>1){
+      return;
     }
 
-	$http.put('/users', user).then(function(returned_data){
-	  callback(returned_data.data);
-	});
+    console.log('user_id->', user_id);
+    console.log('chosen admin_lvl->', adminLvl);
+
+    $http.put('/users/'+user_id+'/'+adminLvl).then(function(returnedData){
+      callbacks['updateUsers']();
+    })
   }
+
   }
+
 
   return new UsersFactory();
 

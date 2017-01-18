@@ -125,7 +125,7 @@ function UsersController() {
 
 
 		this.index = function(req, res){
-			User.find({}).select('-password').exec(function(err, users) {
+			User.find({adminLvl: {$gte: 0 }}).select('-password').exec(function(err, users) {
 					res.json(users);
 			});
 		}
@@ -138,7 +138,7 @@ function UsersController() {
 					return;
 				}
 
-				user.adminLvl = req.body.adminLvl;
+				user.adminLvl = req.params.adminLvl;
 				user.save(function(error, updatedUser) {
 					if (error) {
 						console.log('users.js - update(): error saving user.\n', error);

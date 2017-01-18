@@ -27,26 +27,20 @@
         </fieldset>
       </div>
 
-      <div id="inbox">
+      <div id="inbox" ng-controller="commentController as commentCtrl">
         <fieldset class="fieldset">
           <legend><span class="secondary label">Inbox:</label></legend>
+            <a name="users"><b>{{ userCtrl.pendingUsersCount }}</b> user(s) waiting on approval.</a>
+            <br/><br/>
 
-          <!-- <div class="callout alert" ng-if="budgetCtrl.errors">
-            <ul>
-              <li ng-repeat="err in budgetCtrl.errors">{{err}}</li>
-            </ul>
-          </div>
-
-          <h4>{{ budgetCtrl.week | currency }}</h4>
-          <label>Email
-            <input type="email" name="email" ng-model="userCtrl.info.email" />
-          </label>
-          <label>Password
-            <input type="password" name="password" ng-model="userCtrl.info.password" />
-          </label>
-          <div class="right">
-            <input type="submit" class="button" value="Login!">
-          </div> -->
+            <div class="callout secondary" ng-repeat="comment in commentCtrl.inbox | orderBy:'createdAt'">
+              <b>{{ comment.userName }}</b> says:
+              <sup>{{ comment.createdAt | date: 'EEE MM/dd/yy h:mm a'}}</sup>
+              <p>{{ comment.content }}</p>
+              <div class="right">
+                <span class="flag"><a ng-click="commentCtrl.flag(comment._id)"><i class="fi-check"></i> Un-Flag</a></span>
+              </div>
+            </div>
         </fieldset>
       </div>
     </div>
@@ -57,7 +51,7 @@
 
           <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
-            <div class="callout media-object suggest-able" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true"> <!-- ng-if="item.grocery_list[0].week==userCtrl.thisweek.week"> -->
+            <div class="callout media-object suggest-able" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true" ng-if="item.grocery_list[0].week==userCtrl.thisweek.week">
               <div class="votes">
                   <span class="warning badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
                   vote(s)
