@@ -1,0 +1,91 @@
+#workspace{
+  padding: 40px;
+  width:80vw;
+  overflow: hidden;
+}
+
+#workspace h2{
+  letter-spacing: 3px;
+  color: #cecece;
+  font-style: italic;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: -5px;
+}
+
+#ws-title{
+  height:40px;
+  display: inline-block;
+}
+
+#edit-ws-icon{
+  display: none;
+  margin-left: -15px;
+}
+
+form[name="ws_title"]{
+  vertical-align: bottom;
+  color: white;
+  display: none;
+}
+
+form[name="ws_title"] input{
+  width: 378px;
+  height: 30px;
+  border-bottom: 1px solid white;
+}
+
+form[name="ws_title"] input[type="submit"]{
+position: absolute;
+left: -9999px;
+width: 1px;
+height: 1px;
+}
+
+#workspace .glyphicon-fullscreen{
+  position: fixed;
+  top: 90px;
+  right: 30px;
+}
+
+#ws-notes-container{
+  padding:20px 10px;
+  height: 80vh;
+  width: 85vw;
+  overflow-y: auto;
+}
+
+
+#ws-notes-container a{
+  color: #737373;
+}
+
+#ws-notes-container a:hover{
+  text-decoration: none;
+  color: #a0a0a0;
+}
+
+
+.ws-note{
+  margin: 20px 0px;
+  width: 255px;
+  height: 230px;
+  background-color: white;
+  box-shadow: 2px 2px 4px #888888;
+  padding: 15px;
+  margin: 5px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.ws-note .edit-icon{
+  position: absolute;
+  top: 12px;
+  right:12px;
+}
+
+.remove{
+  padding-left: 25px;
+  vertical-align: bottom;
+}

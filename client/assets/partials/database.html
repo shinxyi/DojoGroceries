@@ -1,0 +1,148 @@
+<script src="assets/js/dash.js"></script>
+<script src="assets/js/db.js"></script>
+
+<div class="row">
+
+  <div class="medium-6 columns">
+    <h2>Search the Database</h2>
+    <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
+
+    <div class="left">
+      <div class="callout media-object suggest-able" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:createdAt:true" ng-if="!item.voting_list.hasOwnProperty(userCtrl.thisweek.week)">
+
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <img src="{{ item.img }}" ng-if="item.img"/>
+            <img src="/assets/static/images/placeholder.png" ng-if="!item.img"/>
+          </div>
+        </div>
+        <div class="media-object-section">
+          <h4><b>{{ item.name }}</b> | {{ item.price | currency }}</h4>
+          <div class="indent">
+            <h6><b>Category:</b> {{ item.category }}</h6>
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
+        <div class="suggest">
+          <div ng-if="userCtrl.user.adminLvl==9">
+            <a ng-click="itemCtrl.removeFromGroceries(item._id)" ng-if="item.grocery_list[0].week==userCtrl.thisweek.week"><span class="remove"><i class="fi-minus"></i> Remove from Grocery List</span></a>
+            <a ng-click="itemCtrl.addToGroceries(item._id)" ng-if="item.grocery_list[0].week!=userCtrl.thisweek.week"> <span class="add"><i class="fi-plus"></i> Add to Grocery List</span></a>
+          </div>
+
+          <button type="button" class="success button" ng-click="userCtrl.vote(item._id)" ng-if="userCtrl.user.adminLvl<9">Suggest!</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="medium-6 columns">
+    <h3>Still don't see what you're looking for?</h3>
+      <fieldset class="fieldset">
+        <legend><b>Make a Suggestion!</b></legend>
+
+        <div class="accordion" data-accordion>
+          <li class="accordion-item" data-accordion-item>
+            <a class="accordion-title"><b>Lazy Link</b> (Have a UPC# from Walmart or Item# from Sam's Club?)</a>
+            <div class="accordion-content" data-tab-content>
+
+              <form ng-submit="itemCtrl.walmart()">
+                <div class="input-group">
+                  <span class="input-group-label">Walmart UPC#</span>
+                  <input class="input-group-field" type="number" ng-model="itemCtrl.walmart.id">
+                  <div class="input-group-button">
+                    <input type="submit" class="button" value="Submit">
+                  </div>
+                </div>
+              </form>
+
+              <form ng-submit="itemCtrl.sams()">
+                <div class="input-group">
+                  <span class="input-group-label">Sam's Club Item#</span>
+                  <input class="input-group-field" type="number" ng-model="itemCtrl.sams.id">
+                  <div class="input-group-button">
+                    <input type="submit" class="button" value="Submit">
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </li>
+        </div>
+
+        <div class="callout alert" ng-if="itemCtrl.errors">
+          <ul>
+            <li ng-repeat="err in itemCtrl.errors">{{err}}</li>
+          </ul>
+        </div>
+
+        <div class="callout success" ng-if="itemCtrl.success">
+          <ul>
+            <li ng-repeat="success in itemCtrl.success">{{success}}</li>
+          </ul>
+        </div>
+
+        <form ng-submit="itemCtrl.create()">
+          <div class="row">
+            <div class="small-3 columns">
+              <label for="suggestion_name" class="text-right middle">Name</label>
+            </div>
+            <div class="small-9 columns">
+              <input type="text" id="suggestion_name" placeholder="Beef jerky, popcorn, etc." ng-model="itemCtrl.suggestion.name" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-3 columns">
+              <label for="suggestion_description" class="text-right middle">Description</label>
+            </div>
+            <div class="small-9 columns">
+              <textarea ng-model="itemCtrl.suggestion.description" placeholder="Really delicious..."></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-3 columns">
+              <label for="suggestion_description" class="text-right middle">Image URL</label>
+            </div>
+            <div class="small-9 columns">
+              <input type="text" id="suggestion_description" ng-model="itemCtrl.suggestion.img" placeholder="http://.... ending with .png/jpg/gif/jpeg"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-3 columns">
+              <label for="suggestion_from" class="text-right middle">From</label>
+            </div>
+            <div class="small-9 columns">
+              <input type="text" id="suggestion_from" ng-model="itemCtrl.suggestion.from" placeholder="Walmart, Sam's Club, etc.."/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-3 columns">
+              <label for="suggestion_price" class="text-right middle">Price</label>
+            </div>
+            <div class="small-9 columns">
+              <div class="input-group">
+                <span class="input-group-label">$</span>
+                <input type="number" class="input-group-field" id="suggestion_price" min="0" step='0.01' ng-model="itemCtrl.suggestion.price" placeholder="9.99"/>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-3 columns">
+              <label for="suggestion_category" class="text-right middle">Category</label>
+            </div>
+            <div class="small-9 columns">
+              <select id="suggestion_category" ng-model="itemCtrl.suggestion.category">
+                <option ng-repeat="category in categoryCtrl.categories" value="{{category.name}}" ng-model="itemCtrl.suggestion.price"> {{category.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="right">
+            <input id="suggestion_add" ng-model="itemCtrl.suggestion.vote" type="checkbox"><label for="suggestion_add">Add this item to this week's suggestion list!</label>
+            <input type="submit" class="button" value="Add!">
+          </div>
+      </form>
+    </fieldset>
+
+    <a name="suggestions">Return to This Week's Suggestions</a>
+  </div>
+</div>

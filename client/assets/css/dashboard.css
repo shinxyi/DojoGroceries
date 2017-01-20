@@ -1,0 +1,68 @@
+.thumbnail img{
+  width: 250px;
+}
+
+.indent{
+  margin-left: 30px;
+}
+
+.accordion{
+  margin-bottom: 30px;
+}
+
+.top-bar{
+  margin-bottom: 30px;
+}
+
+.vote, .votes{
+  text-align: right;
+  position: absolute;
+  top: 15px;
+  right:15px;
+}
+
+.vote:hover{
+  color:green;
+  cursor: pointer;
+}
+
+.add{
+  color:lightgreen;
+}
+
+.add:hover{
+  color:green;
+}
+
+.remove{
+  margin-left: -25px;
+  color:grey;
+}
+
+.remove:hover{
+  color:red;
+}
+
+
+.suggested, .suggest-able{
+  position: relative;
+}
+
+.suggest{
+  text-align: right;
+  position: absolute;
+  bottom: 15px;
+  right:15px;
+}
+
+.comment{
+  width: 500px;
+}
+
+.flag a{
+  color:grey;
+}
+
+.flagged, .flag a:hover{
+  color: red;
+}

@@ -1,0 +1,20 @@
+<script src="assets/js/dash.js"></script>
+<div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li class="menu-text">Dojo Groceries</li>
+      <li class="active"><a name="suggestions">Home</a></li>
+      <li><a name="database">Database</a></li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a ng-click="userCtrl.logout()">Logout</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="content">
+  <div id="suggestions" class="view" ui-view="suggestions"></div>
+  <div id="database" class="view hidden" ui-view="database"></div>
+</div>

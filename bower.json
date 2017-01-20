@@ -1,0 +1,25 @@
+{
+  "name": "dojo_groceries",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Shin Yi Tan <shinxyi.tan@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/shinxyi/DojoGroceries",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.5.8",
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.2"
+  },
+  "resolutions": {
+    "angular": "^1.0.8"
+  }
+}

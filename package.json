@@ -1,0 +1,31 @@
+{
+  "name": "dojo_groceries",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinxyi/DojoGroceries"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shinxyi/DojoGroceries/issues"
+  },
+  "homepage": "https://github.com/shinxyi/DojoGroceries#readme",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "moment": "^2.17.1",
+    "mongoose": "^4.6.8",
+    "request": "^2.79.0",
+    "underscore": "^1.8.3"
+  }
+}
