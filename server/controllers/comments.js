@@ -9,12 +9,7 @@ console.log('comments controller');
 
 function CommentsController() {
 
-  var lastSunday = function(){
-		var s = moment().format('YYYYMMDD');
-		var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
-	  d.setDate(d.getDate() - d.getDay());
-	  return d.toString().split(' ').join('');
-	}
+  var week = 	moment().week().toString() + moment().year().toString();
 
     this.create = function(req,res){
 
@@ -27,7 +22,7 @@ function CommentsController() {
         console.log('checking user->', req.session.user);
         var comment = new Comment(req.body);
         comment._item = item._id;
-        comment.week = lastSunday();
+        comment.week = week;
         comment.userName = req.session.user.name;
         comment.userId = req.session.user._id;
         console.log('comment is being created!!!', req.body);
@@ -89,7 +84,7 @@ function CommentsController() {
     };
 
     this.indexFlagged = function(req, res) {
-      Comment.find({active: 1, week: lastSunday() }, function(err, comments) {
+      Comment.find({active: 1, week: week }, function(err, comments) {
         if(err){
           res.json({errors: ['Flagged comments cannot be retrieved']});
         }else{

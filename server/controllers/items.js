@@ -7,6 +7,8 @@ var Item = mongoose.model('Item'),
 
 function ItemsController() {
 
+	var week = 	moment().week().toString() + moment().year().toString();
+
 	var processError = function(error) {
 		var errors = [];
 
@@ -17,15 +19,8 @@ function ItemsController() {
 		return errors;
 	};
 
-	var lastSunday = function(){
-		var s = moment().format('YYYYMMDD');
-		var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
-	  d.setDate(d.getDate() - d.getDay());
-	  return d.toString().split(' ').join('');
-	}
 
 	this.index = function(req, res){
-		var week = lastSunday();
 
 		Item.find({active: true})
 			.populate({path:'comments',
@@ -84,8 +79,6 @@ function ItemsController() {
 						user.markModified('votes');
 						user.save(function (err){
 
-							var week = lastSunday();
-
 							console.log('vote: ==>', req.params.vote);
 
 							if(!(item.voting_list.hasOwnProperty(week))){
@@ -130,7 +123,6 @@ function ItemsController() {
 							if(err){
 								res.json({errors: ['cannot save vote...']});
 							}else{
-								var week = lastSunday();
 								console.log('item voting list.... ', item);
 								if(!(item.voting_list.hasOwnProperty(week))){
 									item.voting_list[week] = 0;

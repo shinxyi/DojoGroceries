@@ -7,12 +7,7 @@ var Budget = mongoose.model('Budget');
 
 function BudgetsController() {
 
-	var lastSunday = function(){
-		var s = moment().format('YYYYMMDD');
-		var d = new Date(s.substring(0,4), s.substring(4,6) - 1, s.substring(6));
-	  d.setDate(d.getDate() - d.getDay());
-	  return d.toString().split(' ').join('');
-	}
+	var week = 	moment().week().toString() + moment().year().toString();
 
 	var processError = function(error) {
 		var errors = [];
@@ -30,7 +25,7 @@ function BudgetsController() {
 
 	this.create = function(req, res) {
 		var budget = new Budget(req.body);
-		budget.week = lastSunday();
+		budget.week = week;
 
 
 		budget.save(function(error, budget) {
