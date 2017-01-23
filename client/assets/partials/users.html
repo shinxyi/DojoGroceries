@@ -29,6 +29,7 @@
       <th>Email</th>
       <th width="400">Created At</th>
       <th width="300">User Level</th>
+      <th>Batch Process</th>
     </tr>
   </thead>
   <tbody>
@@ -69,8 +70,10 @@
           <button type="button submit" class="success button">Save</button>
         </form>
       </td>
+      <td><input type="checkbox" ng-model="userCtrl.batchProcessInfo[user._id]"></td>
 
     </tr>
 
   </tbody>
 </table>
+<button ng-click="userCtrl.processBatch();">Process Batch.</button>

@@ -95,6 +95,12 @@ app.factory('usersFactory', ['$http',  function($http) {
     })
   }
 
+  this.batchProcessToOne = function(list){
+    $http.post("/users/batchProcessToOne", list).then(function(returnedData){
+      //space for callback...
+    })
+  }
+
   }
 
 
