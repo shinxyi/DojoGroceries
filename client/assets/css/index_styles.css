@@ -33,6 +33,10 @@
   font-family: icons;
 }
 
+.small{
+  width: 100px;
+}
+
 @font-face {
   font-family: icons;
   src: url('/assets/static/fonts/foundation-icons.woff');

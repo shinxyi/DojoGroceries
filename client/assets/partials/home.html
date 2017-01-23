@@ -50,32 +50,38 @@
         <fieldset class="fieldset">
           <legend><span class="success label">Grocery List:</label></legend>
 
-          <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
+            <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
-            <div class="callout media-object suggest-able" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true" ng-if="item.grocery_list[0].week==userCtrl.thisweek.week">
-              <div class="votes">
-                  <span class="warning badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
-                  vote(s)
-              </div>
-
-              <div class="media-object-section">
-                <div class="thumbnail">
-                  <img src="{{ item.img }}" ng-if="item.img"/>
-                  <img src="/assets/static/images/placeholder.png" ng-if="!item.img"/>
-                </div>
-              </div>
-              <div class="media-object-section">
-                <h4><b>{{ item.name }}</b> | {{ item.price | currency }}</h4>
-                <div class="indent">
-                  <h6><b>Category:</b> {{ item.category }}</h6>
-                  <p>{{ item.description }}</p>
-                </div>
-              </div>
-              <div class="suggest">
-                <button type="button" class="success button" ng-click="userCtrl.vote(item._id)">Suggest!</button>
-              </div>
-
-            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th> Image </th>
+                  <th> Name </th>
+                  <th> Price </th>
+                  <th> Category </th>
+                  <th> Popularity </th>
+                  <th> Bought </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true" ng-if="item.grocery_list[0].week==userCtrl.thisweek.week">
+                  <td>
+                    <div class="small thumbnail">
+                      <img src="{{ item.img }}" ng-if="item.img"/>
+                      <img src="/assets/static/images/placeholder.png" ng-if="!item.img"/>
+                    </div>
+                  </td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.price | currency }}</td>
+                  <td>{{ item.category }}</td>
+                  <td>
+                    <span class="warning badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
+                    vote(s) this week!
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
         </fieldset>
 
       </div>
