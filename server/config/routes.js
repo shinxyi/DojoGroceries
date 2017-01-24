@@ -17,6 +17,7 @@ module.exports = function(app) {
 	app.get('/users', users.index);
 	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels
 	app.get('/users/week', users.week);
+	app.post('/users/batchProcessToOne', users.batchOne); //batch of user ids to change from user level from 0 to 1.
 
 ///////
 

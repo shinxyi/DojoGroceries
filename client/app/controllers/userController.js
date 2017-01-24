@@ -5,19 +5,25 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
 
   self.thisweek;
 
-  usersFactory.registerCbs('updateUsers', function(){
-    usersFactory.index(function(returnedData){
-      self.allUsers = returnedData;
-      var count =0;
+  self.batchProcessInfo = {};
 
-      for(var x=0;x<self.allUsers.length;x++){
-        if(self.allUsers[x].adminLvl==0){
-          count++;
+  //changed this to a variable so we could call the function in multiple places instead of just on pageload. useful for batch processes.
+  var updateUserList = function(){
+    usersFactory.registerCbs('updateUsers', function(){
+      usersFactory.index(function(returnedData){
+        self.allUsers = returnedData;
+        var count =0;
+
+        for(var x=0;x<self.allUsers.length;x++){
+          if(self.allUsers[x].adminLvl==0){
+            count++;
+          }
         }
-      }
-      self.pendingUsersCount = count;
+        self.pendingUsersCount = count;
+      })
     })
-  })
+  }
+  updateUserList();
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -91,4 +97,17 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
   	  $location.url('/');
   	});
   };
+
+  self.processBatch = function(){
+    console.log(self.batchProcessInfo);
+    var listOfIds = [];
+    for(var key in self.batchProcessInfo){
+      listOfIds.push(key);
+    };
+    console.log("Here is the list...", listOfIds);
+    usersFactory.batchProcessToOne(listOfIds, function(){
+      console.log("process complete");
+    });
+    updateUserList();
+  }
 }]);
