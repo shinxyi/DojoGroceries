@@ -81,23 +81,18 @@ app.factory('usersFactory', ['$http',  function($http) {
 
 
   this.editAdminLvl = function(user_id, adminLvl){
-    console.log('my admin lvl->',storedUser.adminLvl);
-    console.log('type of adminLvl->', typeof adminLvl);
     if(storedUser.adminLvl<9||typeof adminLvl != 'number' || adminLvl<9&&adminLvl>1){
       return;
     }
-
-    console.log('user_id->', user_id);
-    console.log('chosen admin_lvl->', adminLvl);
 
     $http.put('/users/'+user_id+'/'+adminLvl).then(function(returnedData){
       callbacks['updateUsers']();
     })
   }
 
-  this.batchProcessToOne = function(list){
+  this.batchProcessToOne = function(list, callback){
     $http.post("/users/batchProcessToOne", list).then(function(returnedData){
-      //space for callback...
+      callback(returnedData.data);
     })
   }
 

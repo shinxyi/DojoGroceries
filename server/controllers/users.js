@@ -150,7 +150,7 @@ function UsersController() {
 			// list of user ids to be set to user level '1'
 			var idList = req.body;
 			console.log(idList); //can delete
-			//looping through each id in the list to individually update each user 
+			//looping through each id in the list to individually update each user
 			for(var i = 0; i<idList.length; i++){
 				console.log("Currently updating user:", idList[i]); //can delete
 				User.findOne({_id:idList[i]}, function(err, aUser){
@@ -167,7 +167,8 @@ function UsersController() {
 					};
 				});
 			};
-			//need to check out error messages are passed back. currently, the processError helper can't be used in for loops as the error message will get reset everytime. 
+
+			res.redirect('/users')
 		};
 
 	};

@@ -8,22 +8,33 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
   self.batchProcessInfo = {};
 
   //changed this to a variable so we could call the function in multiple places instead of just on pageload. useful for batch processes.
-  var updateUserList = function(){
-    usersFactory.registerCbs('updateUsers', function(){
-      usersFactory.index(function(returnedData){
-        self.allUsers = returnedData;
-        var count =0;
+  usersFactory.registerCbs('updateUsers', function(){
+    usersFactory.index(function(returnedData){
+      self.allUsers = returnedData;
+      var count =0;
 
-        for(var x=0;x<self.allUsers.length;x++){
-          if(self.allUsers[x].adminLvl==0){
-            count++;
-          }
+      for(var x=0;x<self.allUsers.length;x++){
+        if(self.allUsers[x].adminLvl==0){
+          count++;
         }
-        self.pendingUsersCount = count;
-      })
+      }
+      self.pendingUsersCount = count;
+    })
+  })
+
+  var refresh = function(){
+    usersFactory.index(function(returnedData){
+      self.allUsers = returnedData;
+      var count =0;
+
+      for(var x=0;x<self.allUsers.length;x++){
+        if(self.allUsers[x].adminLvl==0){
+          count++;
+        }
+      }
+      self.pendingUsersCount = count;
     })
   }
-  updateUserList();
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -41,19 +52,7 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
         self.user = returnedData;
         $location.url('/admin_dashboard');
 
-        usersFactory.index(function(returnedData){
-          self.allUsers = returnedData;
-          var count =0;
-
-          for(var x=0;x<self.allUsers.length;x++){
-            if(self.allUsers[x].adminLvl==0){
-              count++;
-            }
-          }
-          self.pendingUsersCount = count;
-
-        })
-
+        refresh();
       }else{
         self.info = {};
         self.user = returnedData;
@@ -105,9 +104,18 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
       listOfIds.push(key);
     };
     console.log("Here is the list...", listOfIds);
-    usersFactory.batchProcessToOne(listOfIds, function(){
-      console.log("process complete");
+    usersFactory.batchProcessToOne(listOfIds, function(returnedData){
+      console.log('UPDATING USER LIST **** ');
+      self.allUsers = returnedData;
+      var count =0;
+
+      for(var x=0;x<self.allUsers.length;x++){
+        if(self.allUsers[x].adminLvl==0){
+          count++;
+        }
+      }
+      self.pendingUsersCount = count;
+      self.batchProcessInfo = {};
     });
-    updateUserList();
   }
 }]);
