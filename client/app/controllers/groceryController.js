@@ -10,19 +10,29 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
         self.errors = returnedData.errors;
         return;
       }
-      self.list = returnedData;
+      self.list = returnedData.list;
+      self.groceryDictionary = returnedData.dictionary;
+      console.log('updated grocery list ->', self.list);
+      console.log('self.groceryDictionary ->', self.groceryDictionary);
+
     })
   }
 
-  self.addToGroceries = function(item_id){
-    itemsFactory.addToGroceries(item_id, function(){
-      refresh();
+  usersFactory.getWeek(function(returnedData){
+    self.thisweek = returnedData.week;
+    self.refresh(self.thisweek);
+    console.log('this week->', self.thisweek);
+  })
+
+  self.addToGroceries = function(item_id, week){
+    groceriesFactory.addToGroceries(item_id, week, function(){
+      self.refresh(week);
     })
   }
 
-  self.removeFromGroceries = function(item_id){
-    itemsFactory.removeFromGroceries(item_id, function(){
-      refresh();
+  self.removeFromGroceries = function(item_id, week){
+    groceriesFactory.removeFromGroceries(item_id, week, function(){
+      self.refresh(week);
     })
   }
 

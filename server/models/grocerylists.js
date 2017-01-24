@@ -7,9 +7,10 @@ var GroceryListSchema = new mongoose.Schema({
             type: String,
             required: [true, "Week is Required!"]
   },
-	list: [{
-		bought: false
-	}]
+	list: {
+		type: Object,
+		default: {}
+	}
 }, { timestamps: true, minimize: false });
 
 mongoose.model('GroceryList', GroceryListSchema);

@@ -1,4 +1,4 @@
-app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, $location) {
+app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', 'groceriesFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, groceriesFactory, $location) {
 
   var self= this;
 
@@ -23,6 +23,18 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   }
 
   refresh();
+
+  groceriesFactory.registerCbs('updateItems', function(){
+    itemsFactory.getAllItems(function(returnedData){
+      if(returnedData.error){
+        $location.url('/');
+        return;
+      }
+      self.items = returnedData
+      console.log(returnedData);
+    });
+  })
+
 
   usersFactory.registerCbs('updateItems', function(){
     itemsFactory.getAllItems(function(returnedData){

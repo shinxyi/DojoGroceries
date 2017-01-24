@@ -28,20 +28,21 @@ function GroceriesController() {
 			}
 
 			if(!glist){
-				var newGlist = new GroceryList({ week: req.params.week, list: []});
+				var newGlist = new GroceryList({ week: req.params.week});
 				newGlist.save(function(error, newGlist){
 					if(error){
 						console.log('groceries.js controller - grocery list cannot be created');
 						res.json({ errors: processError(error) });
 						return;
 					}else{
-						res.json({ list: newGlist });
+						console.log('groceries.js controller - grocery list was just created!!');
+						res.redirect('/groceries/' + req.params.week);
 						return;
 					}
 				})
+			}else{
+				res.json({list: glist});
 			}
-
-			res.json({list: glist});
 
 		})
 	};
@@ -67,8 +68,10 @@ function GroceriesController() {
 					return;
 				}
 				//This following code checks if the grocery list already contains the item
-				if(!glist.list.some(function(o){ return o['_id'] === item._id})){
-					glist.list.push(item);
+				if(!glist.list.hasOwnProperty(item._id)){
+					item.bought = false;
+					glist.list[item._id]=item;
+					glist.markModified('list');
 					glist.save(function(err){
 						res.json({list: glist});
 						return;
@@ -100,12 +103,10 @@ function GroceriesController() {
 					return;
 				}
 
-				for(var x=0; x<glist.list.length; x++){
-					if(glist.list[x]._id === item._id){
-						glist.list.splice(x, 1);
-						break;
-					}
+				if(glist.list.hasOwnProperty(item._id)){
+					delete glist.list[item._id];
 				}
+				glist.markModified('list');
 
 				glist.save(function(err){
 					res.json({list:glist});
@@ -128,22 +129,19 @@ function GroceriesController() {
 				return;
 			}
 
-			for(var x=0; x<glist.list.length; x++){
-				if(glist.list[x]._id === item._id){
-
-					if(glist.list[x].bought){
-						glist.list[x].bought = false;
-					}else{
-						glist.list[x].bought = true;
-					}
-					break;
-
+			if(glist.list.hasOwnProperty(item._id)){
+				if(glist.list[item._id].bought){
+					glist.list[item._id].bought=false;
+				}else{
+					glist.list[item._id].bought=true;
 				}
 			}
+			glist.markModified('list');
 
 			glist.save(function(err){
 				res.json({list:glist});
 			})
+
 		})
 	}
 }

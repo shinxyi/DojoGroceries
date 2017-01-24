@@ -65,7 +65,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in groceryCtrl.items | filter:groceryCtrl.filter | orderBy:groceryCtrl.popularVote:true">
+                <tr ng-repeat="item in groceryCtrl.list | filter:groceryCtrl.filter | orderBy:groceryCtrl.popularVote:true">
                   <td>
                     <div class="small thumbnail">
                       <img src="{{ item.img }}" ng-if="item.img"/>
