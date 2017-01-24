@@ -28,10 +28,10 @@ module.exports = function(app) {
 
 ///////
 
-	app.get('/groceries', groceries.index);
-	app.post('/groceries/:item_id', groceries.addItem);
-	app.delete('/groceries/:item_id', groceries.removeItem);
-	app.put('/groceries/:item_id/bought', groceries.markBought);
+	app.get('/groceries/:week', groceries.index);
+	app.post('/groceries/:item_id/:week', groceries.addItem);
+	app.delete('/groceries/:item_id/:week', groceries.removeItem);
+	app.put('/groceries/:item_id/:week', groceries.changeBought);
 
 ///////
 

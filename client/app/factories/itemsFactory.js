@@ -53,19 +53,6 @@ app.factory('itemsFactory', ['$http', function($http) {
      });
   }
 
-  this.addToGroceries = function(item_id, callback){
-    $http.post('/groceries/' + item_id).then(function(response) {
-      callback();
-    });
-  }
-
-  this.removeFromGroceries = function(item_id, callback){
-    $http.delete('/groceries/' + item_id).then(function(response) {
-      callback();
-    });
-  }
-
-
 }
 
   return new ItemsFactory();

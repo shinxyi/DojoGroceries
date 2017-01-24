@@ -1,7 +1,9 @@
-var mongoose = require('mongoose'),
-	moment = require('moment');
+"use strict";
 
-var Item = mongoose.model('Item');
+var mongoose = require('mongoose'),
+	moment = require('moment'),
+	Item = mongoose.model('Item'),
+	GroceryList = mongoose.model('GroceryList');
 
 function GroceriesController() {
 
@@ -15,15 +17,35 @@ function GroceriesController() {
 		return errors;
 	};
 
-	var week = 	moment().week().toString() + moment().year().toString();
-
+	// var week = 	moment().week().toString() + moment().year().toString();
 
 	this.index = function(req, res){
 
-		Item.find({'grocery_list.week' : week , active: true}, function(error, items) {
-				res.json(items);
-		});
-	}
+		GroceryList.findOne({week: req.params.week}, function(error, glist){
+			if(error){
+				res.json({errors: ['Issue finding Grocery List...']});
+				return;
+			}
+
+			if(!glist){
+				var newGlist = new GroceryList({ week: req.params.week});
+				newGlist.save(function(error, newGlist){
+					if(error){
+						console.log('groceries.js controller - grocery list cannot be created');
+						res.json({ errors: processError(error) });
+						return;
+					}else{
+						console.log('groceries.js controller - grocery list was just created!!');
+						res.redirect('/groceries/' + req.params.week);
+						return;
+					}
+				})
+			}else{
+				res.json({list: glist});
+			}
+
+		})
+	};
 
 	this.addItem = function(req, res) {
 
@@ -38,50 +60,91 @@ function GroceriesController() {
 				return;
 			}
 
-			var alreadyAdded = false;
+			item['bought'] = false;
 
-			if(item.grocery_list.length>0 && item.grocery_list[0].week===week){
-				alreadyAdded = true;
-			}
+			GroceryList.findOne({week: req.params.week}, function(error, glist){
+				if(error || !glist){
+					res.json({errors: ['Issue finding Grocery List...']});
+					return;
+				}
+				//This following code checks if the grocery list already contains the item
+				if(!glist.list.hasOwnProperty(item._id)){
+					item.bought = false;
+					glist.list[item._id]=item;
+					glist.markModified('list');
+					glist.save(function(err){
+						res.json({list: glist});
+						return;
+					})
+				}else{
+					res.json({errors: ['Item already in list...']});
+				}
 
-			if(!alreadyAdded){
-				item.grocery_list.unshift({week: week, bought: false});
-			}
-
-			item.save(function(err){
-				res.json(item);
 			})
-
 		});
 	};
 
 	this.removeItem = function(req, res) {
 
-		Item.findOne({_id: req.params.item_id , active: true}, function(error, item) {
+		if(req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to make this change...']})
+			return;
+		}
 
-			if(item.grocery_list[0].week===week){
-				item.grocery_list.shift();
+		Item.findOne({_id: req.params.item_id , active: true}, function(error, item) {
+			if(error|| !item){
+				res.json({errors: ['Item to add cannot be found...']});
+				return;
 			}
-			item.save(function(err){
-				res.json(item);
+
+			GroceryList.findOne({week: req.params.week}, function(error, glist){
+				if(error|| !glist){
+					res.json({errors: ['Issue finding Grocery List...']});
+					return;
+				}
+
+				if(glist.list.hasOwnProperty(item._id)){
+					delete glist.list[item._id];
+				}
+				glist.markModified('list');
+
+				glist.save(function(err){
+					res.json({list:glist});
+				})
 			})
-		});
+
+		})
 	};
 
-	this.markBought = function(req, res){
+	this.changeBought = function(req, res){
 
-		Item.findOne({_id: req.params.item_id , active: true}, function(error, item) {
+		if(req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to make this change...']})
+			return;
+		}
 
-			if(item.grocery_list[0].week===week){
-				item.grocery_list[0].bought=true;
+		GroceryList.findOne({week: req.params.week}, function(error, glist){
+			if(error|| !glist){
+				res.json({errors: ['Issue finding Grocery List...']});
+				return;
 			}
 
-			item.save(function(err){
-				res.json(item);
-			})
-		});
-	}
+			if(glist.list.hasOwnProperty(item._id)){
+				if(glist.list[item._id].bought){
+					glist.list[item._id].bought=false;
+				}else{
+					glist.list[item._id].bought=true;
+				}
+			}
+			glist.markModified('list');
 
-};
+			glist.save(function(err){
+				res.json({list:glist});
+			})
+
+		})
+	}
+}
+
 
 module.exports = new GroceriesController();
