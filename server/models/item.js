@@ -53,10 +53,6 @@ var ItemSchema = new mongoose.Schema({
 		type: Object,
 		default: {}
 	},
-	grocery_list: [{
-		week: String,
-		bought: false
-	}],
 	comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 }, { timestamps: true, minimize: false });
 

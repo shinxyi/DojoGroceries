@@ -8,7 +8,6 @@ var GroceryListSchema = new mongoose.Schema({
             required: [true, "Week is Required!"]
   },
 	list: [{
-		week: String,
 		bought: false
 	}]
 }, { timestamps: true, minimize: false });

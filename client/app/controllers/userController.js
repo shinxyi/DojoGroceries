@@ -4,6 +4,7 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
   self.user = {};
 
   self.thisweek;
+  self.groceryweek;
 
   usersFactory.registerCbs('updateUsers', function(){
     usersFactory.index(function(returnedData){
@@ -21,8 +22,13 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
+    self.groceryweek = self.thisweek;
     console.log('this week->', self.thisweek);
   })
+
+  self.setGroceryWeek = function(week){
+    self.groceryweek = week;
+  }
 
   self.login = function(){
     usersFactory.login(self.info, function(returnedData){

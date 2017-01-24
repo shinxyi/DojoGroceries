@@ -50,7 +50,7 @@
         <fieldset class="fieldset">
           <legend><span class="success label">Grocery List:</label></legend>
 
-            <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
+            <input type="text" ng-model="groceryCtrl.filter" placeholder="Search..."/><br />
 
             <table>
               <thead>
@@ -65,7 +65,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true" ng-if="item.grocery_list[0].week==userCtrl.thisweek.week">
+                <tr ng-repeat="item in groceryCtrl.items | filter:groceryCtrl.filter | orderBy:groceryCtrl.popularVote:true">
                   <td>
                     <div class="small thumbnail">
                       <img src="{{ item.img }}" ng-if="item.img"/>
@@ -76,13 +76,11 @@
                   <td>{{ item.price | currency }}</td>
                   <td>{{ item.quantity }}</td>
                   <td>{{ item.category }}</td>
-                  <td ng-if="item.voting_list[userCtrl.thisweek.week]">
-                    <b>{{ item.voting_list[userCtrl.thisweek.week] }} vote(s)</b><br/>
-                    <sup> this week!</sup>
+                  <td ng-if="item.voting_list[userCtrl.groceryweek.week]">
+                    <b>{{ item.voting_list[userCtrl.groceryweek.week] }} vote(s)</b><br/>
                   </td>
-                  <td ng-if="!item.voting_list[userCtrl.thisweek.week]">
+                  <td ng-if="!item.voting_list[userCtrl.groceryweek.week]">
                     <b>0 vote(s)</b><br/>
-                    <sup> this week!</sup>
                   </td>
                   <td></td>
                 </tr>
