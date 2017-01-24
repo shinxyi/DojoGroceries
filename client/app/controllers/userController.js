@@ -99,15 +99,15 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
   };
 
   self.processBatch = function(){
-    console.log(self.batchProcessInfo);
     var listOfIds = [];
     for(var key in self.batchProcessInfo){
-      listOfIds.push(key);
+      if(self.batchProcessInfo[key]){
+        listOfIds.push(key);
+      }
     };
-    console.log("Here is the list...", listOfIds);
     usersFactory.batchProcessToOne(listOfIds, function(){
-      console.log("process complete");
+      
     });
-    updateUserList();
+
   }
 }]);

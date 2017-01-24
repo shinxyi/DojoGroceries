@@ -149,8 +149,6 @@ function UsersController() {
 		this.batchOne = function(req,res){
 			// list of user ids to be set to user level '1'
 			var idList = req.body;
-			console.log(idList); //can delete
-			//looping through each id in the list to individually update each user 
 			for(var i = 0; i<idList.length; i++){
 				console.log("Currently updating user:", idList[i]); //can delete
 				User.findOne({_id:idList[i]}, function(err, aUser){
