@@ -43,7 +43,8 @@ function ItemsController() {
 			id: req.body.id,
 			from: req.body.from,
 			price: req.body.price,
-			category: req.body.category
+			category: req.body.category,
+			quantity: req.body.quantity
 		});
 
 		item.save(function(error, item) {
@@ -52,6 +53,8 @@ function ItemsController() {
 				res.json({ errors: processError(error) });
 				return;
 			}
+
+			console.log('item successfully created ->', item);
 
 			if(req.body.vote){
 				res.redirect('/items/'+ item._id +'/1');
@@ -111,7 +114,7 @@ function ItemsController() {
 										votes: user.votes,
 										adminLvl: user.adminLvl
 								}
-								res.json(returnedUser)
+								res.json({user: returnedUser, item: item})
 							});
 						});
 					}else if(user.votes[itemId] == req.params.vote){
@@ -147,7 +150,7 @@ function ItemsController() {
 											votes: user.votes,
 											adminLvl: user.adminLvl
 									}
-									res.json(returnedUser)
+									res.json({user: returnedUser, item: item})
 								});
 							}
 						})

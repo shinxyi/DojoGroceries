@@ -67,7 +67,7 @@ app.factory('usersFactory', ['$http',  function($http) {
 
     $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){
       console.log('storedUser --->', storedUser);
-      storedUser = returned_data.data;
+      storedUser = returned_data.data.user;
       callback(returned_data.data);
       callbacks['updateItems']();
     })

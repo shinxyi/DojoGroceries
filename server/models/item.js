@@ -41,6 +41,10 @@ var ItemSchema = new mongoose.Schema({
 		type: Number,
 		required: [true, 'Price information is required to create item.']
 	},
+	quantity: {
+		type: Number,
+		required: [true, 'Quantity is required to create item.']
+	},
 	category: {
 		type: String,
 		required: [true, 'Category information is required to create item.']

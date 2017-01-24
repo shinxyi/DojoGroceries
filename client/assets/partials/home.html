@@ -58,6 +58,7 @@
                   <th> Image </th>
                   <th> Name </th>
                   <th> Price </th>
+                  <th> Qty. </th>
                   <th> Category </th>
                   <th> Popularity </th>
                   <th> Bought </th>
@@ -73,10 +74,15 @@
                   </td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.price | currency }}</td>
+                  <td>{{ item.quantity }}</td>
                   <td>{{ item.category }}</td>
-                  <td>
-                    <span class="warning badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
-                    vote(s) this week!
+                  <td ng-if="item.voting_list[userCtrl.thisweek.week]">
+                    <b>{{ item.voting_list[userCtrl.thisweek.week] }} vote(s)</b><br/>
+                    <sup> this week!</sup>
+                  </td>
+                  <td ng-if="!item.voting_list[userCtrl.thisweek.week]">
+                    <b>0 vote(s)</b><br/>
+                    <sup> this week!</sup>
                   </td>
                   <td></td>
                 </tr>
