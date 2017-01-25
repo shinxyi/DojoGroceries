@@ -69,7 +69,7 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
 
   self.vote = function(item_id){
     usersFactory.vote(item_id, function(returnedData){
-      self.user = returnedData;
+      self.user = returnedData.user;
       console.log('self.user now updated->', self.user);
     })
   }
@@ -80,6 +80,7 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
         self.errors2 = returnedData.errors;
       }else if(!returnedData.hasOwnProperty('user')){
         self.user = returnedData;
+        self.info2 = {};
         $location.url('/dashboard');
       }else{
         self.success = [returnedData.user + ', your account has been successfully created. Please wait for an admin to approve your account.'];

@@ -2,9 +2,14 @@ app.controller('commentController', ['commentsFactory', '$location', function(co
 
   var self= this;
 
-  commentsFactory.getFlaggedComments(function(returnedData){
-    self.inbox = returnedData;
-  });
+  var refresh = function(){
+    console.log('getting Inbox&&&&');
+    commentsFactory.getFlaggedComments(function(returnedData){
+      self.inbox = returnedData;
+    });
+  }
+
+  refresh();
 
   commentsFactory.registerCbs('updateComments', function(){
     commentsFactory.getFlaggedComments(function(returnedData){
@@ -27,10 +32,14 @@ app.controller('commentController', ['commentsFactory', '$location', function(co
   };
 
   self.delete = function(comment_id){
-    commentsFactory.delete(comment_id);
+    commentsFactory.delete(comment_id, function(){
+      refresh();
+    });
   }
 
   self.flag = function(comment_id){
-    commentsFactory.flag(comment_id);
+    commentsFactory.flag(comment_id, function(){
+      refresh();
+    });
   }
 }]);

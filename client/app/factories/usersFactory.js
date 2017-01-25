@@ -4,6 +4,7 @@ app.factory('usersFactory', ['$http',  function($http) {
 
   console.log('loading users Factory');
   var storedUser = {};
+  var thisweek;
 
   var callbacks = {};
 
@@ -13,6 +14,7 @@ app.factory('usersFactory', ['$http',  function($http) {
 
   this.getWeek= function (callback){
     $http.get('/users/week').then(function(response){
+      thisweek = response.data;
       callback(response.data);
     })
   }
@@ -59,9 +61,11 @@ app.factory('usersFactory', ['$http',  function($http) {
     var vote;
     console.log('storedUser?? --->', storedUser);
 
-    if(storedUser.votes.hasOwnProperty(item_id) && storedUser.votes[item_id]>0){
+    if(!(storedUser.votes.hasOwnProperty(thisweek))){
+      vote = '1';
+    }else if(!(storedUser.votes[thisweek].hasOwnProperty(item_id)) || storedUser.votes[item_id]<1){
       vote = '-1';
-    }else if(!(storedUser.votes.hasOwnProperty(item_id)) || storedUser.votes[item_id]<1){
+    }else if(storedUser.votes[thisweek].hasOwnProperty(item_id) && storedUser.votes[item_id]>0){
       vote = '1';
     }
 

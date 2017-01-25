@@ -21,20 +21,22 @@ app.factory('commentsFactory', ['$http', function($http) {
     	});
   };
 
-  this.delete = function(comment_id){
+  this.delete = function(comment_id, callback){
     	$http.deslete('/comments/'+ comment_id).then(function (response) {
         if(!response.data.errors){
+          callback();
           callbacks['updateItems']();
-          callbacks['updateComments']();
+          // callbacks['updateComments']();
         }
     	});
   };
 
-  this.flag = function(comment_id){
+  this.flag = function(comment_id, callback){
     	$http.put('/comments/'+ comment_id).then(function (response) {
         if(!response.data.errors){
+          callback();
           callbacks['updateItems']();
-          callbacks['updateComments']();
+          // callbacks['updateComments']();
         }
     	});
   };
