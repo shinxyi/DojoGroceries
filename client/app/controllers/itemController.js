@@ -1,10 +1,11 @@
-app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', 'groceriesFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, groceriesFactory, $location) {
+app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, $location) {
 
   var self= this;
 
   var trackHash = {};
 
   self.thisweek;
+  self.suggestion ={};
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -23,18 +24,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   }
 
   refresh();
-
-  groceriesFactory.registerCbs('updateItems', function(){
-    itemsFactory.getAllItems(function(returnedData){
-      if(returnedData.error){
-        $location.url('/');
-        return;
-      }
-      self.items = returnedData
-      console.log(returnedData);
-    });
-  })
-
 
   usersFactory.registerCbs('updateItems', function(){
     itemsFactory.getAllItems(function(returnedData){
@@ -78,26 +67,46 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   }
 
   self.walmart = function(){
-      itemsFactory.walmart(self.walmart.id, function(returnedData){
-          if(returnedData.errors){
-            self.errors = returnedData.errors;
-          }else{
-            self.suggestion = returnedData;
-            console.log('returnedData');
-          }
-        })
+    console.log(self.walmart.id);
+    itemsFactory.walmart(self.walmart.id, function(returnedData){
+      if(returnedData.errors){
+        self.errors = returnedData.errors;
+      }else{
+        // self.suggestion = returnedData;
+        console.log(returnedData.data);
+        self.suggestion.name = returnedData.data.productName;
+        self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
+        self.suggestion.img = returnedData.data.imageAssets[0].versions.thumbnail;
+        self.suggestion.from = 'Walmart';
+        self.suggestion.price = returnedData.data.buyingOptions.price.currencyAmount;
+        var category = returnedData.data.categoryPath.categoryPathName.split('/')
+        console.log(category);
+        console.log(category.length-1);
+        console.log(category[3]);
+        self.suggestion.category = category[category.length-1];
       }
+    })
+  }
 
   self.sams = function(){
-      itemsFactory.sams(self.sams.id, function(returnedData){
-          if(returnedData.errors){
-            self.errors = returnedData.errors;
-          }else{
-            self.suggestion = returnedData;
-            console.log('returnedData');
-          }
-        })
+    console.log(self.sams.id);
+    itemsFactory.sams(self.sams.id, function(returnedData){
+      if(returnedData.errors){
+        self.errors = returnedData.errors;
+      }else{
+        // self.suggestion = returnedData;
+        console.log(returnedData.data);
+        console.log(typeof(returnedData.data.price));
+        console.log(returnedData.data.category);
+        self.suggestion.name = returnedData.data.title;
+        self.suggestion.description = returnedData.data.description;
+        self.suggestion.img = returnedData.data.image;
+        self.suggestion.from = "Sam's";
+        self.suggestion.price = parseFloat(returnedData.data.price);
+        self.suggestion.category = returnedData.data.category[returnedData.data.category.length-1];
       }
+    })
+  }
 
   self.addToGroceries = function(item_id){
     itemsFactory.addToGroceries(item_id, function(){
