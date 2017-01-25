@@ -60,8 +60,6 @@ function ItemsController() {
 				return;
 			}
 
-<<<<<<< HEAD
-=======
 			console.log('item successfully created ->', item);
 			//incrementing the user's numberOfItemsCreated field by 1 upon successful item creation. as long as there is no error, value is incremented with no other form of validation.
 			User.update({_id:req.session.user._id}, {$inc:{numberOfItemsCreated:1}}, function(err, updateInfo){
@@ -70,7 +68,6 @@ function ItemsController() {
 				};	
 			});
 
->>>>>>> chetan_1-24_budget_referencing
 			if(req.body.vote){
 				res.redirect('/items/'+ item._id +'/1');
 				return;
