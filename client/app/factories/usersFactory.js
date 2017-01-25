@@ -91,17 +91,26 @@ app.factory('usersFactory', ['$http',  function($http) {
 
     $http.put('/users/'+user_id+'/'+adminLvl).then(function(returnedData){
       callbacks['updateUsers']();
-    })
-  }
+    });
+  };
 
   this.batchProcessToOne = function(list, callback){
     $http.post("/users/batchProcessToOne", list).then(function(returnedData){
       callback(returnedData.data);
-    })
-  }
+    });
+  };
 
-  }
+  this.getStatUser = function(callback){
+    $http.get("/users/getstatuser").then(function(returnedData){
+      callback(returnedData.data);
+    });
+  };
 
+
+
+
+
+  };
 
   return new UsersFactory();
 

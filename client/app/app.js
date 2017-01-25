@@ -38,6 +38,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: '/assets/partials/database.html',
           controller: 'categoryController',
           controllerAs: 'categoryCtrl'
+        },
+        'stats@dashboard': {
+          templateUrl: '/assets/partials/stats.html',
+          controller: 'statController',
+          controllerAs: 'statCtrl'
         }
       }
     })
