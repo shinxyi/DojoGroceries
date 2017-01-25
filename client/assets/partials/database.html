@@ -49,7 +49,7 @@
               <form ng-submit="itemCtrl.walmart()">
                 <div class="input-group">
                   <span class="input-group-label">Walmart UPC#</span>
-                  <input class="input-group-field" type="number" ng-model="itemCtrl.walmart.id">
+                  <input class="input-group-field" type="text" ng-model="itemCtrl.walmart.id">
                   <div class="input-group-button">
                     <input type="submit" class="button" value="Submit">
                   </div>
@@ -131,9 +131,10 @@
               <label for="suggestion_category" class="text-right middle">Category</label>
             </div>
             <div class="small-9 columns">
-              <select id="suggestion_category" ng-model="itemCtrl.suggestion.category">
-                <option ng-repeat="category in categoryCtrl.categories" value="{{category.name}}" ng-model="itemCtrl.suggestion.price"> {{category.name}}</option>
-              </select>
+              <!-- <select id="suggestion_category" ng-model="itemCtrl.suggestion.category">
+                <option ng-repeat="cat in citemCtrl.suggestion.category" value="{{cat}}" ng-model="itemCtrl.suggestion.category"> {{itemCtrl.suggestion.category}}</option>
+              </select> -->
+              <input type="text" class="input-group-field" id="suggestion_price" ng-model="itemCtrl.suggestion.category" />
             </div>
           </div>
           <div class="right">

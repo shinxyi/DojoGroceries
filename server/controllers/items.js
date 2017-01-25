@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
-	request = require('request'),
-	moment = require('moment');
+		request = require('request'),
+		moment = require('moment');
+		walmart = require('walmart')('97x9uwsxg2u3uw5fbq77jg5f');
+		sams = require('sams-scraper')(require('isomorphic-fetch'));
 
 var Item = mongoose.model('Item'),
 	User = mongoose.model('User');
@@ -184,6 +186,27 @@ function ItemsController() {
 				res.json({ item: item });
 			});
 		});
+	}
+	this.walmart = function(req, res){
+		console.log('walmart');
+		console.log(req.params.upcId);
+      var upc = req.params.upcId;
+      walmart.getItemByUPC(upc).then(function(item) {
+          // console.log(item.product.productName);
+          res.json(item.product);
+        });
+	}
+	this.sams = function(req, res){
+		console.log('samssssssss');
+      var itemId = req.params.itemId;
+			console.log(itemId);
+			sams.search(itemId, function(result) {
+			  console.log(result);
+				res.json(result);
+			}, function(err) {
+			  console.log(err);
+				res.json(err);
+			});
 	}
 
 };
