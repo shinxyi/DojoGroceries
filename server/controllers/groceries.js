@@ -129,11 +129,11 @@ function GroceriesController() {
 				return;
 			}
 
-			if(glist.list.hasOwnProperty(item._id)){
-				if(glist.list[item._id].bought){
-					glist.list[item._id].bought=false;
+			if(glist.list.hasOwnProperty(req.params.item_id)){
+				if(glist.list[req.params.item_id].bought){
+					glist.list[req.params.item_id].bought=false;
 				}else{
-					glist.list[item._id].bought=true;
+					glist.list[req.params.item_id].bought=true;
 				}
 			}
 			glist.markModified('list');

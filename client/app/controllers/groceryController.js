@@ -3,6 +3,7 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   var self= this;
 
   self.thisweek;
+  self.filter = {};
 
   self.refresh = function(week){
     groceriesFactory.index( week, function(returnedData){
@@ -24,6 +25,10 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
     console.log('this week->', self.thisweek);
   })
 
+  self.filter = function(place){
+    self.filter.place = place;
+  }
+
   self.addToGroceries = function(item_id, week){
     groceriesFactory.addToGroceries(item_id, week, function(){
       self.refresh(week);
@@ -36,5 +41,10 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
     })
   }
 
+  self.changeBought = function(item_id, week){
+    groceriesFactory.changeBought(item_id, week, function(returnedData){
+      self.list = returnedData.list;
+    })
+  }
 
 }]);

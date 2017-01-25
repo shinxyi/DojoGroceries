@@ -35,7 +35,7 @@
   <tbody>
     <tr ng-repeat="user in userCtrl.allUsers | filter:userCtrl.filter | orderBy:'-createdAt' track by $index">
       <td>
-        <span ng-if="user._id!=userCtrl.user._id" class="flag"><a id="{{user._id}}" name="deleteUser"><i class="fi-minus-circle"></i></a></span>
+        <span ng-if="user._id!=userCtrl.user._id" class="flag"><a id="{{user._id}}" name="deleteUser"><i class="foundicon-remove"></i></a></span>
         <i>{{user.name}}</i>
         <span class="hidden" ng-click="userCtrl.delete(user._id)" name="{{user._id}}"></span>
       </td>

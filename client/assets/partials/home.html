@@ -49,30 +49,35 @@
       <div id="groceries">
         <fieldset class="fieldset">
           <legend><span class="success label">Grocery List:</label></legend>
+            <a class="button" ng-click="groceryCtrl.filter('Walmart')">Walmart</a> <a class="button" ng-click="groceryCtrl.filter('Sams')">Sam's Club</a>
 
-            <input type="text" ng-model="groceryCtrl.filter" placeholder="Search..."/><br />
+            <input type="text" ng-model="groceryCtrl.filter.place" placeholder="Search..."/><br />
 
             <table>
               <thead>
                 <tr>
+                  <th> Bought </th>
                   <th> Image </th>
                   <th> Name </th>
                   <th> Price </th>
                   <th> Qty. </th>
                   <th> Category </th>
                   <th> Popularity </th>
-                  <th> Bought </th>
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in groceryCtrl.list | filter:groceryCtrl.filter | orderBy:groceryCtrl.popularVote:true">
+                <tr ng-repeat="item in groceryCtrl.list | filter:groceryCtrl.filter.place | orderBy:'category'">
+                  <td><input type="checkbox" ng-model="item.bought" ng-click="groceryCtrl.changeBought(item._id, userCtrl.groceryweek.week)"></td>
                   <td>
                     <div class="small thumbnail">
                       <img src="{{ item.img }}" ng-if="item.img"/>
                       <img src="/assets/static/images/placeholder.png" ng-if="!item.img"/>
                     </div>
                   </td>
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <span class="flag"><a><i class="foundicon-remove" ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)"></i></a></span>
+                    {{ item.name }}
+                  </td>
                   <td>{{ item.price | currency }}</td>
                   <td>{{ item.quantity }}</td>
                   <td>{{ item.category }}</td>
@@ -82,7 +87,6 @@
                   <td ng-if="!item.voting_list[userCtrl.groceryweek.week]">
                     <b>0 vote(s)</b><br/>
                   </td>
-                  <td></td>
                 </tr>
               </tbody>
             </table>

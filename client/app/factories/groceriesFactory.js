@@ -39,6 +39,15 @@ app.factory('groceriesFactory', ['$http', function($http) {
     });
   }
 
+  this.changeBought = function(item_id, week, callback){
+    $http.put('/groceries/' + item_id +'/'+ week).then(function(response) {
+      var array = [];
+      for(var key in response.data.list.list){
+        array.push(response.data.list.list[key]);
+      }
+      callback({list: array});
+    });
+  }
 
 }
 
