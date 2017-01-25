@@ -33,7 +33,19 @@ var UserSchema = new mongoose.Schema({
 	votes: {
 			 type: Object,
 			 default: {}
-		 }
+	},
+	numberOfItemsCreated: {
+		type: Number,
+		default: 0
+	},
+	numberOfCommentsCreated: {
+		type: Number,
+		default: 0
+	},
+	numberOfVotesCreated:{
+		type: Number,
+		default: 0
+	}
 },{ timestamps: true, minimize: false});
 
 UserSchema.pre('save', function(next) {

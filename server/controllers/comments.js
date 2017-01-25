@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
     moment = require('moment'),
     Comment = mongoose.model('Comment'),
-    Item = mongoose.model('Item');
+    Item = mongoose.model('Item'),
+    User = mongoose.model('User');
 
 console.log('comments controller');
 
@@ -35,6 +36,12 @@ function CommentsController() {
             // res.json({errors: ['Failed to save comment']});
             return;
           }
+          //incrementing user numberOfCommentsCreated count up by one.
+          User.update({_id:req.session.user._id}, {$inc:{numberOfCommentsCreated:1}}, function(err, updateInfo){
+            if(err){
+              console.log(err);
+            };  
+          });
 
           if(!err){
             item.comments.push(comment);
