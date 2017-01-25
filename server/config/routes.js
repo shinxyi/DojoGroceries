@@ -17,7 +17,6 @@ module.exports = function(app) {
 	app.get('/users', users.index);
 	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels
 	app.get('/users/week', users.week);
-	app.post('/users/batchProcessToOne', users.batchOne); //batch of user ids to change from user level from 0 to 1.
 
 ///////
 
@@ -25,13 +24,15 @@ module.exports = function(app) {
 	app.post('/items', items.create);
 	app.delete('/items/:item_id', items.destroy);
 	app.get('/items/:item_id/:vote', items.vote);
+	app.get('/walmart/:upcId', items.walmart);
+	app.get('/sams/:itemId', items.sams);
 
 ///////
 
-	app.get('/groceries/:week', groceries.index);
-	app.post('/groceries/:item_id/:week', groceries.addItem);
-	app.delete('/groceries/:item_id/:week', groceries.removeItem);
-	app.put('/groceries/:item_id/:week', groceries.changeBought);
+	app.get('/groceries', groceries.index);
+	app.post('/groceries/:item_id', groceries.addItem);
+	app.delete('/groceries/:item_id', groceries.removeItem);
+	app.put('/groceries/:item_id/bought', groceries.markBought);
 
 ///////
 
