@@ -14,8 +14,8 @@ app.factory('usersFactory', ['$http',  function($http) {
 
   this.getWeek= function (callback){
     $http.get('/users/week').then(function(response){
-      thisweek = response.data;
-      callback(response.data);
+      thisweek = response.data.week;
+      callback(response.data.week);
     })
   }
 
@@ -59,14 +59,16 @@ app.factory('usersFactory', ['$http',  function($http) {
 
   this.vote = function(item_id, callback){
     var vote;
-    console.log('storedUser?? --->', storedUser);
 
-    if(!(storedUser.votes.hasOwnProperty(thisweek))){
+    if(!(storedUser.votes[thisweek])){
+      console.log('going through path A');
       vote = '1';
-    }else if(!(storedUser.votes[thisweek].hasOwnProperty(item_id)) || storedUser.votes[item_id]<1){
+    }else if(!(storedUser.votes[thisweek].hasOwnProperty(item_id)) || storedUser.votes[thisweek][item_id]<1){
+      console.log('going through path B');
+      vote = '1';
+    }else if(storedUser.votes[thisweek].hasOwnProperty(item_id) && storedUser.votes[thisweek][item_id]>0){
+      console.log('going through path C');
       vote = '-1';
-    }else if(storedUser.votes[thisweek].hasOwnProperty(item_id) && storedUser.votes[item_id]>0){
-      vote = '1';
     }
 
     $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){

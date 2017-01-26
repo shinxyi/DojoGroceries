@@ -1,4 +1,4 @@
-app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, $location) {
+app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', 'groceriesFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, groceriesFactory, $location) {
 
   var self= this;
 
@@ -63,7 +63,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   };
 
   self.popularVote = function(item){
-    return item.voting_list[self.thisweek.week];
+    return item.voting_list[self.thisweek];
   }
 
   self.walmart = function(){
@@ -105,18 +105,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.suggestion.price = parseFloat(returnedData.data.price);
         self.suggestion.category = returnedData.data.category[returnedData.data.category.length-1];
       }
-    })
-  }
-
-  self.addToGroceries = function(item_id){
-    itemsFactory.addToGroceries(item_id, function(){
-      refresh();
-    })
-  }
-
-  self.removeFromGroceries = function(item_id){
-    itemsFactory.removeFromGroceries(item_id, function(){
-      refresh();
     })
   }
 
