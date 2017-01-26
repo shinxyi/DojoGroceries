@@ -91,10 +91,11 @@ function ItemsController() {
 					}else{
 						user.votes[week][item._id] = -user.votes[week][item._id];
 					}
+					user.numberOfVotesCreated += req.params.vote;
+
 
 					user.markModified('votes');
-					user.save(function (err){
-
+					user.save(function(err){
 						console.log('vote: ==>', req.params.vote);
 
 						if(!(item.voting_list.hasOwnProperty(week))){
@@ -126,11 +127,11 @@ function ItemsController() {
 							}
 							res.json({user: returnedUser, item: item})
 						});
-					})
-				})
-			}
-		})
-	}
+					});						
+				});
+			};
+		});
+	};
 
 	this.destroy = function(req, res){
 		if(req.session.user.adminLvl<9){
