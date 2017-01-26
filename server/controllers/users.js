@@ -181,8 +181,9 @@ function UsersController() {
 				else{
 					var returnInfo = {
 						numberOfItemsCreated: user.numberOfItemsCreated,
-						numberOfCommentsCreated: user.numberOfCommentsCreated
-					}
+						numberOfCommentsCreated: user.numberOfCommentsCreated,
+						numberOfVotesCreated: user.numberOfVotesCreated
+					};
 					res.json(returnInfo);
 				};
 			});
