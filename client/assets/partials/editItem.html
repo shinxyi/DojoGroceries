@@ -17,6 +17,7 @@
             <img src="{{ itemCtrl.updateItem.img }}" ng-if="itemCtrl.updateItem.img"/>
             <img src="/assets/static/images/placeholder.png" ng-if="!itemCtrl.updateItem.img"/>
           </div>
+          <a ng-click="itemCtrl.delete(itemCtrl.updateItem._id)" class="button alert">Delete {{itemCtrl.updateItem.name}}</a>
         </div>
 
         <div class="media-object-section card-form">

@@ -34,7 +34,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     });
   })
 
-
   commentsFactory.registerCbs('updateItems', function(){
     itemsFactory.getAllItems(function(returnedData){
       if(returnedData.error){
@@ -75,11 +74,28 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       if(returnedData.errors){
         self.errors = returnedData.errors;
       }else{
-        refresh();
-        $('#editItem').addClass('hidden');
+        groceriesFactory.checkAndUpdate(itemId, function(){
+          itemsFactory.getAllItems(function(returnedData){
+            if(returnedData.error){
+              $location.url('/');
+              return;
+            }
+            self.items = returnedData;
+            console.log(returnedData);
+            $('#editItem').addClass('hidden');
+          });
+        });
       }
     })
   }
+
+  self.delete = function(itemId){
+    itemsFactory.delete(itemId, function(returnedData){
+      refresh();
+      $('#editItem').addClass('hidden');
+    })
+  }
+
 
   self.exit = function(){
     self.errors = undefined;

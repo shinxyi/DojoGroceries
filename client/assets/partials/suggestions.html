@@ -17,8 +17,8 @@
         <div class="votes" ng-if="userCtrl.user.adminLvl==9">
             <span class="warning badge">{{ item.voting_list[userCtrl.thisweek] }}</span>
             vote(s) |
-            <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> Remove from Grocery List</span></a>
-            <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek.week)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> Add to Grocery List</span></a>
+            <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> <i class="fi-shopping-cart"></i></span></a>
+            <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek.week)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> <i class="fi-shopping-cart"></i></a>
         </div>
 
         <div class="media-object-section">

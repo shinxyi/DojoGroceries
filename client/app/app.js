@@ -62,7 +62,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: 'assets/partials/editItem.html'
         },
         'users@admin_dashboard': {
-          templateUrl: 'assets/partials/editItem.html'
+          templateUrl: 'assets/partials/users.html'
         },
         'suggestions@admin_dashboard': {
           templateUrl: 'assets/partials/suggestions.html',

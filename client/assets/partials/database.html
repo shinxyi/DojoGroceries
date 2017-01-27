@@ -17,7 +17,7 @@
         </div>
         <div class="media-object-section">
           <h4>
-            <a name="editItem" ng-if="userCtrl.user.adminLvl==9"><b>{{ item.name }}</b></a>
+            <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl==9"><b>{{ item.name }}</b></a>
             <b ng-if="userCtrl.user.adminLvl<9">{{ item.name }}</b>
              | {{ item.price | currency }}
           </h4>
@@ -28,8 +28,8 @@
         </div>
         <div class="suggest">
           <div ng-if="userCtrl.user.adminLvl==9">
-            <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> Remove from Grocery List</span></a>
-            <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek.week)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> Add to Grocery List</span></a>
+            <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove shiftleft"><i class="fi-minus"></i> <i class="fi-shopping-cart"></i></span></a>
+            <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek.week)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> <i class="fi-shopping-cart"></i></span></a>
           </div>
 
           <button type="button" class="success button" ng-click="userCtrl.vote(item._id)" ng-if="userCtrl.user.adminLvl<9">Suggest!</button>
@@ -130,6 +130,15 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="small-3 columns">
+              <label for="suggestion_quantity" class="text-right middle">Quantity</label>
+            </div>
+            <div class="small-9 columns">
+              <input type="number" class="input-group-field" id="suggestion_quantity" min="0" step='1' ng-model="itemCtrl.suggestion.quantity" placeholder="1"/>
+            </div>
+          </div>
+
           <div class="row">
             <div class="small-3 columns">
               <label for="suggestion_category" class="text-right middle">Category</label>

@@ -33,6 +33,12 @@ app.factory('itemsFactory', ['$http', function($http) {
     })
   }
 
+  this.delete = function(itemId, callback){
+    $http.delete('/items/'+ itemId).then(function(response){
+      callback();
+    })
+  }
+
   this.walmart = function(id, callback){
     // if(typeof id != "number"){
     //   callback({ errors: ['Walmart UPC# is incorrect format.']})

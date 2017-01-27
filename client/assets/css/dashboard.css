@@ -35,7 +35,6 @@
 }
 
 .remove{
-  margin-left: -25px;
   color:grey;
 }
 
@@ -43,6 +42,9 @@
   color:red;
 }
 
+.shiftleft{
+  margin-left: -25px;
+}
 
 .suggested, .suggest-able{
   position: relative;
