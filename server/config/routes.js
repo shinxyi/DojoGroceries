@@ -23,6 +23,8 @@ module.exports = function(app) {
 
 	app.get('/items', items.index);
 	app.post('/items', items.create);
+	app.get('/items/:item_id', items.show);
+	app.put('/items/:item_id', items.update);
 	app.delete('/items/:item_id', items.destroy);
 	app.get('/items/:item_id/:vote', items.vote);
 	app.get('/walmart/:upcId', items.walmart);

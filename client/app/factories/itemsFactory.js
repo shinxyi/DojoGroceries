@@ -15,10 +15,23 @@ app.factory('itemsFactory', ['$http', function($http) {
   this.create = function(item, callback){
       if(!(item.hasOwnProperty('vote'))){ item.vote = false; }
       console.log('item trying to be created ->', item);
-    	$http.get('/items', item).then(function (response) {
+    	$http.post('/items', item).then(function (response) {
     		callback(response.data);
     	});
     };
+
+
+  this.getOne = function(itemId, callback){
+    $http.get('/items/'+ itemId).then(function(response){
+      callback(response.data.item);
+    })
+  }
+
+  this.update = function(itemId, item, callback){
+    $http.put('/items/'+ itemId, item).then(function(response){
+      callback(response.data);
+    })
+  }
 
   this.walmart = function(id, callback){
     // if(typeof id != "number"){

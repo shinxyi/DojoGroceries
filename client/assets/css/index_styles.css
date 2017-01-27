@@ -41,3 +41,30 @@
   font-family: icons;
   src: url('/assets/static/fonts/foundation-icons.woff');
 }
+
+#blackout{
+  position: fixed;
+  top:0px;
+  width: 100vw;
+  height: 120%;
+  background-color: black;
+  opacity: .85;
+  z-index: 10;
+}
+
+#edit{
+  position: fixed;
+  width: 700px;
+  z-index: 100;
+}
+
+#exit{
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 20px;
+}
+
+.card-form{
+  width: 360px;
+}

@@ -2,10 +2,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   var self= this;
 
-  var trackHash = {};
-
   self.thisweek;
   self.suggestion ={};
+  self.updateItem = {};
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -48,6 +47,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   })
 
   self.create = function(){
+      self.suggestion.user_id = "5882481503508f55b6ace298";
+      // console.log(session.user._id);
+      console.log("This should the print when you hit create");
       itemsFactory.create(self.suggestion, function(returnedData){
         if(returnedData.errors){
           delete self.success;
@@ -60,6 +62,29 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         }
       })
   };
+
+  self.getOne = function(itemId){
+    itemsFactory.getOne(itemId, function(returnedData){
+      self.updateItem = returnedData;
+      $('#editItem').removeClass('hidden');
+    })
+  }
+
+  self.update = function(itemId){
+    itemsFactory.update(itemId, self.updateItem, function(returnedData){
+      if(returnedData.errors){
+        self.errors = returnedData.errors;
+      }else{
+        refresh();
+        $('#editItem').addClass('hidden');
+      }
+    })
+  }
+
+  self.exit = function(){
+    self.errors = undefined;
+    $('#editItem').addClass('hidden');
+  }
 
   self.popularVote = function(item){
     return item.voting_list[self.thisweek];
