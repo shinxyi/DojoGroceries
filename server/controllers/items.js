@@ -40,18 +40,20 @@ function ItemsController() {
 
 	this.create = function(req, res) {
 
-		console.log('user ->', req.session.user);
+		console.log('user ->', req.body.user_id);
 
 		var item = new Item({
-			createdBy: req.session.user._id,
+			createdBy: req.body.user_id,
 			name: req.body.name,
 			img: req.body.img,
 			description: req.body.description,
 			id: req.body.id,
 			from: req.body.from,
 			price: req.body.price,
-			category: req.body.category
+			category: req.body.category,
+			quantity: 1
 		});
+		console.log('user ->', item);
 
 		item.save(function(error, item) {
 			if (error) {
@@ -65,7 +67,7 @@ function ItemsController() {
 			User.update({_id:req.session.user._id}, {$inc:{numberOfItemsCreated:1}}, function(err, updateInfo){
 				if(err){
 					console.log(err);
-				};	
+				};
 			});
 
 			if(req.body.vote){

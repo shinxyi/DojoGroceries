@@ -83,6 +83,7 @@
         </div>
 
         <form ng-submit="itemCtrl.create()">
+          <input type="hidden" name="" ng-model="itemCtrl.suggestion.hidden" value="notused">
           <div class="row">
             <div class="small-3 columns">
               <label for="suggestion_name" class="text-right middle">Name</label>
