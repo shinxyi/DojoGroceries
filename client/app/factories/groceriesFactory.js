@@ -5,6 +5,7 @@ app.factory('groceriesFactory', ['$http', function($http) {
   var _this = this;
 
   var callbacks = {};
+  var groceries = "undefined";
 
   this.registerCbs = function(name, callback){
     callbacks[name]=callback;
@@ -16,6 +17,9 @@ app.factory('groceriesFactory', ['$http', function($http) {
       if(response.data.errors){
         callback(response);
       }else{
+        if(groceries==="undefined"){
+          groceries = response.data.list;
+        }
         var array = [];
         for(var key in response.data.list.list){
           array.push(response.data.list.list[key]);
@@ -25,17 +29,30 @@ app.factory('groceriesFactory', ['$http', function($http) {
   	});
   };
 
+  this.checkAndUpdate = function(itemId, deleteItem, callback){
+    if(groceries.list.hasOwnProperty(itemId)){
+      console.log('****');
+      if(deleteItem){
+        this.removeFromGroceries(itemId, groceries.week, callbacks['updateGroceries'] )
+        callback();
+      }else{
+        this.removeFromGroceries(itemId, groceries.week, function(){} )
+        this.addToGroceries(itemId, groceries.week, callbacks['updateGroceries'] )
+        callback();
+      }
+    }
+  }
+
   this.addToGroceries = function(item_id, week, callback){
     $http.post('/groceries/' + item_id +'/'+ week).then(function(response) {
       callback();
-      callbacks['updateItems']();
     });
   }
 
   this.removeFromGroceries = function(item_id, week, callback){
+    console.log('removing from gerocieres... facotry');
     $http.delete('/groceries/' + item_id +'/'+ week).then(function(response) {
       callback();
-      callbacks['updateItems']();
     });
   }
 

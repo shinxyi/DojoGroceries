@@ -15,7 +15,7 @@ app.factory('itemsFactory', ['$http', function($http) {
   this.create = function(item, callback){
       if(!(item.hasOwnProperty('vote'))){ item.vote = false; }
       console.log('item trying to be created ->', item);
-    	$http.get('/items', item).then(function (response) {
+    	$http.post('/items', item).then(function (response) {
     		callback(response.data);
     	});
     };
@@ -30,6 +30,12 @@ app.factory('itemsFactory', ['$http', function($http) {
   this.update = function(itemId, item, callback){
     $http.put('/items/'+ itemId, item).then(function(response){
       callback(response.data);
+    })
+  }
+
+  this.delete = function(itemId, callback){
+    $http.delete('/items/'+ itemId).then(function(response){
+      callback();
     })
   }
 

@@ -91,7 +91,8 @@ function GroceriesController() {
 			return;
 		}
 
-		Item.findOne({_id: req.params.item_id , active: true}, function(error, item) {
+		Item.findOne({_id: req.params.item_id}, function(error, item) {
+
 			if(error|| !item){
 				res.json({errors: ['Item to add cannot be found...']});
 				return;
@@ -103,6 +104,7 @@ function GroceriesController() {
 					return;
 				}
 
+				console.log('item successfully removed from grocery list!');
 				if(glist.list.hasOwnProperty(item._id)){
 					delete glist.list[item._id];
 				}

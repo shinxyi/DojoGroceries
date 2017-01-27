@@ -19,6 +19,20 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
     })
   }
 
+  groceriesFactory.registerCbs("updateGroceries", function(){
+    groceriesFactory.index(self.thisweek, function(returnedData){
+      if(returnedData.errors){
+        self.errors = returnedData.errors;
+        return;
+      }
+      self.list = returnedData.list;
+      self.groceryDictionary = returnedData.dictionary;
+      console.log('updated grocery list ->', self.list);
+      console.log('self.groceryDictionary ->', self.groceryDictionary);
+
+    })
+  })
+
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData.week;
     self.refresh(self.thisweek);

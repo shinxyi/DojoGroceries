@@ -46,7 +46,7 @@ function ItemsController() {
 	this.update = function(req,res){
 		Item.findOne({_id: req.params.item_id}, function(error, item){
 			if (error) {
-				console.log('items.js - show(): error retrieving item\n', error);
+				console.log('items.js - update(): error retrieving item\n', error);
 				res.json({ errors: processError(error) });
 				return;
 			}
@@ -165,7 +165,7 @@ function ItemsController() {
 							}
 							res.json({user: returnedUser, item: item})
 						});
-					});						
+					});
 				});
 			};
 		});
@@ -177,12 +177,6 @@ function ItemsController() {
 			return;
 		}
 		Item.findOne({_id: req.params.item_id}, function(err, item) {
-			if(item.createdBy != req.session.user._id){
-				console.log('This item cannot be deleted by this user...\n');
-				res.json({errors: ['This item cannot be deleted by this user...'] })
-				return;
-			}
-
 			item.active = false;
 
 			item.save(function(error, item){

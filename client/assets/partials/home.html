@@ -76,7 +76,7 @@
                   </td>
                   <td>
                     <span class="flag"><a><i class="foundicon-remove" ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)"></i></a></span>
-                    {{ item.name }}
+                    <a ng-click="itemCtrl.getOne(item._id)"><b>{{ item.name }}</b></a>
                   </td>
                   <td>{{ item.price | currency }}</td>
                   <td>{{ item.quantity }}</td>

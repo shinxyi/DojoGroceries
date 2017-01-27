@@ -43,7 +43,14 @@ var ItemSchema = new mongoose.Schema({
 	},
 	quantity: {
 		type: Number,
-		required: [true, 'Quantity is required to create item.']
+		min: [1, 'A quantity of at least 1 is required.'],
+		required: [true, 'Quantity is required to create item.'],
+		validate: {
+			validator: function( value ) {
+				return value % 1 === 0;
+			},
+			message: "Quantity must be a whole number!"
+		}
 	},
 	category: {
 		type: String,

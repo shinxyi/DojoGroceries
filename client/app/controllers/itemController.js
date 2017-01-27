@@ -17,7 +17,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         $location.url('/');
         return;
       }
-      self.items = returnedData
+      self.items = returnedData;
       console.log(returnedData);
     });
   }
@@ -34,7 +34,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       console.log(returnedData);
     });
   })
-
 
   commentsFactory.registerCbs('updateItems', function(){
     itemsFactory.getAllItems(function(returnedData){
@@ -73,11 +72,29 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       if(returnedData.errors){
         self.errors = returnedData.errors;
       }else{
-        refresh();
-        $('#editItem').addClass('hidden');
+        var deleteItem = returnedData.item.active === true ? false: true;
+        groceriesFactory.checkAndUpdate(itemId, deleteItem, function(){
+          itemsFactory.getAllItems(function(returnedData){
+            if(returnedData.error){
+              $location.url('/');
+              return;
+            }
+            self.items = returnedData;
+            console.log(returnedData);
+            $('#editItem').addClass('hidden');
+          });
+        });
       }
     })
   }
+
+  self.delete = function(itemId){
+    itemsFactory.delete(itemId, function(returnedData){
+      refresh();
+      $('#editItem').addClass('hidden');
+    })
+  }
+
 
   self.exit = function(){
     self.errors = undefined;
