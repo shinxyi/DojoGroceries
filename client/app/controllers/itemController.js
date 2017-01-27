@@ -18,7 +18,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         return;
       }
       self.items = returnedData;
-      console.log(returnedData);
     });
   }
 
@@ -47,6 +46,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   })
 
   self.create = function(){
+      self.suggestion.user_id = "5882481503508f55b6ace298";
+      // console.log(session.user._id);
+      console.log("This should the print when you hit create");
       itemsFactory.create(self.suggestion, function(returnedData){
         if(returnedData.errors){
           delete self.success;
@@ -146,5 +148,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     })
   }
 
+  //for managing budget viewing
+  self.getBudget = function(){
+    groceriesFactory.getBudget(function(returnedData){
+      self.itemBudget = Number(returnedData.data.budget);
+    });
+  };
 
+  self.getBudget();
 }]);
