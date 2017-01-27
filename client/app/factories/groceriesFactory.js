@@ -29,17 +29,11 @@ app.factory('groceriesFactory', ['$http', function($http) {
   	});
   };
 
-  this.checkAndUpdate = function(itemId, deleteItem, callback){
+  this.checkAndUpdate = function(itemId, callback){
     if(groceries.list.hasOwnProperty(itemId)){
-      console.log('****');
-      if(deleteItem){
-        this.removeFromGroceries(itemId, groceries.week, callbacks['updateGroceries'] )
-        callback();
-      }else{
-        this.removeFromGroceries(itemId, groceries.week, function(){} )
-        this.addToGroceries(itemId, groceries.week, callbacks['updateGroceries'] )
-        callback();
-      }
+      this.removeFromGroceries(itemId, groceries.week, function(){} )
+      this.addToGroceries(itemId, groceries.week, callbacks['updateGroceries'] )
+      callback();
     }
   }
 

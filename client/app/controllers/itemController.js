@@ -72,8 +72,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       if(returnedData.errors){
         self.errors = returnedData.errors;
       }else{
-        var deleteItem = returnedData.item.active === true ? false: true;
-        groceriesFactory.checkAndUpdate(itemId, deleteItem, function(){
+        groceriesFactory.checkAndUpdate(itemId, function(){
           itemsFactory.getAllItems(function(returnedData){
             if(returnedData.error){
               $location.url('/');
