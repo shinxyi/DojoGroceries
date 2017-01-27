@@ -31,7 +31,11 @@
         </div>
         <div class="media-object-section">
 
-          <h4><b>{{ item.name }}</b> | {{ item.price | currency }}</h4>
+          <h4>
+            <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl==9"><b>{{ item.name }}</b></a>
+            <b ng-if="userCtrl.user.adminLvl<9">{{ item.name }}</b>
+             | {{ item.price | currency }}
+          </h4>
           <div class="indent">
             <h6><b>Category:</b> {{ item.category }}</h6>
             <p>{{ item.description }}</p>

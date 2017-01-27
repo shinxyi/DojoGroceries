@@ -1,0 +1,95 @@
+<div id="blackout"></div>
+
+<div class="row">
+  <div class="medium-2 columns"><br></div>
+  <div class="medium-8 columns inherit">
+    <div id="edit" class="card">
+      <a id="exit" class="foundicon-remove"></a>
+      <div class="card-divider">
+        Edit {{itemCtrl.updateItem.name}}!
+      </div>
+      <div class="card-section">
+        <div class="media-object-section">
+          <div class="thumbnail">
+            <img src="{{ itemCtrl.updateItem.img }}" ng-if="itemCtrl.updateItem.img"/>
+            <img src="/assets/static/images/placeholder.png" ng-if="!itemCtrl.updateItem.img"/>
+          </div>
+        </div>
+
+        <div class="media-object-section">
+
+          <div class="callout alert" ng-if="itemCtrl.errors">
+            <ul>
+              <li ng-repeat="err in itemCtrl.errors">{{err}}</li>
+            </ul>
+          </div>
+
+          <div class="callout success" ng-if="itemCtrl.success">
+            <ul>
+              <li ng-repeat="success in itemCtrl.success">{{success}}</li>
+            </ul>
+          </div>
+
+          <form ng-submit="itemCtrl.create()">
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="suggestion_name" class="text-right middle">Name</label>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="suggestion_name" placeholder="Beef jerky, popcorn, etc." ng-model="itemCtrl.suggestion.name" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="suggestion_description" class="text-right middle">Description</label>
+              </div>
+              <div class="small-9 columns">
+                <textarea ng-model="itemCtrl.suggestion.description" placeholder="Really delicious..."></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="suggestion_description" class="text-right middle">Image URL</label>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="suggestion_description" ng-model="itemCtrl.suggestion.img" placeholder="http://.... ending with .png/jpg/gif/jpeg"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="suggestion_from" class="text-right middle">From</label>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="suggestion_from" ng-model="itemCtrl.suggestion.from" placeholder="Walmart, Sam's Club, etc.."/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="suggestion_price" class="text-right middle">Price</label>
+              </div>
+              <div class="small-9 columns">
+                <div class="input-group">
+                  <span class="input-group-label">$</span>
+                  <input type="number" class="input-group-field" id="suggestion_price" min="0" step='0.01' ng-model="itemCtrl.suggestion.price" placeholder="9.99"/>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="suggestion_category" class="text-right middle">Category</label>
+              </div>
+              <div class="small-9 columns">
+                <!-- <select id="suggestion_category" ng-model="itemCtrl.suggestion.category">
+                  <option ng-repeat="cat in citemCtrl.suggestion.category" value="{{cat}}" ng-model="itemCtrl.suggestion.category"> {{itemCtrl.suggestion.category}}</option>
+                </select> -->
+                <input type="text" class="input-group-field" id="suggestion_price" ng-model="itemCtrl.suggestion.category" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="medium-2 columns"><br></div>
+</div>
+</div>

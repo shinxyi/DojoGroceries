@@ -32,6 +32,19 @@ function ItemsController() {
 		});
 	}
 
+	this.show = function(req,res){
+		Item.findOne({_id: req.params.item_id}, function(error, item){
+			if (error) {
+				console.log('items.js - show(): error retrieving item\n', error);
+				res.json({ errors: processError(error) });
+				return;
+			}
+
+			res.json({item: item});
+
+		})
+	}
+
 	this.create = function(req, res) {
 
 		console.log('user ->', req.session.user);

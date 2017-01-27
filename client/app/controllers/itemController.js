@@ -6,6 +6,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   self.thisweek;
   self.suggestion ={};
+  self.updateItem = {};
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -61,6 +62,13 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         }
       })
   };
+
+  self.getOne = function(itemId){
+    itemsFactory.getOne(itemId, function(returnedData){
+      self.updateItem = returnedData;
+      $('#editItem').removeClass('hidden');
+    })
+  }
 
   self.popularVote = function(item){
     return item.voting_list[self.thisweek];
