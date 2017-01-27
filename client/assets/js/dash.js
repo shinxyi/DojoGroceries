@@ -21,6 +21,13 @@
       $('#database').removeClass('hidden');
     })
 
+    $('a[name="stats"]').click(function(){
+      $('li.active').removeClass('active');
+      $('a[name="stats"]').parent('li').addClass('active');
+      $('.view').addClass('hidden');
+      $('#stats').removeClass('hidden');
+    })
+
     $('a[name="users"]').click(function(){
       $('li.active').removeClass('active');
       $('a[name="users"]').parent('li').addClass('active');

@@ -38,6 +38,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: '/assets/partials/database.html',
           controller: 'categoryController',
           controllerAs: 'categoryCtrl'
+        },
+        'stats@dashboard': {
+          templateUrl: '/assets/partials/stats.html',
+          controller: 'statController',
+          controllerAs: 'statCtrl'
         }
       }
     })
@@ -52,11 +57,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         },
         'home@admin_dashboard': {
           templateUrl: 'assets/partials/home.html'
-          // controller: 'budgetController',
-          // controllerAs: 'budgetCtrl'
+        },
+        'editItem@admin_dashboard': {
+          templateUrl: 'assets/partials/editItem.html'
         },
         'users@admin_dashboard': {
-          templateUrl: 'assets/partials/users.html'
+          templateUrl: 'assets/partials/editItem.html'
         },
         'suggestions@admin_dashboard': {
           templateUrl: 'assets/partials/suggestions.html',

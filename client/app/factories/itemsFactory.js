@@ -20,6 +20,19 @@ app.factory('itemsFactory', ['$http', function($http) {
     	});
     };
 
+
+  this.getOne = function(itemId, callback){
+    $http.get('/items/'+ itemId).then(function(response){
+      callback(response.data.item);
+    })
+  }
+
+  this.update = function(itemId, item, callback){
+    $http.put('/items/'+ itemId, item).then(function(response){
+      callback(response.data);
+    })
+  }
+
   this.walmart = function(id, callback){
     // if(typeof id != "number"){
     //   callback({ errors: ['Walmart UPC# is incorrect format.']})
@@ -52,17 +65,6 @@ app.factory('itemsFactory', ['$http', function($http) {
     $http.get('/sams/'+id).then(callback);
   }
 
-  this.addToGroceries = function(item_id, callback){
-    $http.post('/groceries/' + item_id).then(function(response) {
-      callback();
-    });
-  }
-
-  this.removeFromGroceries = function(item_id, callback){
-    $http.delete('/groceries/' + item_id).then(function(response) {
-      callback();
-    });
-  }
 
 
 }

@@ -8,16 +8,16 @@
     <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
     <div>
-      <div class="callout media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true track by $index" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek.week)" >
+      <div class="callout media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true track by $index" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek)" >
         <div class="vote" ng-if="userCtrl.user.adminLvl<9">
           <span ng-click="userCtrl.vote(item._id)">
-            <span ng-if="userCtrl.user.votes.hasOwnProperty(item._id) && userCtrl.user.votes[item._id]>0" class="success badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
-            <span ng-if="!userCtrl.user.votes.hasOwnProperty(item._id) || userCtrl.user.votes[item._id]<0" class="warning badge"> <i class="fi-arrow-up"></i> {{ item.voting_list[userCtrl.thisweek.week] }}</span>
+            <span ng-if="userCtrl.user.votes.hasOwnProperty(userCtrl.thisweek) && userCtrl.user.votes[userCtrl.thisweek].hasOwnProperty(item._id) && userCtrl.user.votes[userCtrl.thisweek][item._id]>0" class="success badge">{{ item.voting_list[userCtrl.thisweek] }}</span>
+            <span ng-if="!userCtrl.user.votes.hasOwnProperty(userCtrl.thisweek) || !userCtrl.user.votes[userCtrl.thisweek].hasOwnProperty(item._id) || userCtrl.user.votes[userCtrl.thisweek][item._id]<0" class="warning badge"> <i class="fi-arrow-up"></i> {{ item.voting_list[userCtrl.thisweek] }}</span>
             vote(s)
           </span>
         </div>
         <div class="votes" ng-if="userCtrl.user.adminLvl==9">
-            <span class="warning badge">{{ item.voting_list[userCtrl.thisweek.week] }}</span>
+            <span class="warning badge">{{ item.voting_list[userCtrl.thisweek] }}</span>
             vote(s) |
             <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> Remove from Grocery List</span></a>
             <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek.week)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> Add to Grocery List</span></a>
@@ -31,11 +31,15 @@
         </div>
         <div class="media-object-section">
 
-          <h4><b>{{ item.name }}</b> | {{ item.price | currency }}</h4>
+          <h4>
+            <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl==9"><b>{{ item.name }}</b></a>
+            <b ng-if="userCtrl.user.adminLvl<9">{{ item.name }}</b>
+             | {{ item.price | currency }}
+          </h4>
           <div class="indent">
             <h6><b>Category:</b> {{ item.category }}</h6>
             <p>{{ item.description }}</p>
-            <div class="callout secondary" ng-repeat="comment in item.comments | orderBy:'createdAt'" ng-if="comment.week==userCtrl.thisweek.week">
+            <div class="callout secondary" ng-repeat="comment in item.comments | orderBy:'createdAt'" ng-if="comment.week==userCtrl.thisweek">
               <b>{{ comment.userName }}</b> says:
               <sup>{{ comment.createdAt | date: 'EEE MM/dd/yy h:mm a'}}</sup>
               <p>{{ comment.content }}</p>

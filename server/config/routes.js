@@ -17,11 +17,14 @@ module.exports = function(app) {
 	app.get('/users', users.index);
 	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels
 	app.get('/users/week', users.week);
+	app.get('/users/getstatuser', users.getStatUser);
 
 ///////
 
 	app.get('/items', items.index);
 	app.post('/items', items.create);
+	app.get('/items/:item_id', items.show);
+	app.put('/items/:item_id', items.update);
 	app.delete('/items/:item_id', items.destroy);
 	app.get('/items/:item_id/:vote', items.vote);
 	app.get('/walmart/:upcId', items.walmart);
@@ -29,10 +32,10 @@ module.exports = function(app) {
 
 ///////
 
-	app.get('/groceries', groceries.index);
-	app.post('/groceries/:item_id', groceries.addItem);
-	app.delete('/groceries/:item_id', groceries.removeItem);
-	app.put('/groceries/:item_id/bought', groceries.changeBought);
+	app.get('/groceries/:week', groceries.index);
+	app.post('/groceries/:item_id/:week', groceries.addItem);
+	app.delete('/groceries/:item_id/:week', groceries.removeItem);
+	app.put('/groceries/:item_id/:week', groceries.changeBought);
 
 ///////
 

@@ -103,7 +103,9 @@ function UsersController() {
 						_id: user._id,
 						name: user.name,
 						votes: user.votes,
-						adminLvl: user.adminLvl
+						adminLvl: user.adminLvl,
+						numberOfCommentsCreated: user.numberOfCommentsCreated,
+						numberOfItemsCreated: user.numberOfItemsCreated
 				}
 				console.log('user before sending back->', returnedUser);
 				res.json(returnedUser);
@@ -169,6 +171,22 @@ function UsersController() {
 			};
 
 			res.redirect('/users')
+		};
+
+		this.getStatUser = function(req,res){
+			User.findOne({_id:req.session.user._id}, function(err, user){
+				if(err){
+					console.log(err);
+				}
+				else{
+					var returnInfo = {
+						numberOfItemsCreated: user.numberOfItemsCreated,
+						numberOfCommentsCreated: user.numberOfCommentsCreated,
+						numberOfVotesCreated: user.numberOfVotesCreated
+					};
+					res.json(returnInfo);
+				};
+			});
 		};
 
 	};
