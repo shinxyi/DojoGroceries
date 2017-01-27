@@ -1,14 +1,12 @@
 <script src="assets/js/dash.js"></script>
 <script src="assets/js/db.js"></script>
-
 <div class="row">
-
   <div class="medium-9 columns">
     <h2>Suggested This Week!</h2>
     <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
     <div>
-      <div class="callout media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true track by $index" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek)" >
+      <div class="callout media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true track by $index;" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek)">
         <div class="vote" ng-if="userCtrl.user.adminLvl<9">
           <span ng-click="userCtrl.vote(item._id)">
             <span ng-if="userCtrl.user.votes.hasOwnProperty(userCtrl.thisweek) && userCtrl.user.votes[userCtrl.thisweek].hasOwnProperty(item._id) && userCtrl.user.votes[userCtrl.thisweek][item._id]>0" class="success badge">{{ item.voting_list[userCtrl.thisweek] }}</span>
@@ -31,7 +29,7 @@
         </div>
         <div class="media-object-section">
 
-          <h4><b>{{ item.name }}</b> | {{ item.price | currency }}</h4>
+          <h4 ng-init="itemCtrl.totalz.sumz = itemCtrl.totalz.sumz + item.price"><b>{{ item.name }}</b> | {{ item.price | currency }}</h4>
           <div class="indent">
             <h6><b>Category:</b> {{ item.category }}</h6>
             <p>{{ item.description }}</p>

@@ -24,9 +24,7 @@ function BudgetsController() {
 	};
 
 	this.create = function(req, res) {
-		var budget = new Budget(req.body);
-		budget.week = week;
-
+		var budget = new Budget({budget: req.params.newbudget});
 
 		budget.save(function(error, budget) {
 			if (error) {
@@ -39,8 +37,9 @@ function BudgetsController() {
 	};
 
 	this.get = function(req, res) {
-		Budget.findOne({_id: req.params.budget_id }, function(error, budget) {
-				res.json(budget);
+		Budget.findOne({}, {}, { sort: { 'createdAt' : -1 } }, function(err, budget){
+  			console.log("Here is the budget------------------>",budget);
+  			res.json(budget);
 		});
 	};
 
