@@ -39,11 +39,37 @@ function ItemsController() {
 				res.json({ errors: processError(error) });
 				return;
 			}
-
 			res.json({item: item});
-
 		})
 	}
+
+	this.update = function(req,res){
+		Item.findOne({_id: req.params.item_id}, function(error, item){
+			if (error) {
+				console.log('items.js - show(): error retrieving item\n', error);
+				res.json({ errors: processError(error) });
+				return;
+			}
+			item.name = req.body.name;
+			item.img= req.body.img;
+			item.description= req.body.description;
+			item.id= req.body.id;
+			item.from= req.body.from;
+			item.price= req.body.price;
+			item.category= req.body.category;
+			item.quantity= req.body.quantity;
+
+			item.save(function (error){
+				if(error){
+					res.json({ errors: processError(error) });
+					return;
+				}
+
+				res.json({item: item});
+			})
+		})
+	}
+
 
 	this.create = function(req, res) {
 
@@ -59,7 +85,6 @@ function ItemsController() {
 			price: req.body.price,
 			category: req.body.category,
 			quantity: req.body.quantity
-
 		});
 
 		item.save(function(error, item) {
