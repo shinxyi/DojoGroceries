@@ -2,10 +2,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   var self= this;
 
-  var trackHash = {};
-
   self.thisweek;
   self.suggestion ={};
+  self.updateItem = {};
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -61,6 +60,29 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         }
       })
   };
+
+  self.getOne = function(itemId){
+    itemsFactory.getOne(itemId, function(returnedData){
+      self.updateItem = returnedData;
+      $('#editItem').removeClass('hidden');
+    })
+  }
+
+  self.update = function(itemId){
+    itemsFactory.update(itemId, self.updateItem, function(returnedData){
+      if(returnedData.errors){
+        self.errors = returnedData.errors;
+      }else{
+        refresh();
+        $('#editItem').addClass('hidden');
+      }
+    })
+  }
+
+  self.exit = function(){
+    self.errors = undefined;
+    $('#editItem').addClass('hidden');
+  }
 
   self.popularVote = function(item){
     return item.voting_list[self.thisweek];

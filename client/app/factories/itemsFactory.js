@@ -20,6 +20,19 @@ app.factory('itemsFactory', ['$http', function($http) {
     	});
     };
 
+
+  this.getOne = function(itemId, callback){
+    $http.get('/items/'+ itemId).then(function(response){
+      callback(response.data.item);
+    })
+  }
+
+  this.update = function(itemId, item, callback){
+    $http.put('/items/'+ itemId, item).then(function(response){
+      callback(response.data);
+    })
+  }
+
   this.walmart = function(id, callback){
     // if(typeof id != "number"){
     //   callback({ errors: ['Walmart UPC# is incorrect format.']})
