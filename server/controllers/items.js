@@ -73,10 +73,10 @@ function ItemsController() {
 
 	this.create = function(req, res) {
 
-		console.log('user ->', req.session.user);
+		console.log('user ->', req.body.user_id);
 
 		var item = new Item({
-			createdBy: req.session.user._id,
+			createdBy: req.body.user_id,
 			name: req.body.name,
 			img: req.body.img,
 			description: req.body.description,
@@ -86,6 +86,7 @@ function ItemsController() {
 			category: req.body.category,
 			quantity: req.body.quantity
 		});
+		console.log('user ->', item);
 
 		item.save(function(error, item) {
 			if (error) {
