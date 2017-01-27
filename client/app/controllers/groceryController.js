@@ -47,4 +47,18 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
     })
   }
 
+  var getBudget = function(){
+    groceriesFactory.getBudget(function(returnedData){
+      self.currentBudget = returnedData.data;
+    })
+  }
+
+  getBudget();
+
+  self.setBudget = function(){
+    groceriesFactory.setBudget(self.newBudget, function(returnedData){
+      getBudget()
+    });
+  };
+
 }]);

@@ -46,10 +46,10 @@ module.exports = function(app) {
 
 ///////
 
-	app.post('/budget', budgets.create);
-	app.get('/budget/:budget_id', budgets.get);
+	app.get('/budget/getbudget', budgets.get);
 	app.put('/budget/:budget_id', budgets.update);
 	app.get('/budget', budgets.index);
+	app.get("/budget/setbudget/:newbudget", budgets.create);
 
 ///////
 

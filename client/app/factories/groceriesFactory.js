@@ -47,9 +47,21 @@ app.factory('groceriesFactory', ['$http', function($http) {
       }
       callback({list: array});
     });
-  }
+  };
 
-}
+  this.getBudget = function(callback){
+    $http.get("/budget/getbudget").then(function(res){
+      callback(res);
+    });
+  };
+
+  this.setBudget = function(newBudget, callback){
+    $http.get("/budget/setbudget/"+newBudget).then(function(res){
+      callback(res);
+    });
+  };
+
+};
 
   return new GroceriesFactory();
 

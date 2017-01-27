@@ -7,23 +7,20 @@
       <div>
         <fieldset class="fieldset">
           <legend><span class="warning label">Budget This Week!</span></legend>
-
-          <!-- <div class="callout alert" ng-if="budgetCtrl.errors">
+          <!-- START OF BUDGET -->
+          <div class="callout alert" ng-if="groceryCtrl.budgeterrors">
             <ul>
-              <li ng-repeat="err in budgetCtrl.errors">{{err}}</li>
+              <li ng-repeat="err in groceryCtrl.budgeterrors">{{err}}</li>
             </ul>
           </div>
-
-          <h4>{{ budgetCtrl.week | currency }}</h4>
-          <label>Email
-            <input type="email" name="email" ng-model="userCtrl.info.email" />
-          </label>
-          <label>Password
-            <input type="password" name="password" ng-model="userCtrl.info.password" />
+          <h3>The current budget is: ${{groceryCtrl.currentBudget.budget}}</h3>
+          
+          <label>Change the budget!
+            $<input type="number" name="newBudget" ng-model="groceryCtrl.newBudget" />
           </label>
           <div class="right">
-            <input type="submit" class="button" value="Login!">
-          </div> -->
+            <input type="submit" class="button" value="Set Budget!" ng-click="groceryCtrl.setBudget();">
+          </div>
         </fieldset>
       </div>
 

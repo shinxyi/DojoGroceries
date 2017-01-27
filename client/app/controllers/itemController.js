@@ -17,8 +17,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         $location.url('/');
         return;
       }
-      self.items = returnedData
-      console.log(returnedData);
+      self.items = returnedData;
     });
   }
 
@@ -133,5 +132,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     })
   }
 
+  //for managing budget viewing
+  self.getBudget = function(){
+    groceriesFactory.getBudget(function(returnedData){
+      self.itemBudget = Number(returnedData.data.budget);
+    });
+  };
 
+  self.getBudget();
 }]);
