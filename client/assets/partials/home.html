@@ -14,7 +14,7 @@
             </ul>
           </div>
           <h3>The current budget is: ${{groceryCtrl.currentBudget.budget}}</h3>
-          
+
           <label>Change the budget!
             $<input type="number" name="newBudget" ng-model="groceryCtrl.newBudget" />
           </label>
@@ -64,7 +64,7 @@
               </thead>
               <tbody>
                 <tr ng-repeat="item in groceryCtrl.list | filter:groceryCtrl.filter.place | orderBy:'category'">
-                  <td><input type="checkbox" ng-model="item.bought" ng-click="groceryCtrl.changeBought(item._id, userCtrl.groceryweek.week)"></td>
+                  <td><input type="checkbox" ng-model="item.bought" ng-click="groceryCtrl.changeBought(item._id, userCtrl.groceryweek)"></td>
                   <td>
                     <div class="small thumbnail">
                       <img src="{{ item.img }}" ng-if="item.img"/>
@@ -72,16 +72,16 @@
                     </div>
                   </td>
                   <td>
-                    <span class="flag"><a><i class="foundicon-remove" ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek.week)"></i></a></span>
+                    <span class="flag"><a><i class="foundicon-remove" ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)"></i></a></span>
                     <a ng-click="itemCtrl.getOne(item._id)"><b>{{ item.name }}</b></a>
                   </td>
                   <td>{{ item.price | currency }}</td>
                   <td>{{ item.quantity }}</td>
                   <td>{{ item.category }}</td>
-                  <td ng-if="item.voting_list[userCtrl.groceryweek.week]">
-                    <b>{{ item.voting_list[userCtrl.groceryweek.week] }} vote(s)</b><br/>
+                  <td ng-if="item.voting_list[userCtrl.groceryweek]">
+                    <b>{{ item.voting_list[userCtrl.groceryweek] }} vote(s)</b><br/>
                   </td>
-                  <td ng-if="!item.voting_list[userCtrl.groceryweek.week]">
+                  <td ng-if="!item.voting_list[userCtrl.groceryweek]">
                     <b>0 vote(s)</b><br/>
                   </td>
                 </tr>

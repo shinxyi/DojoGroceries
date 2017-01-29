@@ -6,7 +6,7 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   self.filter = {};
 
   self.refresh = function(week){
-    groceriesFactory.index( week, function(returnedData){
+    groceriesFactory.index(week, function(returnedData){
       if(returnedData.errors){
         self.errors = returnedData.errors;
         return;
@@ -36,7 +36,7 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
     self.refresh(self.thisweek);
-    console.log('this week->', self.thisweek);
+    console.log('this week in groceries Controller->', self.thisweek);
   })
 
   self.filter = function(place){

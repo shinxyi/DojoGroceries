@@ -34,6 +34,8 @@ app.factory('groceriesFactory', ['$http', function($http) {
       this.removeFromGroceries(itemId, groceries.week, function(){} )
       this.addToGroceries(itemId, groceries.week, callbacks['updateGroceries'] )
       callback();
+    }else{
+      callback();
     }
   }
 
@@ -44,7 +46,6 @@ app.factory('groceriesFactory', ['$http', function($http) {
   }
 
   this.removeFromGroceries = function(item_id, week, callback){
-    console.log('removing from gerocieres... facotry');
     $http.delete('/groceries/' + item_id +'/'+ week).then(function(response) {
       callback();
     });
