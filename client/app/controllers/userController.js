@@ -40,7 +40,7 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
     self.groceryweek = self.thisweek;
-    console.log('this week->', self.thisweek);
+    console.log('this grocery week->', self.groceryweek);
   })
 
   self.setGroceryWeek = function(week){

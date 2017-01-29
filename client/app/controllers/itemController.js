@@ -8,7 +8,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
-    console.log('this week->', self.thisweek);
+    console.log('this week in Items Controller->', self.thisweek);
   })
 
   var refresh = function(){
@@ -81,7 +81,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
               return;
             }
             self.items = returnedData;
-            console.log(returnedData);
             $('#editItem').addClass('hidden');
           });
         });

@@ -63,10 +63,13 @@ function GroceriesController() {
 			item['bought'] = false;
 
 			GroceryList.findOne({week: req.params.week}, function(error, glist){
+
 				if(error || !glist){
 					res.json({errors: ['Issue finding Grocery List...']});
 					return;
 				}
+				console.log(glist);
+
 				//This following code checks if the grocery list already contains the item
 				if(!glist.list.hasOwnProperty(item._id)){
 					item.bought = false;
@@ -97,16 +100,17 @@ function GroceriesController() {
 				res.json({errors: ['Item to add cannot be found...']});
 				return;
 			}
-
+			console.log(req.params.week);
 			GroceryList.findOne({week: req.params.week}, function(error, glist){
 				if(error|| !glist){
 					res.json({errors: ['Issue finding Grocery List...']});
 					return;
 				}
-
-				console.log('item successfully removed from grocery list!');
+				console.log('*****');
+				console.log(glist);
 				if(glist.list.hasOwnProperty(item._id)){
 					delete glist.list[item._id];
+					console.log('item successfully removed from grocery list!');
 				}
 				glist.markModified('list');
 
