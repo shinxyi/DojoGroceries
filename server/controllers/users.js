@@ -57,6 +57,7 @@ function UsersController() {
 								votes: user.votes,
 								adminLvl: user.adminLvl
 						}
+						req.session.user = returnedUser;
 						res.json(returnedUser);
 						return;
 					}
@@ -114,7 +115,7 @@ function UsersController() {
 
 		this.deauthenticate = function(req, res) {
 			req.session.user = false;
-			console.log('logged out =>', req.session.user);
+			// console.log('logged out =>', req.session.user);
 			res.json({user: false})
 		};
 

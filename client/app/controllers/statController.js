@@ -4,13 +4,13 @@
 app.controller('statController', ['itemsFactory', 'commentsFactory', 'usersFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, $location) {
 
 	var self = this;
-	usersFactory.getWeek(function(returnedData){
-    	self.thisweek = returnedData;
-  	});
-	
-  	usersFactory.getStatUser(function(user){
-  		self.statUser = user; 
-  	});
+	// usersFactory.getWeek(function(returnedData){
+  //   	self.thisweek = returnedData;
+  // 	});
+	//
+  // 	usersFactory.getStatUser(function(user){
+  // 		self.statUser = user;
+  // 	});
 
 
 }]);

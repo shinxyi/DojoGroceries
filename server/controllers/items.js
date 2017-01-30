@@ -73,10 +73,10 @@ function ItemsController() {
 
 	this.create = function(req, res) {
 
-		console.log('user ->', req.body.user_id);
+		console.log('user ->', req.session.user._id);
 
 		var item = new Item({
-			createdBy: req.body.user_id,
+			createdBy: req.session.user._id,
 			name: req.body.name,
 			img: req.body.img,
 			description: req.body.description,
