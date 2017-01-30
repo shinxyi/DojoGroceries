@@ -1,0 +1,52 @@
+
+<div id="blackout"></div>
+
+<div class="row">
+  <div class="medium-2 columns"><br></div>
+  <div class="medium-8 columns inherit">
+
+    <div id="edit" class="card">
+      <a id="exit" class="foundicon-remove" ng-click="categoryCtrl.exit()"></a>
+      <div class="card-divider">
+        Manage Categories
+      </div>
+      <div class="card-section">
+
+        <div id="categoriesDisplay">
+          <table class="center">
+            <thead>
+              <tr>
+                <th width="200">Delete</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="cat in categoryCtrl.categories">
+                <td>
+                  <span class="flag"><a ng-click="categoryCtrl.delete(cat._id)"><i class="foundicon-remove"></i></a></span>
+                </td>
+                <td name="email">{{cat.name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <form ng-submit="categoryCtrl.create()">
+            <label for="newCategory"><b>Add a New Category</b></label>
+            <input type="text" ng-model="categoryCtrl.suggestion.name"/>
+            <div class="right">
+              <input type="submit" class="button" value="Add!">
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </div>
+  <div class="medium-2 columns"><br></div>
+</div>
+</div>
