@@ -65,9 +65,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           templateUrl: 'assets/partials/users.html'
         },
         'suggestions@admin_dashboard': {
-          templateUrl: 'assets/partials/suggestions.html',
-          controller: 'commentController',
-          controllerAs: 'commentCtrl'
+          templateUrl: 'assets/partials/suggestions.html'
         },
         'database@admin_dashboard': {
           templateUrl: '/assets/partials/database.html'
