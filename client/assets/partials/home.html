@@ -57,7 +57,7 @@
                   <th> Bought </th>
                   <th> Image </th>
                   <th> Name </th>
-                  <th> Price </th>
+                  <th> Price</th>
                   <th> Qty. </th>
                   <th> Category </th>
                   <th> Popularity </th>
@@ -76,7 +76,7 @@
                     <span class="flag"><a><i class="foundicon-remove" ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)"></i></a></span>
                     <a ng-click="itemCtrl.getOne(item._id)"><b>{{ item.name }}</b></a>
                   </td>
-                  <td>{{ item.price | currency }}</td>
+                  <td>{{ item.price | currency }}<br/><sup>(per unit)</sup></td>
                   <td>{{ item.quantity }}</td>
                   <td>{{ item.category }}</td>
                   <td ng-if="item.voting_list[userCtrl.groceryweek]">
