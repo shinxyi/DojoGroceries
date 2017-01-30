@@ -1,10 +1,8 @@
-app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', 'groceriesFactory', '$location', function(itemsFactory, commentsFactory, usersFactory, groceriesFactory, $location) {
+app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', 'groceriesFactory', '$location', '$interval', function(itemsFactory, commentsFactory, usersFactory, groceriesFactory, $location,  $interval) {
 
   var self= this;
 
-  self.thisweek;
-  self.suggestion ={};
-  self.updateItem = {};
+  this.activated = false;
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -46,7 +44,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   })
 
   self.create = function(){
-      self.suggestion.user_id = "5882481503508f55b6ace298";
+      // self.suggestion.user_id = "5882481503508f55b6ace298";
       // console.log(session.user._id);
       console.log("This should the print when you hit create");
       itemsFactory.create(self.suggestion, function(returnedData){
@@ -106,12 +104,15 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   }
 
   self.walmart = function(){
+    self.activated = true;
     console.log(self.walmart.id);
     itemsFactory.walmart(self.walmart.id, function(returnedData){
-      if(returnedData.errors){
-        self.errors = returnedData.errors;
+      if(returnedData.data.errors){
+        self.activated = false;
+        self.errors = returnedData.data.errors;
       }else{
         // self.suggestion = returnedData;
+        self.activated = false;
         console.log(returnedData.data);
         self.suggestion.name = returnedData.data.productName;
         self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
@@ -142,17 +143,18 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.suggestion.img = returnedData.data.image;
         self.suggestion.from = "Sam's";
         self.suggestion.price = parseFloat(returnedData.data.price);
-        self.suggestion.category = returnedData.data.category[returnedData.data.category.length-1];
+        self.suggestion.category = returnedData.data.category[returnedData.data.category.length-2];
       }
     })
   }
 
   //for managing budget viewing
   self.getBudget = function(){
-    groceriesFactory.getBudget(function(returnedData){
-      self.itemBudget = Number(returnedData.data.budget);
-    });
+    //groceriesFactory.getBudget(function(returnedData){
+    //  self.itemBudget = Number(returnedData.data.budget);
+    //});
   };
 
   self.getBudget();
+
 }]);

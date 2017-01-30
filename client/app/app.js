@@ -1,6 +1,6 @@
-var app = angular.module('app', [ 'ui.router']);
+var app = angular.module('app', [ 'ui.router','ngMaterial']);
 
-app.config(function ($stateProvider, $urlRouterProvider) {
+app.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
   $urlRouterProvider.otherwise('/');
 
