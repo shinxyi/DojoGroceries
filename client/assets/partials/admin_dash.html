@@ -19,12 +19,15 @@
   </div>
 </div>
 
-<div ng-controller="groceryController as groceryCtrl">
-  <div class="content" ng-controller="commentController as commentCtrl">
-    <div id="editItem" class="view hidden" ui-view="editItem"></div>
-    <div id="home" class="view" ui-view="home"></div>
-    <div id="suggestions" class="view hidden" ui-view="suggestions"></div>
-    <div id="database" class="view hidden" ui-view="database"></div>
-    <div id="users" class="view hidden" ui-view="users"></div>
+<div ng-controller="categoryController as categoryCtrl">
+  <div ng-controller="groceryController as groceryCtrl">
+    <div class="content" ng-controller="commentController as commentCtrl">
+      <div id="editCategories" class="view hidden" ui-view="category"></div>
+      <div id="editItem" class="view hidden" ui-view="editItem"></div>
+      <div id="home" class="view" ui-view="home"></div>
+      <div id="suggestions" class="view hidden" ui-view="suggestions"></div>
+      <div id="database" class="view hidden" ui-view="database"></div>
+      <div id="users" class="view hidden" ui-view="users"></div>
+    </div>
   </div>
 </div>

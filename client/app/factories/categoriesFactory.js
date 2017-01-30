@@ -7,11 +7,28 @@ app.factory('categoriesFactory', ['$http',  function($http) {
   	})
   }
 
-  this.updateTitle = function(newName, callback){
-    $http.put('/workspaces', newName).then(function(response){
-      callback(response.data.workspace); //respopnse needs to be an 'ok' that I can re-query for everything front end...
+  this.autoCreate = function(callback){
+    $http.post('/categories/auto').then(function(response){
+      callback(response.data.categories);
     })
   }
+
+
+  this.delete = function(categoryId, callback){
+      $http.delete('/categories/'+ categoryId).then(function (response) {
+        if(!response.data.errors){
+          callback();
+        }
+      });
+  };
+
+  this.create = function(category, callback){
+    $http.post('/categories', category).then(function (response) {
+      if(!response.data.errors){
+        callback();
+      }
+    });
+  };
 
 }
 

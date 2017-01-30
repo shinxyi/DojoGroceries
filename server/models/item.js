@@ -54,7 +54,7 @@ var ItemSchema = new mongoose.Schema({
 	},
 	category: {
 		type: String,
-		required: [true, 'Category information is required to create item.']
+		required: [true, 'Please select a category for your item.']
 	},
 	voting_list: {
 		type: Object,
