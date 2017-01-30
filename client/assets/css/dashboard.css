@@ -68,3 +68,8 @@
 .flagged, .flag a:hover{
   color: red;
 }
+
+#inbox, #categoriesDisplay{
+  height: 350px;
+  overflow-y: auto;
+}

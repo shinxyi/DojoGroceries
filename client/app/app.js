@@ -70,9 +70,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
           controllerAs: 'commentCtrl'
         },
         'database@admin_dashboard': {
-          templateUrl: '/assets/partials/database.html',
-          controller: 'categoryController',
-          controllerAs: 'categoryCtrl'
+          templateUrl: '/assets/partials/database.html'
+        },
+        'category@admin_dashboard': {
+          templateUrl: '/assets/partials/editCategories.html'
         }
       }
     })

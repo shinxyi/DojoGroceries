@@ -54,6 +54,7 @@ module.exports = function(app) {
 ///////
 
 	app.get('/categories', categories.index);
+	app.post('/categories/auto', categories.autoCreate);
 	app.post('/categories', categories.create);
 	app.delete('/categories/:category_id', categories.destroy);
 };
