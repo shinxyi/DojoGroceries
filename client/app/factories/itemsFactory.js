@@ -33,6 +33,12 @@ app.factory('itemsFactory', ['$http', function($http) {
     })
   }
 
+  this.persist = function(itemId, callback){
+    $http.put('/items/'+ itemId +'/persist').then(function(response){
+      callback();
+    })
+  }
+
   this.update = function(itemId, item, callback){
     $http.put('/items/'+ itemId, item).then(function(response){
       callback(response.data);

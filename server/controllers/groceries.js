@@ -29,16 +29,22 @@ function GroceriesController() {
 
 			if(!glist){
 				var newGlist = new GroceryList({ week: req.params.week});
-				newGlist.save(function(error, newGlist){
-					if(error){
-						console.log('groceries.js controller - grocery list cannot be created');
-						res.json({ errors: processError(error) });
-						return;
-					}else{
-						console.log('groceries.js controller - grocery list was just created!!');
-						res.redirect('/groceries/' + req.params.week);
-						return;
+				Item.find({active:true, persist:true}, function(err, items){
+					for(var x=0;x<items.length;x++){
+						newGlist.list[items[x]['_id']]= items[x];
 					}
+					newGlist.save(function(error, newGlist){
+						if(error){
+							console.log('groceries.js controller - grocery list cannot be created');
+							res.json({ errors: processError(error) });
+							return;
+						}else{
+							console.log('groceries.js controller - grocery list was just created!!');
+							res.json({list: newGlist});
+							return;
+						}
+					})
+
 				})
 			}else{
 				res.json({list: glist});
