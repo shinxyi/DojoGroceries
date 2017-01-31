@@ -23,9 +23,12 @@
 
         <div class="media-object-section">
           <div class="thumbnail">
-            <img src="{{ item.img }}" ng-if="item.img"/>
-            <img src="/assets/static/images/placeholder.png" ng-if="!item.img"/>
+            <img src="{{ item.img }}"/>
           </div>
+          <br/>
+          <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&!item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="foundicon-heart"></i> Add to Fav's</a>
+          <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="fi-heart"></i> Favorited!</a>
+
         </div>
         <div class="media-object-section">
 
@@ -80,8 +83,16 @@
   </div>
 
   <div class="medium-3 columns">
-    <h3>Don't see anything you like?</h3>
 
-    <a name="database">Suggest something from the database!</a>
+    <fieldset class="fieldset fav-food" ng-if="userCtrl.user.adminLvl<9">
+      <legend>Your <i class="fi-heart"></i> Favorite Foods</legend>
+      <sup>Click on the <i class="foundicon-remove"></i> icon to un-favorite an item. Click on any item to vote/suggest it for the week. Clicking on an item again will undo your action. </sup><br/>
+      <div class="thumbnail" ng-repeat="item in itemCtrl.items" ng-if="item.favedByUsers.hasOwnProperty(userCtrl.user._id)">
+        <div class="unfav"><a ng-click="itemCtrl.fav(item._id)"><i class="foundicon-remove"></i></a></div>
+        <img src="{{ item.img }}" ng-click="userCtrl.vote(item._id)" />
+      </div>
+    </fieldset>
+
+    <b>Still don't see anything you like?</b><a name="database"> Suggest something from the database!</a>
   </div>
 </div>

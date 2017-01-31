@@ -70,7 +70,6 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
   self.vote = function(item_id){
     usersFactory.vote(item_id, function(returnedData){
       self.user = returnedData.user;
-      console.log('self.user now updated->', self.user);
     })
   }
 

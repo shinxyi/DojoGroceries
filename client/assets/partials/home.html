@@ -68,8 +68,7 @@
                   <td><input type="checkbox" ng-model="item.bought" ng-click="groceryCtrl.changeBought(item._id, userCtrl.groceryweek)"></td>
                   <td>
                     <div class="small thumbnail">
-                      <img src="{{ item.img }}" ng-if="item.img"/>
-                      <img src="/assets/static/images/placeholder.png" ng-if="!item.img"/>
+                      <img src="{{ item.img }}" />
                     </div>
                   </td>
                   <td>

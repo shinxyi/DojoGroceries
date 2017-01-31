@@ -13,13 +13,7 @@ var ItemSchema = new mongoose.Schema({
 	},
 	img: {
 		type: String,
-		// validate: {
-		// 	validator: function( value ) {
-		// 		return /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/.test( value );
-		// 	},
-		// 	message: "Image url is not in the proper format with jpg, jpeg, png, or gif ending."
-		// }
-
+		required: [true, 'Image required to create item.']
 	},
 	name: {
 		type: String,
@@ -57,6 +51,10 @@ var ItemSchema = new mongoose.Schema({
 		required: [true, 'Please select a category for your item.']
 	},
 	voting_list: {
+		type: Object,
+		default: {}
+	},
+	favedByUsers: {
 		type: Object,
 		default: {}
 	},

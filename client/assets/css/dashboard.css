@@ -3,7 +3,8 @@
 }
 
 .indent{
-  margin-left: 30px;
+  font-size: 14px;
+  margin-left: 15px;
 }
 
 .accordion{
@@ -50,11 +51,16 @@
   position: relative;
 }
 
-.suggest{
+.fav-food .thumbnail{
+  position: relative;
+  width: 100px;
+}
+
+.unfav{
   text-align: right;
   position: absolute;
-  bottom: 15px;
-  right:15px;
+  top: 13px;
+  right:5px;
 }
 
 .comment{
@@ -68,7 +74,6 @@
 .flagged, .flag a:hover{
   color: red;
 }
-
 
 .progressLineardemoBasicUsage body {
   padding: 20px; }
@@ -133,4 +138,3 @@
   height: 350px;
   overflow-y: auto;
 }
-
