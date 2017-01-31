@@ -45,8 +45,8 @@
         <legend><b>Make a Suggestion!</b></legend>
 
         <div class="accordion" data-accordion>
-          <li class="accordion-item" data-accordion-item>
-            <a class="accordion-title"><b>Lazy Link</b> (Have a UPC# from Walmart or Item# from Sam's Club?)</a>
+          <li id="lazylink" class="accordion-item is-active" data-accordion-item>
+            <a class="accordion-title"><b>Lazy Link</b> Auto-Populate the Form! </a>
             <div class="accordion-content" data-tab-content>
 
               <form ng-submit="itemCtrl.walmart()">
@@ -69,102 +69,113 @@
                 </div>
               </form>
 
+              <div class="progressLineardemoBasicUsage" ng-show="itemCtrl.activated">
+                <div class="callout alert" ng-class="{'visible' : !itemCtrl.activated}">
+                  <md-progress-linear md-mode="query" ng-disabled="false"></md-progress-linear>
+                  <div class="bottom-block">
+                    <span>Please wait while retreive your information. </span>
+                  </div>
+                </div>
+              </div>
+
+
             </div>
           </li>
-        </div>
 
+          <li id="itemform" class="accordion-item" data-accordion-item>
+            <a class="accordion-title"><b>Add an Item Form</b> </a>
+            <div class="accordion-content" data-tab-content>
 
-        <div class="progressLineardemoBasicUsage" ng-show="itemCtrl.activated">
-          <div class="callout alert" ng-class="{'visible' : !itemCtrl.activated}">
-            <md-progress-linear md-mode="query" ng-disabled="false"></md-progress-linear>
-            <div class="bottom-block">
-              <span>Please wait while retreive your information. </span>
-            </div>
-          </div>
-        </div>
-
-        <div class="callout alert" ng-if="itemCtrl.errors">
-          <ul>
-            <li ng-repeat="err in itemCtrl.errors">{{err}}</li>
-          </ul>
-        </div>
-
-        <div class="callout success" ng-if="itemCtrl.success">
-          <ul>
-            <li ng-repeat="success in itemCtrl.success">{{success}}</li>
-          </ul>
-        </div>
-
-        <form ng-submit="itemCtrl.create()">
-          <input type="hidden" name="" ng-model="itemCtrl.suggestion.hidden" value="notused">
-          <div class="row">
-            <div class="small-3 columns">
-              <label for="suggestion_name" class="text-right middle">Name</label>
-            </div>
-            <div class="small-9 columns">
-              <input type="text" id="suggestion_name" placeholder="Beef jerky, popcorn, etc." ng-model="itemCtrl.suggestion.name" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-3 columns">
-              <label for="suggestion_description" class="text-right middle">Description</label>
-            </div>
-            <div class="small-9 columns">
-              <textarea ng-model="itemCtrl.suggestion.description" placeholder="Really delicious..."></textarea>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-3 columns">
-              <label for="suggestion_description" class="text-right middle">Image URL</label>
-            </div>
-            <div class="small-9 columns">
-              <input type="text" id="suggestion_description" ng-model="itemCtrl.suggestion.img" placeholder="http://.... ending with .png/jpg/gif/jpeg"/>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-3 columns">
-              <label for="suggestion_from" class="text-right middle">From</label>
-            </div>
-            <div class="small-9 columns">
-              <input type="text" id="suggestion_from" ng-model="itemCtrl.suggestion.from" placeholder="Walmart, Sam's Club, etc.."/>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-3 columns">
-              <label for="suggestion_price" class="text-right middle">Price (per unit)</label>
-            </div>
-            <div class="small-9 columns">
-              <div class="input-group">
-                <span class="input-group-label">$</span>
-                <input type="number" class="input-group-field" id="suggestion_price" min="0" step='0.01' ng-model="itemCtrl.suggestion.price" placeholder="9.99"/>
+              <div class="callout alert" ng-if="itemCtrl.errors">
+                <ul>
+                  <li ng-repeat="err in itemCtrl.errors">{{err}}</li>
+                </ul>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-3 columns">
-              <label for="suggestion_quantity" class="text-right middle">Quantity</label>
-            </div>
-            <div class="small-9 columns">
-              <input type="number" class="input-group-field" id="suggestion_quantity" min="1" step='1' ng-model="itemCtrl.suggestion.quantity" value="{{itemCtrl.suggestion.quantity || 1}}"/>
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="small-3 columns">
-              <label for="suggestion_category" class="text-right middle" ng-if="userCtrl.user.adminLvl>8"><a ng-click="categoryCtrl.view()"><b>Category</b></a></label>
-              <label for="suggestion_category" class="text-right middle" ng-if="userCtrl.user.adminLvl<9">Category</label>
+              <div class="callout success" ng-if="itemCtrl.success">
+                <ul>
+                  <li ng-repeat="success in itemCtrl.success">{{success}}</li>
+                </ul>
+              </div>
+
+              <form ng-submit="itemCtrl.create()">
+                <input type="hidden" name="" ng-model="itemCtrl.suggestion.hidden" value="notused">
+                <div class="row">
+                  <div class="small-3 columns">
+                    <label for="suggestion_name" class="text-right middle">Name</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" id="suggestion_name" placeholder="Beef jerky, popcorn, etc." ng-model="itemCtrl.suggestion.name" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-3 columns">
+                    <label for="suggestion_description" class="text-right middle">Description</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <textarea ng-model="itemCtrl.suggestion.description" placeholder="Really delicious..."></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-3 columns">
+                    <label for="suggestion_description" class="text-right middle">Image URL</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" id="suggestion_description" ng-model="itemCtrl.suggestion.img" placeholder="http://.... ending with .png/jpg/gif/jpeg"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-3 columns">
+                    <label for="suggestion_from" class="text-right middle">From</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" id="suggestion_from" ng-model="itemCtrl.suggestion.from" placeholder="Walmart, Sam's Club, etc.."/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-3 columns">
+                    <label for="suggestion_price" class="text-right middle">Price (per unit)</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <div class="input-group">
+                      <span class="input-group-label">$</span>
+                      <input type="number" class="input-group-field" id="suggestion_price" min="0" step='0.01' ng-model="itemCtrl.suggestion.price" placeholder="9.99"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-3 columns">
+                    <label for="suggestion_quantity" class="text-right middle">Quantity</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="number" class="input-group-field" id="suggestion_quantity" min="1" step='1' ng-model="itemCtrl.suggestion.quantity" value="{{itemCtrl.suggestion.quantity || 1}}"/>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="small-3 columns">
+                    <label for="suggestion_category" class="text-right middle" ng-if="userCtrl.user.adminLvl>8"><a ng-click="categoryCtrl.view()"><b>Category</b></a></label>
+                    <label for="suggestion_category" class="text-right middle" ng-if="userCtrl.user.adminLvl<9">Category</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <select id="suggestion_category" ng-model="itemCtrl.suggestion.category">
+                      <option ng-repeat="cat in categoryCtrl.categories" value="{{cat.name}}" ng-model="itemCtrl.suggestion.category"> {{cat.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="right">
+                  <input id="suggestion_add" ng-model="itemCtrl.suggestion.vote" type="checkbox"><label for="suggestion_add">Add this item to this week's suggestion list!</label>
+                  <input type="submit" class="button" value="Add!">
+                </div>
+            </form>
+
+
             </div>
-            <div class="small-9 columns">
-              <select id="suggestion_category" ng-model="itemCtrl.suggestion.category">
-                <option ng-repeat="cat in categoryCtrl.categories" value="{{cat.name}}" ng-model="itemCtrl.suggestion.category"> {{cat.name}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="right">
-            <input id="suggestion_add" ng-model="itemCtrl.suggestion.vote" type="checkbox"><label for="suggestion_add">Add this item to this week's suggestion list!</label>
-            <input type="submit" class="button" value="Add!">
-          </div>
-      </form>
+          </li>
+
+        </div>
+
+
     </fieldset>
 
     <a name="suggestions">Return to This Week's Suggestions</a>

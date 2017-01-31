@@ -120,6 +120,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.errors = returnedData.data.errors;
       }else{
         // self.suggestion = returnedData;
+        self.errors = undefined;
         self.activated = false;
         console.log(returnedData.data);
         self.suggestion.name = returnedData.data.productName;
@@ -132,9 +133,13 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         console.log(category.length-1);
         console.log(category[3]);
         self.suggestion.category = category[category.length-1];
+        alert('hi');
+        $('#lazylink.accordion-content').css("display","none");
+        $('#itemform.accordion-content').css("display","block");
       }
     })
   }
+
 
   self.sams = function(){
     self.activated = true;
@@ -145,6 +150,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.activated = false;
         self.errors = ["The item did not a match please check the Item number"];
       }else{
+        self.errors = undefined;
         self.activated = false;
         // self.suggestion = returnedData;
         console.log(returnedData.data);
@@ -156,6 +162,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.suggestion.from = "Sam's";
         self.suggestion.price = parseFloat(returnedData.data.price);
         self.suggestion.category = returnedData.data.category[returnedData.data.category.length-2];
+        alert('hi');
+        $('#lazylink.accordion-content').css("display","none");
+        $('#itemform.accordion-content').css("display","block");
       }
     })
   }
