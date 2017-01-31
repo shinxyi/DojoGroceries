@@ -112,6 +112,27 @@ function ItemsController() {
 		});
 	};
 
+	this.fav = function(req,res){
+		var itemId = req.params.item_id;
+		Item.findOne({_id: itemId}, function(error, item){
+			if(error){
+				res.json({errors: ['Cannot find item to vote...']});
+				return;
+			}else{
+				if(item.favedByUsers.hasOwnProperty(req.session.user._id)){
+					delete item.favedByUsers[req.session.user._id];
+				}else{
+					item.favedByUsers[req.session.user._id] = '';
+				}
+
+				item.markModified('favedByUsers');
+				item.save(function(err){
+					res.json({item: item});
+				})
+			};
+		});
+	};
+
 	this.vote = function(req,res){
 		var itemId = req.params.item_id;
 		Item.findOne({_id: itemId}, function(error, item){

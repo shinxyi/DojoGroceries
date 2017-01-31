@@ -67,6 +67,13 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     })
   }
 
+
+  self.fav = function(item_id){
+    itemsFactory.fav(item_id, function(returnedData){
+      refresh();
+    })
+  }
+
   self.update = function(itemId){
     itemsFactory.update(itemId, self.updateItem, function(returnedData){
       if(returnedData.errors){

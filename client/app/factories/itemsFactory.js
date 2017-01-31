@@ -27,6 +27,12 @@ app.factory('itemsFactory', ['$http', function($http) {
     })
   }
 
+  this.fav = function(itemId, callback){
+    $http.put('/items/'+ itemId +'/fav').then(function(response){
+      callback();
+    })
+  }
+
   this.update = function(itemId, item, callback){
     $http.put('/items/'+ itemId, item).then(function(response){
       callback(response.data);
