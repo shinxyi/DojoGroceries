@@ -120,6 +120,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.errors = returnedData.data.errors;
       }else{
         // self.suggestion = returnedData;
+        self.errors = undefined;
         self.activated = false;
         console.log(returnedData.data);
         self.suggestion.name = returnedData.data.productName;

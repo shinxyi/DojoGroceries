@@ -22,7 +22,7 @@ app.factory('itemsFactory', ['$http', function($http) {
 
 
   this.getOne = function(itemId, callback){
-    $http.get('/items/'+ itemId).then(function(response){
+    $http.post('/items/'+ itemId).then(function(response){
       callback(response.data.item);
     })
   }
