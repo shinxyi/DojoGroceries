@@ -73,6 +73,16 @@
           </li>
         </div>
 
+
+        <div class="progressLineardemoBasicUsage" ng-show="itemCtrl.activated">
+          <div class="container" ng-class="{'visible' : !itemCtrl.activated}">
+            <md-progress-linear md-mode="query" ng-disabled="false"></md-progress-linear>
+            <div class="bottom-block">
+              <span>Loading application libraries...</span>
+            </div>
+          </div>
+        </div>
+
         <div class="callout alert" ng-if="itemCtrl.errors">
           <ul>
             <li ng-repeat="err in itemCtrl.errors">{{err}}</li>

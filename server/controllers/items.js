@@ -191,9 +191,13 @@ function ItemsController() {
 		console.log(req.params.upcId);
       var upc = req.params.upcId;
       walmart.getItemByUPC(upc).then(function(item) {
-          // console.log(item.product.productName);
+          console.log(item);
           res.json(item.product);
-        });
+        }).catch(function(err) {
+		      console.log(err);
+					res.json({errors: ['The UPC did not a match pelase check the upc']})
+		    });
+
 	}
 	this.sams = function(req, res){
 		console.log('samssssssss');
