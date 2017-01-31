@@ -9,7 +9,7 @@ var ItemSchema = new mongoose.Schema({
 	},
 	persist: {
 		type: Boolean,
-		default: true
+		default: false
 	},
 	createdBy: {
 		type: mongoose.Schema.Types.ObjectId,

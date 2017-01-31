@@ -26,6 +26,7 @@ module.exports = function(app) {
 	app.post('/items', items.create);
 	app.get('/items/:item_id', items.show);
 	app.put('/items/:item_id/fav', items.fav);
+	app.put('/items/:item_id/persist', items.persist);
 	app.put('/items/:item_id', items.update);
 	app.delete('/items/:item_id', items.destroy);
 	app.get('/items/:item_id/:vote', items.vote);

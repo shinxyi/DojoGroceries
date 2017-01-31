@@ -44,6 +44,11 @@ function ItemsController() {
 	}
 
 	this.update = function(req,res){
+		if(req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to make this change...']})
+			return;
+		}
+
 		Item.findOne({_id: req.params.item_id}, function(error, item){
 			if (error) {
 				console.log('items.js - update(): error retrieving item\n', error);
@@ -132,6 +137,32 @@ function ItemsController() {
 			};
 		});
 	};
+
+	this.persist = function(req,res){
+		if(req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to make this change...']})
+			return;
+		}
+
+		var itemId = req.params.item_id;
+		Item.findOne({_id: itemId}, function(error, item){
+			if(error){
+				res.json({errors: ['Cannot find item to vote...']});
+				return;
+			}else{
+				if(!item.persist){
+					item.persist = true;
+				}else{
+					item.persist = !item.persist;
+				}
+
+				item.save(function(err){
+					res.json({item: item});
+				})
+			};
+		});
+	};
+
 
 	this.vote = function(req,res){
 		var itemId = req.params.item_id;

@@ -14,11 +14,14 @@
             <img src="{{ item.img }}"/>
           </div>
           <br/>
+          <!--Admin:-->
           <div ng-if="userCtrl.user.adminLvl==9">
             <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove shiftleft"><i class="fi-minus"></i> <i class="fi-shopping-cart"></i></span></a>
             <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> <i class="fi-shopping-cart"></i></span></a>
+            | <a ng-click="itemCtrl.persist(item._id)" ng-if="!item.persist">Persist on Grocery Lists</a>
+            <a ng-click="itemCtrl.persist(item._id)" ng-if="item.persist">Turn off Persist</a>
           </div>
-          <br/>
+          <!--User:-->
           <button type="button" class="success button" ng-click="userCtrl.vote(item._id)" ng-if="userCtrl.user.adminLvl<9">Suggest!</button>
           <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&!item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="foundicon-heart"></i> Add to Fav's</a>
           <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="fi-heart"></i> Favorited!</a>

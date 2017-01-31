@@ -47,6 +47,10 @@
   margin-left: -25px;
 }
 
+#suggested h4{
+  width: 450px;
+}
+
 .suggested, .suggest-able{
   position: relative;
 }

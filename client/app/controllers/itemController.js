@@ -75,6 +75,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     })
   }
 
+  self.persist = function(item_id){
+    itemsFactory.persist(item_id, function(returnedData){
+      refresh();
+    })
+  }
+
   self.update = function(itemId){
     itemsFactory.update(itemId, self.updateItem, function(returnedData){
       if(returnedData.errors){
@@ -159,7 +165,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.suggestion.name = returnedData.data.title;
         self.suggestion.description = returnedData.data.description;
         self.suggestion.img = returnedData.data.image;
-        self.suggestion.from = "Sam's";
+        self.suggestion.from = "Sams";
         self.suggestion.price = parseFloat(returnedData.data.price);
         self.suggestion.category = returnedData.data.category[returnedData.data.category.length-2];
         alert('hi');

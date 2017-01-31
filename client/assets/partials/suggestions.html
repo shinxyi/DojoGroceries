@@ -5,7 +5,7 @@
     <h2>Suggested This Week!</h2>
     <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
-    <div>
+    <div id="suggested">
       <div class="callout media-object suggested" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:itemCtrl.popularVote:true track by $index;" ng-if="item.voting_list.hasOwnProperty(itemCtrl.thisweek)">
         <div class="vote" ng-if="userCtrl.user.adminLvl<9">
           <span ng-click="userCtrl.vote(item._id)">
@@ -16,9 +16,7 @@
         </div>
         <div class="votes" ng-if="userCtrl.user.adminLvl==9">
             <span class="warning badge">{{ item.voting_list[userCtrl.thisweek] }}</span>
-            vote(s) |
-            <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> <i class="fi-shopping-cart"></i></span></a>
-            <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> <i class="fi-shopping-cart"></i></a>
+            vote(s)
         </div>
 
         <div class="media-object-section">
@@ -26,8 +24,16 @@
             <img src="{{ item.img }}"/>
           </div>
           <br/>
+          <!--User-->
           <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&!item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="foundicon-heart"></i> Add to Fav's</a>
           <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="fi-heart"></i> Favorited!</a>
+          <!--Admin-->
+          <div ng-if="userCtrl.user.adminLvl==9">
+            <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> <i class="fi-shopping-cart"></i></span></a>
+            <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> <i class="fi-shopping-cart"></i></span></a>
+            | <a ng-click="itemCtrl.persist(item._id)" ng-if="!item.persist"><i class="foundicon-checkmark"></i> Persist on Grocery Lists</a>
+            <a ng-click="itemCtrl.persist(item._id)" ng-if="item.persist"><i class="fi-check"></i> Persisted!</a>
+          </div>
 
         </div>
         <div class="media-object-section">
@@ -36,11 +42,10 @@
           <h4>
             <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl==9"><b>{{ item.name }}</b></a>
             <b ng-if="userCtrl.user.adminLvl<9">{{ item.name }}</b>
-             | {{ item.price | currency }}
           </h4>
 
           <div class="indent">
-            <h6><b>Category:</b> {{ item.category }}</h6>
+            <h6><b>Category:</b> {{ item.category }} | {{ item.price | currency }} </h6>
             <p>{{ item.description }}</p>
             <div class="callout secondary" ng-repeat="comment in item.comments | orderBy:'createdAt'" ng-if="comment.week==userCtrl.thisweek">
               <b>{{ comment.userName }}</b> says:
@@ -83,6 +88,16 @@
   </div>
 
   <div class="medium-3 columns">
+
+    <fieldset class="fieldset fav-food" ng-if="userCtrl.user.adminLvl===9">
+      <legend>Auto-Added Foods</legend>
+      <sup>These items are automatically added to future grocery lists. Click on the <i class="foundicon-remove"></i> icon to un-persist an item.</sup><br/>
+      <div class="thumbnail" ng-repeat="item in itemCtrl.items" ng-if="item.persist===true">
+        <div class="unfav"><a ng-click="itemCtrl.persist(item._id)"><i class="foundicon-remove"></i></a></div>
+        <img src="{{ item.img }}" />
+      </div>
+    </fieldset>
+
 
     <fieldset class="fieldset fav-food" ng-if="userCtrl.user.adminLvl<9">
       <legend>Your <i class="fi-heart"></i> Favorite Foods</legend>
