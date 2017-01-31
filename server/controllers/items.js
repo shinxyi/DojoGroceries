@@ -216,7 +216,7 @@ function ItemsController() {
           res.json(item.product);
         }).catch(function(err) {
 		      console.log(err);
-					res.json({errors: ['The UPC did not a match pelase check the upc']})
+					res.json({errors: ['The UPC did not a match please check the upc']})
 		    });
 
 	}
@@ -229,7 +229,8 @@ function ItemsController() {
 				res.json(result);
 			}, function(err) {
 			  console.log(err);
-				res.json(err);
+				console.log('Cody only shops at Costco');
+				res.json({errors: ["The item did not a match please check the Item number"]});
 			});
 	}
 
