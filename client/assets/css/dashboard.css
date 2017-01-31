@@ -116,12 +116,12 @@
   transition: opacity  0.1s linear;
   border-top: 0px; }
 
-.progressLineardemoBasicUsage .bottom-block {
+/*.progressLineardemoBasicUsage .bottom-block {
   display: block;
   position: relative;
   background-color: rgba(255, 235, 169, 0.25);
   height: 85px;
-  width: 100%; }
+  width: 100%; }*/
 
 .progressLineardemoBasicUsage .bottom-block > span {
   display: inline-block;
@@ -133,4 +133,3 @@
   height: 350px;
   overflow-y: auto;
 }
-

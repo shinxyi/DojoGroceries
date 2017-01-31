@@ -3,6 +3,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   var self= this;
 
   this.activated = false;
+  self.suggestion = {};
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -129,15 +130,19 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   }
 
   self.sams = function(){
+    self.activated = true;
     console.log(self.sams.id);
     itemsFactory.sams(self.sams.id, function(returnedData){
-      if(returnedData.errors){
-        self.errors = returnedData.errors;
+      if(!returnedData.data.title){
+        // self.errors = returnedData.errors;
+        self.activated = false;
+        self.errors = ["The item did not a match please check the Item number"];
       }else{
+        self.activated = false;
         // self.suggestion = returnedData;
         console.log(returnedData.data);
-        console.log(typeof(returnedData.data.price));
-        console.log(returnedData.data.category);
+        // console.log(typeof(returnedData.data.price));
+        // console.log(returnedData.data.category);
         self.suggestion.name = returnedData.data.title;
         self.suggestion.description = returnedData.data.description;
         self.suggestion.img = returnedData.data.image;

@@ -23,7 +23,7 @@
           </h4>
           <div class="indent">
             <h6><b>Category:</b> {{ item.category }}</h6>
-            <p>{{ item.description }}</p>
+            <p style="height:180px;overflow:scroll">{{ item.description }}</p>
           </div>
         </div>
         <div class="suggest">
@@ -75,10 +75,10 @@
 
 
         <div class="progressLineardemoBasicUsage" ng-show="itemCtrl.activated">
-          <div class="container" ng-class="{'visible' : !itemCtrl.activated}">
+          <div class="callout alert" ng-class="{'visible' : !itemCtrl.activated}">
             <md-progress-linear md-mode="query" ng-disabled="false"></md-progress-linear>
             <div class="bottom-block">
-              <span>Loading application libraries...</span>
+              <span>Please wait while retreive your information. </span>
             </div>
           </div>
         </div>
