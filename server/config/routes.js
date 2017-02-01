@@ -33,6 +33,7 @@ module.exports = function(app) {
 
 
 	app.get('/walmart/:upcId', items.walmart);
+	app.get('/walmartItem/:itemId', items.walmartItem);
 	app.get('/sams/:itemId', items.sams);
 
 ///////
