@@ -19,6 +19,18 @@ function GroceriesController() {
 
 	// var week = 	moment().week().toString() + moment().year().toString();
 
+	this.indexWeeks = function(req, res){
+
+		GroceryList.find({}, 'week', function(error, weeks){
+			if(error){
+				res.json({errors: ['Issue finding Grocery List Weeks...']});
+				return;
+			}
+			console.log('returned from search', weeks);
+			res.json({weeks: weeks});
+		})
+	};
+
 	this.index = function(req, res){
 
 		GroceryList.findOne({week: req.params.week}, function(error, glist){
@@ -52,6 +64,7 @@ function GroceriesController() {
 
 		})
 	};
+
 
 	this.addItem = function(req, res) {
 

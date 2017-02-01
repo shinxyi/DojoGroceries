@@ -47,6 +47,13 @@
       <div id="groceries">
         <fieldset class="fieldset">
           <legend><span class="success label">Grocery List:</label></legend>
+            <form>
+              <select id="suggestion_category" ng-model="userCtrl.groceryweek" ng-change="groceryCtrl.refresh(userCtrl.groceryweek);">
+                <option ng-repeat="week in groceryCtrl.groceryweeks" value="{{week}}" ng-model="userCtrl.groceryweek"> {{week}}</option>
+              </select>
+            </form>
+
+
             <a class="button" ng-click="groceryCtrl.filter('Walmart')">Walmart</a> <a class="button" ng-click="groceryCtrl.filter('Sams')">Sam's Club</a>
 
             <input type="text" ng-model="groceryCtrl.filter.place" placeholder="Search..."/><br />

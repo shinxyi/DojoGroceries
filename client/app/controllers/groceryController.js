@@ -13,9 +13,10 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
       }
       self.list = returnedData.list;
       self.groceryDictionary = returnedData.dictionary;
-      console.log('updated grocery list ->', self.list);
-      console.log('self.groceryDictionary ->', self.groceryDictionary);
-
+      groceriesFactory.indexWeeks(function(returnedData){
+        self.groceryweeks = returnedData;
+        console.log(':DDDD grocery weeks', self.groceryweeks);
+      })
     })
   }
 
@@ -27,9 +28,6 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
       }
       self.list = returnedData.list;
       self.groceryDictionary = returnedData.dictionary;
-      console.log('updated grocery list ->', self.list);
-      console.log('self.groceryDictionary ->', self.groceryDictionary);
-
     })
   })
 

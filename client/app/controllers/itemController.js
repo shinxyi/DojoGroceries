@@ -81,12 +81,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     })
   }
 
-  self.update = function(itemId){
+  self.update = function(itemId, groceryweek){
     itemsFactory.update(itemId, self.updateItem, function(returnedData){
       if(returnedData.errors){
         self.errors = returnedData.errors;
       }else{
-        groceriesFactory.checkAndUpdate(itemId, function(){
+        groceriesFactory.checkAndUpdate(itemId, groceryweek, function(){
           itemsFactory.getAllItems(function(returnedData){
             if(returnedData.error){
               $location.url('/');

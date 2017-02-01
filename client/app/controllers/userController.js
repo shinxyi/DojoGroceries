@@ -1,4 +1,4 @@
-app.controller('userController', ['usersFactory', '$location', function(usersFactory, $location) {
+app.controller('userController', ['usersFactory', 'groceriesFactory', '$location', function(usersFactory, groceriesFactory, $location) {
   var self= this;
 
   self.user = {};
@@ -44,6 +44,7 @@ app.controller('userController', ['usersFactory', '$location', function(usersFac
   })
 
   self.setGroceryWeek = function(week){
+    console.log('setting grocery week!');
     self.groceryweek = week;
   }
 

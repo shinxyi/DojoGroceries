@@ -12,7 +12,6 @@ app.factory('groceriesFactory', ['$http', function($http) {
   }
 
   this.index = function(week, callback){
-  	console.log('GETTING GROCERY LIST');
   	$http.get('/groceries/'+ week).then(function(response) {
       if(response.data.errors){
         callback(response);
@@ -29,11 +28,28 @@ app.factory('groceriesFactory', ['$http', function($http) {
   	});
   };
 
-  this.checkAndUpdate = function(itemId, callback){
+  this.indexWeeks = function(callback){
+    $http.get('/groceries/weeks').then(function(response){
+      var array = [];
+      for(var x=0; x<response.data.weeks.length;x++){
+        array.push(response.data.weeks[x]['week']);
+      }
+      array.sort();
+      array.reverse();
+      callback(array);
+    })
+  }
+
+  this.checkAndUpdate = function(itemId, groceryweek, callback){
     if(groceries.list.hasOwnProperty(itemId)){
-      this.removeFromGroceries(itemId, groceries.week, function(){} )
-      this.addToGroceries(itemId, groceries.week, callbacks['updateGroceries'] )
-      callback();
+      var callbackornot = function(){};
+      if(groceryweek===groceries.week){
+        callbackornot = callbacks['updateGroceries'];
+      }
+      this.removeFromGroceries(itemId, groceries.week, function(){
+        _this.addToGroceries(itemId, groceries.week, callbackornot);
+        callback();
+      })
     }else{
       callback();
     }
@@ -42,12 +58,14 @@ app.factory('groceriesFactory', ['$http', function($http) {
   this.addToGroceries = function(item_id, week, callback){
     $http.post('/groceries/' + item_id +'/'+ week).then(function(response) {
       callback();
+
     });
   }
 
   this.removeFromGroceries = function(item_id, week, callback){
     $http.delete('/groceries/' + item_id +'/'+ week).then(function(response) {
       callback();
+      return this;
     });
   }
 
