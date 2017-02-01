@@ -33,6 +33,7 @@ module.exports = function(app) {
 
 
 	app.get('/walmart/:upcId', items.walmart);
+	app.get('/walmartItem/:itemId', items.walmartItem);
 	app.get('/sams/:itemId', items.sams);
 
 ///////
@@ -55,7 +56,8 @@ module.exports = function(app) {
 	app.get('/budget/getbudget', budgets.get);
 	app.put('/budget/:budget_id', budgets.update);
 	app.get('/budget', budgets.index);
-	app.get("/budget/setbudget/:newbudget", budgets.create);
+	app.get('/budget/setbudget/:newbudget', budgets.create);
+	app.post('/budget/currentexpenses', groceries.currentExpenses);
 
 ///////
 

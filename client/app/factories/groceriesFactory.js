@@ -91,6 +91,15 @@ app.factory('groceriesFactory', ['$http', function($http) {
     });
   };
 
+  this.currentExpenses = function(week, callback){
+    var data = {"week":week};
+    $http.post("/budget/currentexpenses/", data).then(function(res){
+      callback(res);
+    });
+  };
+
+  
+
 };
 
   return new GroceriesFactory();

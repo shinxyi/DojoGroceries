@@ -1,7 +1,7 @@
 <script src="assets/js/dash.js"></script>
 <script src="assets/js/editItem.js"></script>
 
-
+<div ng-controller="groceryController as groceryCtrl">
 <div class="top-bar">
   <div class="top-bar-left">
     <ul class="dropdown menu" data-dropdown-menu>
@@ -14,6 +14,7 @@
   </div>
   <div class="top-bar-right">
     <ul class="menu">
+      <li class="menu-text" ng-if="userCtrl.user.adminLvl==9">Week's budget: ${{groceryCtrl.currentBudget}} | <span ng-style="groceryCtrl.leftOver < 0 && {'color':'red'}" > Budget remaining: ${{groceryCtrl.leftOver}}</span></li>
       <li><a ng-click="userCtrl.logout()">Logout</a></li>
     </ul>
   </div>
@@ -21,7 +22,7 @@
 
 <div ng-controller="commentController as commentCtrl">
   <div ng-controller="categoryController as categoryCtrl">
-    <div ng-controller="groceryController as groceryCtrl">
+    <!-- line from which grocery controller div was removed -->
       <div class="content" ng-controller="commentController as commentCtrl">
         <div id="editCategories" class="view hidden" ui-view="category"></div>
         <div id="editItem" class="view hidden" ui-view="editItem"></div>
@@ -30,6 +31,7 @@
         <div id="database" class="view hidden" ui-view="database"></div>
         <div id="users" class="view hidden" ui-view="users"></div>
       </div>
-    </div>
+    <!-- close div tag for grocery controller removal -->
   </div>
+</div>
 </div>

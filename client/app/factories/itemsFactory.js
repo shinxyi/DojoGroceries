@@ -58,22 +58,19 @@ app.factory('itemsFactory', ['$http', function($http) {
     // }
     console.log(id);
     $http.get('/walmart/'+id).then(callback);
-    //TO_DO: API calls with cross origin issues????
-    // $http.get('http://api.walmartlabs.com/v1/items?apiKey=8esr3yvvwj8funa44ab84e4v&upc=' + id).then(function(response){
-    //
-    //   console.log('json returned from Walmart ->', response);
-    //
-    //   var item = {};
-    //   item.name = response.items[0].name;
-    //   item.price = response.items[0].price;
-    //   item.id = response.items[0].upc;
-    //   item.description = response.items[0].shortDescription;
-    //   item.img = response.items[0].mediumImage;
-    //   item.from = "Walmart";
-    //   callback(item);
-    // });
+
   }
 
+  this.walmartItem = function(id, callback){
+    if(typeof id != "number"){
+      callback({ errors: ['Walmart ID# is incorrect format.']})
+      return;
+    }
+    console.log(id);
+    $http.get('/walmartItem/'+id).then(callback);
+
+  }
+  
   this.sams = function(id, callback){
     if(typeof id != "number"){
       callback({ errors: ['Sams Club Item# is incorrect format.']})

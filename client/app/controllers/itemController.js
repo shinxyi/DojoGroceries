@@ -17,6 +17,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         return;
       }
       self.items = returnedData;
+      $('#lazylink .accordion-content').css("display","block");
+      $('#itemform .accordion-content').css("display","none");
+      self.suggestion = {};
     });
   }
 
@@ -139,13 +142,41 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         console.log(category.length-1);
         console.log(category[3]);
         self.suggestion.category = category[category.length-1];
-        alert('hi');
-        $('#lazylink.accordion-content').css("display","none");
-        $('#itemform.accordion-content').css("display","block");
+        // alert('hi');
+        $('#lazylink .accordion-content').css("display","none");
+        $('#itemform .accordion-content').css("display","block");
       }
     })
   }
 
+  self.walmartItem = function(){
+    self.activated = true;
+    console.log(self.walmartItem.itemId);
+    itemsFactory.walmartItem(self.walmartItem.itemId, function(returnedData){
+      if(returnedData.data.errors){
+        self.activated = false;
+        self.errors = returnedData.data.errors;
+      }else{
+        // self.suggestion = returnedData;
+        self.errors = undefined;
+        self.activated = false;
+        console.log(returnedData.data);
+        self.suggestion.name = returnedData.data.productName;
+        self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
+        self.suggestion.img = returnedData.data.imageAssets[0].versions.thumbnail;
+        self.suggestion.from = 'Walmart';
+        self.suggestion.price = returnedData.data.buyingOptions.price.currencyAmount;
+        var category = returnedData.data.categoryPath.categoryPathName.split('/')
+        console.log(category);
+        console.log(category.length-1);
+        console.log(category[3]);
+        self.suggestion.category = category[category.length-1];
+        // alert('hi');
+        $('#lazylink .accordion-content').css("display","none");
+        $('#itemform .accordion-content').css("display","block");
+      }
+    })
+  }
 
   self.sams = function(){
     self.activated = true;
@@ -168,9 +199,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.suggestion.from = "Sams";
         self.suggestion.price = parseFloat(returnedData.data.price);
         self.suggestion.category = returnedData.data.category[returnedData.data.category.length-2];
-        alert('hi');
-        $('#lazylink.accordion-content').css("display","none");
-        $('#itemform.accordion-content').css("display","block");
+        // alert('hi');
+        $('#lazylink .accordion-content').css("display","none");
+        $('#itemform .accordion-content').css("display","block");
       }
     })
   }
