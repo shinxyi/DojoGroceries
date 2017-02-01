@@ -251,6 +251,19 @@ function ItemsController() {
 		    });
 
 	}
+	this.walmartItem = function(req, res){
+		console.log('walmartItem');
+		console.log(req.params.itemId);
+      var item = req.params.itemId;
+      walmart.getItem(item).then(function(item) {
+          console.log(item);
+          res.json(item.product);
+        }).catch(function(err) {
+		      console.log(err);
+					res.json({errors: ['The Item did not a match please check the upc']})
+		    });
+
+	}
 	this.sams = function(req, res){
 		console.log('samssssssss');
       var itemId = req.params.itemId;
