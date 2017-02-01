@@ -55,7 +55,8 @@ module.exports = function(app) {
 	app.get('/budget/getbudget', budgets.get);
 	app.put('/budget/:budget_id', budgets.update);
 	app.get('/budget', budgets.index);
-	app.get("/budget/setbudget/:newbudget", budgets.create);
+	app.get('/budget/setbudget/:newbudget', budgets.create);
+	app.post('/budget/currentexpenses', groceries.currentExpenses);
 
 ///////
 

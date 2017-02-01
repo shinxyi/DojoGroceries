@@ -155,8 +155,24 @@ function GroceriesController() {
 			})
 
 		})
-	}
-}
+	};
+
+	this.currentExpenses = function(req,res){
+		//console.log("groceries controller ======>", req.body);
+		GroceryList.findOne({week:req.body.week}, function(err, glist){
+			if(glist){
+				var sum = 0;
+				for(var item in glist.list){
+					var temp = glist.list[item];
+					console.log("aaaa", temp.price);
+					sum += temp.price;
+				};
+			res.json({"currentExpenses": sum, "forWeek":req.body.week});
+			}
+			
+		});
+	};
+};
 
 
 module.exports = new GroceriesController();

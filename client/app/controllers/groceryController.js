@@ -36,6 +36,7 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
     self.refresh(self.thisweek);
+    currentExpenses(self.thisweek);
     console.log('this week in groceries Controller->', self.thisweek);
   })
 
@@ -46,12 +47,14 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   self.addToGroceries = function(item_id, week){
     groceriesFactory.addToGroceries(item_id, week, function(){
       self.refresh(week);
+      currentExpenses(self.thisweek);
     })
   }
 
   self.removeFromGroceries = function(item_id, week){
     groceriesFactory.removeFromGroceries(item_id, week, function(){
       self.refresh(week);
+      currentExpenses(self.thisweek);
     })
   }
 
@@ -63,7 +66,7 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
 
   var getBudget = function(){
     groceriesFactory.getBudget(function(returnedData){
-      self.currentBudget = returnedData.data;
+      self.currentBudget = returnedData.data.budget;
     })
   }
 
@@ -71,8 +74,20 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
 
   self.setBudget = function(){
     groceriesFactory.setBudget(self.newBudget, function(returnedData){
-      getBudget()
+      getBudget();
+      currentExpenses(self.thisweek);
     });
   };
+
+
+  var currentExpenses = function(week){
+    groceriesFactory.currentExpenses(week, function(returnedData){
+      self.amountSpent = returnedData.data.currentExpenses;
+      self.leftOver = (self.currentBudget - self.amountSpent).toFixed(2);
+    });
+  };
+
+    
+  
 
 }]);
