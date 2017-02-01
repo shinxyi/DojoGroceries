@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 	  moment = require('moment');
 
 var Budget = mongoose.model('Budget');
+var GroceryList = mongoose.model('GroceryList');
 
 function BudgetsController() {
 
