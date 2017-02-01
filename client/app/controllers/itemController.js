@@ -17,6 +17,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         return;
       }
       self.items = returnedData;
+      $('#lazylink .accordion-content').css("display","block");
+      $('#itemform .accordion-content').css("display","none");
+      self.suggestion = {};
     });
   }
 
@@ -133,13 +136,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         console.log(category.length-1);
         console.log(category[3]);
         self.suggestion.category = category[category.length-1];
-        alert('hi');
-        $('#lazylink.accordion-content').css("display","none");
-        $('#itemform.accordion-content').css("display","block");
+        // alert('hi');
+        $('#lazylink .accordion-content').css("display","none");
+        $('#itemform .accordion-content').css("display","block");
       }
     })
   }
-
 
   self.sams = function(){
     self.activated = true;
@@ -162,9 +164,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.suggestion.from = "Sam's";
         self.suggestion.price = parseFloat(returnedData.data.price);
         self.suggestion.category = returnedData.data.category[returnedData.data.category.length-2];
-        alert('hi');
-        $('#lazylink.accordion-content').css("display","none");
-        $('#itemform.accordion-content').css("display","block");
+        // alert('hi');
+        $('#lazylink .accordion-content').css("display","none");
+        $('#itemform .accordion-content').css("display","block");
       }
     })
   }
