@@ -1,5 +1,22 @@
 <div>
-	STATS PARTIAL....is this working??? plz work 
-
-	stat controller user....{{statCtrl.statUser}}
+	<h2>Stats Page</h2>
+	<div ng-repeat="w in statCtrl.allData">
+	<h4>For week {{w.week}}</h4>
+	<table>
+		<tr>
+			<th>Item Name</th>
+			<th>Price</th>
+			<th>Quantity</th>
+			<th>From</th>
+			<th>Category</th>
+		</tr>
+		<tr ng-repeat="i in w.items">
+			<td>{{i.name}}</td>
+			<td>{{i.price}}</td>
+			<td>{{i.quantity}}</td>
+			<td>{{i.from}}</td>
+			<td>{{i.category}}</td>
+		</tr>
+	</table>
+	</div>
 </div>

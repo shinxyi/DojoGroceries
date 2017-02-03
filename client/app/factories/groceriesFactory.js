@@ -98,6 +98,11 @@ app.factory('groceriesFactory', ['$http', function($http) {
     });
   };
 
+  this.history = function(callback){
+    $http.get("/groceries/history").then(function(res){
+      callback(res);
+    })
+  }
   
 
 };

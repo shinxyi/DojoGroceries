@@ -185,6 +185,26 @@ function GroceriesController() {
 			
 		});
 	};
+
+	this.history = function(req,res){
+		GroceryList.find().sort({'createdAt':-1}).exec(function(err, all){
+			if(err){
+				console.log(err);
+			}
+			else{
+				console.log(all);
+				var arr = []
+				for(var i=0;i<all.length;i++){
+					arr.push({"week":all[i]['week'], 'items':[]});
+					for(var itemId in all[i]['list']){
+						arr[i]['items'].push(all[i]['list'][itemId]);
+					};
+				};
+				console.log(arr);
+				res.json(arr);
+			};
+		});
+	};
 };
 
 

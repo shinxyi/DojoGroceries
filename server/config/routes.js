@@ -40,6 +40,7 @@ module.exports = function(app) {
 ///////
 
 	app.get('/groceries/weeks', groceries.indexWeeks);
+	app.get('/groceries/history', groceries.history);
 	app.get('/groceries/:week', groceries.index);
 	app.post('/groceries/:item_id/:week', groceries.addItem);
 	app.delete('/groceries/:item_id/:week', groceries.removeItem);
