@@ -23,7 +23,7 @@
 
 <div ng-controller="commentController as commentCtrl">
   <div ng-controller="categoryController as categoryCtrl">
-    <!-- line from which grocery controller div was removed -->
+    <div ng-controller="statController as statCtrl">
       <div class="content" ng-controller="commentController as commentCtrl">
         <div id="editCategories" class="view hidden" ui-view="category"></div>
         <div id="editItem" class="view hidden" ui-view="editItem"></div>
@@ -33,7 +33,7 @@
         <div id="users" class="view hidden" ui-view="users"></div>
         <div id="stats" class="view hidden" ui-view="stats"></div>
       </div>
-    <!-- close div tag for grocery controller removal -->
+    </div>
   </div>
 </div>
 </div>
