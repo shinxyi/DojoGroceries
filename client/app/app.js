@@ -72,6 +72,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         },
         'category@admin_dashboard': {
           templateUrl: '/assets/partials/editCategories.html'
+        },
+        'stats@admin_dashboard':{
+          templateUrl: '/assets/partials/stats.html'
         }
       }
     })

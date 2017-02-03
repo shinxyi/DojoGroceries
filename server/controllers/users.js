@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-	moment = require('moment');
+	moment = require('moment'),
+	bcrypt = require('bcryptjs');
 
 var User = mongoose.model('User');
 
@@ -189,6 +190,26 @@ function UsersController() {
 				};
 			});
 		};
+
+		this.changePassword = function(req,res){
+			//if a user is not an admin or the user is not stored in session at all
+			if(req.session.user._id < 9 || !req.session.user._id){
+				res.json({errors:["You do not have the proper authority to complete this function."]});
+				return;
+			};
+			var newPw = bcrypt.hashSync(req.body.pw);
+			User.update({email:req.body.email}, {password:newPw}, function(err, user){
+				if(!user || err){
+					console.log(err);
+					res.json({errors:["User does not exist."]});
+				}
+				else{
+					console.log("after update....", user);
+					res.json(user);
+				};
+			});
+
+		}
 
 	};
 
