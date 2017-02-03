@@ -8,6 +8,7 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
 
   self.batchProcessInfo = {};
 
+
   //changed this to a variable so we could call the function in multiple places instead of just on pageload. useful for batch processes.
   usersFactory.registerCbs('updateUsers', function(){
     usersFactory.index(function(returnedData){
@@ -124,5 +125,11 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
       self.pendingUsersCount = count;
       self.batchProcessInfo = {};
     });
-  }
+  };
+  self.changeUserPassword = function(){
+    usersFactory.changeUserPassword(self.pwEmail, self.pwNew, function(){
+      self.pwEmail='';
+      self.pwNew='';
+    });
+  };
 }]);

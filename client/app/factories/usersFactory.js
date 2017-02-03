@@ -108,6 +108,14 @@ app.factory('usersFactory', ['$http',  function($http) {
     });
   };
 
+  this.changeUserPassword = function(email, pw, callback){
+    data = {email, pw};
+    $http.post("/users/changepassword", data).then(function(returnedData){
+      console.log(returnedData);
+      callback(returnedData);
+    });
+  };
+
 
 
 

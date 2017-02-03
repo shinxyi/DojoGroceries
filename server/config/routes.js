@@ -19,6 +19,7 @@ module.exports = function(app) {
 	app.get('/users/week', users.week);
 	app.post('/users/batchProcessToOne', users.batchOne);
 	app.get('/users/getstatuser', users.getStatUser);
+	app.post('/users/changepassword', users.changePassword);
 
 ///////
 
