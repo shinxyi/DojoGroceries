@@ -48,9 +48,17 @@
         <fieldset class="fieldset">
           <legend><span class="success label">Grocery List:</label></legend>
             <form>
-              <select id="suggestion_category" ng-model="userCtrl.groceryweek" ng-change="groceryCtrl.refresh(userCtrl.groceryweek);">
-                <option ng-repeat="week in groceryCtrl.groceryweeks" value="{{week}}" ng-model="userCtrl.groceryweek"> {{week}}</option>
-              </select>
+
+              <div class="row">
+                  <div class="small-3 columns">
+                    <label for="middle-label" class="text-right middle">Select a Week:</label>
+                  </div>
+                  <div class="small-9 columns">
+                    <select id="suggestion_category" ng-model="userCtrl.groceryweek" ng-change="groceryCtrl.refresh(userCtrl.groceryweek);">
+                      <option ng-repeat="week in groceryCtrl.groceryweeks" value="{{week}}" ng-model="userCtrl.groceryweek"> {{week}}</option>
+                    </select>
+                  </div>
+                </div>
             </form>
 
 
