@@ -126,6 +126,7 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
       self.batchProcessInfo = {};
     });
   };
+
   self.changeUserPassword = function(){
     usersFactory.changeUserPassword(self.pwEmail, self.pwNew, function(){
       self.pwEmail='';
