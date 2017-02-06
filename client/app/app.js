@@ -1,6 +1,6 @@
 var app = angular.module('app', [ 'ui.router','ngMaterial']);
 
-app.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
   $urlRouterProvider.otherwise('/');
 
@@ -48,6 +48,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     })
     .state('admin_dashboard',{
       url: '/admin_dashboard',
+      resolve: {
+        user: function (usersFactory, $location) {
+          var user = usersFactory.user();
+          if(user.adminLvl<8){
+            $location.url('/dashboard');
+            return
+          }
+        }
+      },
       views:{
 
         '': {

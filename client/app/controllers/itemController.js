@@ -1,5 +1,7 @@
 app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFactory', 'groceriesFactory', '$location', '$interval', function(itemsFactory, commentsFactory, usersFactory, groceriesFactory, $location,  $interval) {
-
+  // if !(session.user)
+  //   $location.url('/dashboard');
+  // console.log(storedUser);
   var self= this;
 
   this.activated = false;
@@ -7,8 +9,16 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
-    console.log('this week in Items Controller->', self.thisweek);
+    // console.log('this week in Items Controller->', self.thisweek);
   })
+
+  var returnedData = usersFactory.user();
+  console.log('this is the logged in user->',returnedData);
+  if(!returnedData.name){
+    $location.url('/');
+    return;
+  }
+
 
   var refresh = function(){
     itemsFactory.getAllItems(function(returnedData){

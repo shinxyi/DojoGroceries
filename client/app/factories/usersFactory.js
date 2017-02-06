@@ -8,6 +8,10 @@ app.factory('usersFactory', ['$http',  function($http) {
 
   var callbacks = {};
 
+  this.user = function () {
+    return storedUser
+  }
+
   this.registerCbs = function(name, callback){
     callbacks[name]=callback;
   }
@@ -20,29 +24,29 @@ app.factory('usersFactory', ['$http',  function($http) {
   }
 
   this.login = function(user, callback){
-	console.log('user ->', user);
+	// console.log('user ->', user);
     if(!user||!(user.hasOwnProperty('email'))){
         callback({errors: ['Fields cannot be empty!']});
     }else{
       $http.post('/users/authenticate', user).then(function(returned_data){
           storedUser = returned_data.data;
-          console.log('user??? ->', storedUser);
+          // console.log('user??? ->', storedUser);
           callback(returned_data.data);
       });
     }
   };
 
   this.logout = function(callback) {
-    console.log('user!!! ->', storedUser);
+    // console.log('user!!! ->', storedUser);
     storedUser={};
-    console.log('user** ->', storedUser);
+    // console.log('user** ->', storedUser);
   	$http.get('/users/deauthenticate').then(function(returnedData) {
   		callback(returnedData);
   	});
   };
 
   this.create = function(user, callback){
-  	console.log('user ->', user);
+  	// console.log('user ->', user);
       if(!user||!(user.hasOwnProperty('email'))){
           callback({errors: ['Fields cannot be empty!']});
       }else if(user.password != user.password2){
@@ -71,7 +75,7 @@ app.factory('usersFactory', ['$http',  function($http) {
     }
 
     $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){
-      console.log('storedUser --->', storedUser);
+      // console.log('storedUser --->', storedUser);
       storedUser = returned_data.data.user;
       callback(returned_data.data);
       callbacks['updateItems']();
@@ -110,7 +114,7 @@ app.factory('usersFactory', ['$http',  function($http) {
   this.changeUserPassword = function(email, pw, callback){
     data = {email, pw};
     $http.post("/users/changepassword", data).then(function(returnedData){
-      console.log(returnedData);
+      // console.log(returnedData);
       callback(returnedData);
     });
   };
