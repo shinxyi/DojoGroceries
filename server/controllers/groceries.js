@@ -17,9 +17,11 @@ function GroceriesController() {
 		return errors;
 	};
 
-	// var week = 	moment().week().toString() + moment().year().toString();
-
 	this.indexWeeks = function(req, res){
+		if(!req.session.user||req.session.user.adminLvl<9){
+			res.json({errors: ['You are not allowed retrieve this data...']})
+			return;
+		}
 
 		GroceryList.find({}, 'week', function(error, weeks){
 			if(error){
@@ -32,6 +34,11 @@ function GroceriesController() {
 	};
 
 	this.index = function(req, res){
+
+		if(!req.session.user||req.session.user.adminLvl<9){
+			res.json({errors: ['You are not allowed retrieve this data...']})
+			return;
+		}
 
 		GroceryList.findOne({week: req.params.week}, function(error, glist){
 			if(error){
@@ -68,7 +75,7 @@ function GroceriesController() {
 
 	this.addItem = function(req, res) {
 
-		if(req.session.user.adminLvl<9){
+		if(!req.session.user||req.session.user.adminLvl<9){
 			res.json({errors: ['User is not allowed to make this change...']})
 			return;
 		}
@@ -108,7 +115,7 @@ function GroceriesController() {
 
 	this.removeItem = function(req, res) {
 
-		if(req.session.user.adminLvl<9){
+		if(!req.session.user||req.session.user.adminLvl<9){
 			res.json({errors: ['User is not allowed to make this change...']})
 			return;
 		}
@@ -143,7 +150,7 @@ function GroceriesController() {
 
 	this.changeBought = function(req, res){
 
-		if(req.session.user.adminLvl<9){
+		if(!req.session.user||req.session.user.adminLvl<9){
 			res.json({errors: ['User is not allowed to make this change...']})
 			return;
 		}
@@ -182,11 +189,16 @@ function GroceriesController() {
 				};
 			res.json({"currentExpenses": sum, "forWeek":req.body.week});
 			}
-			
+
 		});
 	};
 
 	this.history = function(req,res){
+		if(!req.session.user||req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to retrieve this data...']})
+			return;
+		}
+
 		GroceryList.find().sort({'createdAt':-1}).exec(function(err, all){
 			if(err){
 				console.log(err);
