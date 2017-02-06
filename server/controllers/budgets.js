@@ -53,29 +53,6 @@ function BudgetsController() {
 		});
 	};
 
-	this.update = function(req, res) {
-		Budget.findOne({_id: req.params.budget_id }, function(error, budget) {
-			budget.budget = req.body.budget;
-			budget.spendings = req.body.spendings;
-			budget.save(function(err){
-				if(err){
-					res.json({errors: processError(err)});
-				}else{
-					res.json(budget);
-				}
-			})
-		});
-	};
-
-	this.index = function(req, res) {
-		if(!req.session.user||req.session.user.adminLvl<9){
-			res.json({errors: ['User is not allowed to get budget info...']})
-			return;
-		}
-		Budget.find({}, function(error, budgets) {
-				res.json({budgets: budgets});
-		});
-	};
 
 
 };

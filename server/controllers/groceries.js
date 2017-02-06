@@ -28,7 +28,6 @@ function GroceriesController() {
 				res.json({errors: ['Issue finding Grocery List Weeks...']});
 				return;
 			}
-			console.log('returned from search', weeks);
 			res.json({weeks: weeks});
 		})
 	};
@@ -58,7 +57,6 @@ function GroceriesController() {
 							res.json({ errors: processError(error) });
 							return;
 						}else{
-							console.log('groceries.js controller - grocery list was just created!!');
 							res.json({list: newGlist});
 							return;
 						}
@@ -94,7 +92,6 @@ function GroceriesController() {
 					res.json({errors: ['Issue finding Grocery List...']});
 					return;
 				}
-				console.log(glist);
 
 				//This following code checks if the grocery list already contains the item
 				if(!glist.list.hasOwnProperty(item._id)){
@@ -126,17 +123,13 @@ function GroceriesController() {
 				res.json({errors: ['Item to add cannot be found...']});
 				return;
 			}
-			console.log(req.params.week);
 			GroceryList.findOne({week: req.params.week}, function(error, glist){
 				if(error|| !glist){
 					res.json({errors: ['Issue finding Grocery List...']});
 					return;
 				}
-				console.log('*****');
-				console.log(glist);
 				if(glist.list.hasOwnProperty(item._id)){
 					delete glist.list[item._id];
-					console.log('item successfully removed from grocery list!');
 				}
 				glist.markModified('list');
 
@@ -178,13 +171,11 @@ function GroceriesController() {
 	};
 
 	this.currentExpenses = function(req,res){
-		//console.log("groceries controller ======>", req.body);
 		GroceryList.findOne({week:req.body.week}, function(err, glist){
 			if(glist){
 				var sum = 0;
 				for(var item in glist.list){
 					var temp = glist.list[item];
-					console.log("aaaa", temp.price);
 					sum += temp.price;
 				};
 			res.json({"currentExpenses": sum, "forWeek":req.body.week});
@@ -204,7 +195,6 @@ function GroceriesController() {
 				console.log(err);
 			}
 			else{
-				console.log(all);
 				var arr = []
 				for(var i=0;i<all.length;i++){
 					arr.push({"week":all[i]['week'], 'items':[]});
@@ -212,7 +202,6 @@ function GroceriesController() {
 						arr[i]['items'].push(all[i]['list'][itemId]);
 					};
 				};
-				console.log(arr);
 				res.json(arr);
 			};
 		});

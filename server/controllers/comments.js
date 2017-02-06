@@ -6,7 +6,6 @@ var mongoose = require('mongoose'),
     Item = mongoose.model('Item'),
     User = mongoose.model('User');
 
-console.log('comments controller');
 
 function CommentsController() {
 
@@ -24,16 +23,13 @@ function CommentsController() {
           return;
         }
 
-        console.log('checking user->', req.session.user);
         var comment = new Comment(req.body);
         comment._item = item._id;
         comment.week = week;
         comment.userName = req.session.user.name;
         comment.userId = req.session.user._id;
-        console.log('comment is being created!!!', req.body);
 
         comment.save(function(err){
-          console.log('comment is being created22', req.body);
           if(err){
             console.log('err->',err);
             res.json({errors: err});
@@ -68,7 +64,6 @@ function CommentsController() {
       }
 
       Comment.findOne({_id: req.params.comment_id}, function(err, comment) {
-        console.log('trying to update this comment, ->', comment);
         comment.active = comment.active==2 ? 1 : 2;
         comment.save(function(err){
           if(err){
