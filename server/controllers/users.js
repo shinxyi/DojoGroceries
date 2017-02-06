@@ -49,7 +49,6 @@ function UsersController() {
 						res.json({ errors: processError(error) });
 						return;
 					}
-					console.log('user successfully created==>', user);
 
 					if(!found){
 						var returnedUser = {
@@ -107,7 +106,6 @@ function UsersController() {
 						numberOfCommentsCreated: user.numberOfCommentsCreated,
 						numberOfItemsCreated: user.numberOfItemsCreated
 				}
-				console.log('user before sending back->', returnedUser);
 				res.json(returnedUser);
 			});
 		};
@@ -146,7 +144,6 @@ function UsersController() {
 						return;
 					}
 
-					console.log('users.js - update(): user admin lvl successfully updated.');
 
 					res.json({ user: updatedUser});
 				});
@@ -160,10 +157,8 @@ function UsersController() {
 			}
 			// list of user ids to be set to user level '1'
 			var idList = req.body;
-			console.log(idList); //can delete
 			//looping through each id in the list to individually update each user
 			for(var i = 0; i<idList.length; i++){
-				console.log("Currently updating user:", idList[i]); //can delete
 				User.findOne({_id:idList[i]}, function(err, aUser){
 					if(err){
 						console.log(err);

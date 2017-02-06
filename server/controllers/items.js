@@ -94,7 +94,6 @@ function ItemsController() {
 			category: req.body.category,
 			quantity: req.body.quantity
 		});
-		console.log('user ->', item);
 
 		item.save(function(error, item) {
 			if (error) {
@@ -103,7 +102,6 @@ function ItemsController() {
 				return;
 			}
 
-			console.log('item successfully created ->', item);
 			//incrementing the user's numberOfItemsCreated field by 1 upon successful item creation. as long as there is no error, value is incremented with no other form of validation.
 			User.update({_id:req.session.user._id}, {$inc:{numberOfItemsCreated:1}}, function(err, updateInfo){
 				if(err){
@@ -201,7 +199,6 @@ function ItemsController() {
 
 					user.markModified('votes');
 					user.save(function(err){
-						console.log('vote: ==>', req.params.vote);
 
 						if(!(item.voting_list.hasOwnProperty(week))){
 							console.log('this item has not been voted on for this week before');
@@ -211,14 +208,12 @@ function ItemsController() {
 
 						if(req.params.vote>0){
 							item.voting_list[week]++;
-							console.log('checking item voting list (vote: 1)', item.voting_list);
 						}else{
 							if(item.voting_list[week]<2){
 								delete item.voting_list[week];
 							}else{
 								item.voting_list[week]--;
 							}
-							console.log('checking item voting list (vote: 0)', item.voting_list);
 
 						}
 
@@ -247,19 +242,16 @@ function ItemsController() {
 			item.active = false;
 
 			item.save(function(error, item){
-				console.log('item successfully deleted');
 				res.json({ item: item });
 			});
 		});
 	}
 
 	this.walmart = function(req, res){
-		console.log('walmart');
-		console.log(req.params.upcId);
-      var upc = req.params.upcId;
-      walmart.getItemByUPC(upc).then(function(item) {
-          console.log(item);
-          res.json(item.product);
+      	var upc = req.params.upcId;
+     	walmart.getItemByUPC(upc).then(function(item) {
+
+        res.json(item.product);
         }).catch(function(err) {
 		      console.log(err);
 					res.json({errors: ['The UPC did not a match please check the upc']})
@@ -267,11 +259,8 @@ function ItemsController() {
 	}
 
 	this.walmartItem = function(req, res){
-		console.log('walmartItem');
-		console.log(req.params.itemId);
       var item = req.params.itemId;
       walmart.getItem(item).then(function(item) {
-          console.log(item);
           res.json(item.product);
         }).catch(function(err) {
 		      console.log(err);
@@ -280,15 +269,11 @@ function ItemsController() {
 	}
 
 	this.sams = function(req, res){
-		console.log('samssssssss');
       var itemId = req.params.itemId;
-			console.log(itemId);
 			sams.search(itemId, function(result) {
-			  console.log(result);
 				res.json(result);
 			}, function(err) {
 			  console.log(err);
-				console.log('Cody only shops at Costco');
 				res.json({errors: ["The item did not a match please check the Item number"]});
 			});
 	}
