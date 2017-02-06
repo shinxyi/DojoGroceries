@@ -15,7 +15,7 @@
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li ng-if="userCtrl.user.adminLvl==9"><span id="menu-budget">Budget: <span ng-style="groceryCtrl.leftOver < 0 && {'color':'red'}"><span ng-style="groceryCtrl.leftOver >= 0 && {'color':'green'}"><b>{{(groceryCtrl.leftOver | currency) || "$0.00"}}</span></span> / {{(groceryCtrl.currentBudget | currency) || "$0.00"}}</b> </span></li>
+      <li ng-if="userCtrl.user.adminLvl==9"><span id="menu-budget">Week <b>{{userCtrl.groceryweek}}</b> Budget ( <span ng-style="groceryCtrl.leftOver < 0 && {'color':'red'}"><span ng-style="groceryCtrl.leftOver >= 0 && {'color':'green'}"><b>{{(groceryCtrl.leftOver | currency) || "$0.00"}}</span></span> / {{(groceryCtrl.currentBudget | currency) || "$0.00"}}</b> </span> )</li>
       <li><a ng-click="userCtrl.logout()">Logout</a></li>
     </ul>
   </div>

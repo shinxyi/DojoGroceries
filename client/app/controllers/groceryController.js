@@ -15,8 +15,8 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
       self.groceryDictionary = returnedData.dictionary;
       groceriesFactory.indexWeeks(function(returnedData){
         self.groceryweeks = returnedData;
-        console.log(':DDDD grocery weeks', self.groceryweeks);
       })
+      self.currentExpenses(week);
     })
   }
 
@@ -34,8 +34,7 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
     self.refresh(self.thisweek);
-    currentExpenses(self.thisweek);
-    console.log('this week in groceries Controller->', self.thisweek);
+    self.currentExpenses(self.thisweek);
   })
 
   self.filter = function(place){
@@ -45,14 +44,14 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   self.addToGroceries = function(item_id, week){
     groceriesFactory.addToGroceries(item_id, week, function(){
       self.refresh(week);
-      currentExpenses(self.thisweek);
+      self.currentExpenses(week);
     })
   }
 
   self.removeFromGroceries = function(item_id, week){
     groceriesFactory.removeFromGroceries(item_id, week, function(){
       self.refresh(week);
-      currentExpenses(self.thisweek);
+      self.currentExpenses(week);
     })
   }
 
@@ -73,19 +72,17 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   self.setBudget = function(){
     groceriesFactory.setBudget(self.newBudget, function(returnedData){
       getBudget();
-      currentExpenses(self.thisweek);
+      self.currentExpenses(self.thisweek);
     });
   };
 
 
-  var currentExpenses = function(week){
+  self.currentExpenses = function(week){
     groceriesFactory.currentExpenses(week, function(returnedData){
       self.amountSpent = returnedData.data.currentExpenses;
       self.leftOver = (self.currentBudget - self.amountSpent).toFixed(2);
     });
   };
-
-
 
 
 }]);

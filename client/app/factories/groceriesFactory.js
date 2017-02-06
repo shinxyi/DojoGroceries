@@ -103,7 +103,7 @@ app.factory('groceriesFactory', ['$http', function($http) {
       callback(res);
     })
   }
-  
+
 
 };
 
