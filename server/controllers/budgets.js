@@ -25,6 +25,11 @@ function BudgetsController() {
 	};
 
 	this.create = function(req, res) {
+		if(!req.session.user||req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to create a budget...']})
+			return;
+		}
+
 		var budget = new Budget({budget: req.params.newbudget});
 
 		budget.save(function(error, budget) {
@@ -38,8 +43,12 @@ function BudgetsController() {
 	};
 
 	this.get = function(req, res) {
+		if(!req.session.user||req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to get budget info...']})
+			return;
+		}
+
 		Budget.findOne({}, {}, { sort: { 'createdAt' : -1 } }, function(err, budget){
-  			console.log("Here is the budget------------------>",budget);
   			res.json(budget);
 		});
 	};
@@ -59,6 +68,10 @@ function BudgetsController() {
 	};
 
 	this.index = function(req, res) {
+		if(!req.session.user||req.session.user.adminLvl<9){
+			res.json({errors: ['User is not allowed to get budget info...']})
+			return;
+		}
 		Budget.find({}, function(error, budgets) {
 				res.json({budgets: budgets});
 		});

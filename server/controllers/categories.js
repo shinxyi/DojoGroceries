@@ -22,7 +22,7 @@ function CategoriesController() {
 
 	this.create = function(req, res) {
 
-		if(req.session.user.adminLvl<9){
+		if(!req.session.user||req.session.user.adminLvl<9){
 			res.json({errors: ['User is not allowed to make this change...']})
 			return;
 		}
@@ -40,7 +40,7 @@ function CategoriesController() {
 
 	this.destroy = function(req, res) {
 
-		if(req.session.user.adminLvl<9){
+		if(!req.session.user||req.session.user.adminLvl<9){
 			res.json({errors: ['User is not allowed to make this change...']})
 			return;
 		}

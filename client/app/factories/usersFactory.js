@@ -19,7 +19,6 @@ app.factory('usersFactory', ['$http',  function($http) {
     })
   }
 
-
   this.login = function(user, callback){
 	console.log('user ->', user);
     if(!user||!(user.hasOwnProperty('email'))){

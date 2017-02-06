@@ -1,33 +1,39 @@
-# DojoGroceries
+# Fūdo Dojo ("Food Room")
+
+Fūdo Dojo is a web application that will allow students of the Coding Dojo to submit items to a weekly 'election' (AKA "suggestions list"). From this election, students can vote on globally submitted items that they desire to see purchased for their consumption in the kitchen. At it's most basic level, the app will be able to 1) properly register and login users and administrators; 2) accept an item id or UPC number and use that number to pull information from Wal-mart's or Sam's Club's website and then populate a database with that information; 3) create a new Suggestions List ('election') every week that users can vote and comment on; and 4) allow administrators to create grocery lists based on weekly user feedback from Suggestions.
 
 ## Features
 
-- First user to log in is automatically set to admin level 9, making them an admin.
-- All following users to log in are set to admin level 0, making them unapproved and thus unable to access their account. (Admin must approve their account. This is a preventative measure to make sure that random people aren't coming by the site and creating accounts to skew the poll stats/ students aren't making duplicate accounts to skew poll stats.)
-- Items can be created. (Walmart API integration and Sam's Club still need to be fixed...)
-- Users can vote on items suggested for this week (if you click vote, the vote will go up, if you click it again, you'll "unvote"). If the vote count is colored green, you've already voted. If it's yellow, you haven't.
-- Items with at least 1 vote will be suggested for this week's grocery list. If the vote count drops below 1, it is un-suggested for the week.
-- Items suggested for the week are ordered by popular vote.
-- "Database" tab only shows items that have not been suggested for this week. (Week is denoted by the last closest Sunday)
-- Users can comment on items. Only comments from this week will be shown.
+### Users and Login/Registration
 
-### Things to come...
+- Properly register and login users with validation.
+- First user to register in database will be registered as an 'administrator' ("admin") level user. Following users can be given admin status by the original admin user or other admin users thereafter.
+- Follow up users must first be 'approved' by an admin before being allowed to login into the application. Users can also be 'deactivated' by an admin.
+- Admin will have ability to batch process/approve new users.
 
-(All these features have already been implemented server-side and are fully functional. A front-end component is needed to be wired up to these... API calls have been tested with [these Postman calls](https://www.getpostman.com/collections/567794b7c8ce8f1d4786))
+### Product Creation
 
-- Sam's Club and Walmart API fix.
-- Protect routes.
-- Users should be able to delete comments if they wrote it.
-- Users can flag other people's comments.
+- Item ID or UPC number inputs can be accepted which will result in a query to Wal-Mart's OpenAPI platform. The returned information can then be captured into the database as an item eligible for voting on if the users approves of it.
+- Users and admins can create custom products with text inputs for predefined product fields.
+- Product schema will have a field called 'quantity' that can be defined by the user creating the item.
+- Admin can edit and delete all products from the database.
 
+### Comments and Interactions
 
-- **Admin Dashboard:**
-	- Setting and editing the weekly budget.
-	- Inbox for reviewing flagged comments.
-	- Inbox for reviewing new members that need approval.
-	- Adding suggested items to this week's grocery list.
-	- Removing items off grocery list.
-	- Marking items on grocery list as bought.
-	- Adding/deleting categories.
-	- Viewing all users and editing admin levels. (Admin Level of 0 = un-approved/inactivated)
-	- Editing any item.
+- Users can place comments on products (and delete them if they created the comment) that have been suggested for Suggestion List.
+- Users can flag comments that were not created by them.
+- Admin can to delete any comment, and will have a portal to view flagged comments.
+
+###  Grocery List / Elections
+
+- Each week the Suggestions List is automatically reset. This list will eventually be populated by users with products that they wish to see purchased.
+- These products can be voted on by individuals users, and will be sorted by the number of votes that they have accrued.
+- Users will only be allowed to place one vote on each individual item per week (with an unlimited number of votes per week). Users can also revoke votes.
+- Users can designate certain products as 'favorites.' These are displayed as a sidebar on the Suggestions List page for users to easily find all favorited items to vote on for that week.
+- Administrators can designate certain products to be persisted. These products will automatically be added to each new grocery list without any user interaction whenever a new grocery list is generated.
+- The admin can add and remove products from the week's grocery list.
+
+### Reports
+- Admins can view a historical stat page.
+- The admin can establish a budget which is displayed to the admin in their navigation bar along with the remaining amount of money from their budget. The remaining amount of money left over is based on items and their quantities added by the admin to the grocery list.
+- Users can view information on the total votes and comments they've contributed to the application.

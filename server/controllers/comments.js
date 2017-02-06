@@ -13,6 +13,10 @@ function CommentsController() {
   var week = 	moment().week().toString() + moment().year().toString();
 
     this.create = function(req,res){
+      if(!req.session.user){
+  			res.json({errors: ['User is not allowed to create a comment...']})
+  			return;
+  		}
 
       Item.findOne({_id: req.params.item_id }, function(err, item){
         if(!item){
@@ -40,7 +44,7 @@ function CommentsController() {
           User.update({_id:req.session.user._id}, {$inc:{numberOfCommentsCreated:1}}, function(err, updateInfo){
             if(err){
               console.log(err);
-            };  
+            };
           });
 
           if(!err){
@@ -58,6 +62,11 @@ function CommentsController() {
     };
 
     this.flag = function(req, res) {
+      if(!req.session.user){
+        res.json({errors: ['User is not allowed to create a comment...']})
+        return;
+      }
+
       Comment.findOne({_id: req.params.comment_id}, function(err, comment) {
         console.log('trying to update this comment, ->', comment);
         comment.active = comment.active==2 ? 1 : 2;
@@ -72,6 +81,10 @@ function CommentsController() {
     };
 
     this.destroy = function(req, res) {
+      if(!req.session.user){
+  			res.json({errors: ['User is not allowed to create a comment...']})
+  			return;
+  		}
 
       Comment.findOne({_id: req.params.comment_id}, function(err, comment) {
         if(comment.userId==req.session.user._id|| req.session.user.adminLvl==9){
@@ -91,6 +104,11 @@ function CommentsController() {
     };
 
     this.indexFlagged = function(req, res) {
+      if(!req.session.user){
+        res.json({errors: ['User is not allowed to retrieve this data...']})
+        return;
+      }
+
       Comment.find({active: 1, week: week }, function(err, comments) {
         if(err){
           res.json({errors: ['Flagged comments cannot be retrieved']});

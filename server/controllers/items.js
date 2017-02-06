@@ -44,8 +44,8 @@ function ItemsController() {
 	}
 
 	this.update = function(req,res){
-		if(req.session.user.adminLvl<9){
-			res.json({errors: ['User is not allowed to make this change...']})
+		if(!req.session.user||req.session.user.adminLvl<9){
+			res.json({errors: ['You are not allowed to make this change...']})
 			return;
 		}
 
@@ -78,7 +78,10 @@ function ItemsController() {
 
 	this.create = function(req, res) {
 
-		console.log('user ->', req.session.user._id);
+		if(!req.session.user){
+			res.json({errors: ['You are not allowed to create an item...']})
+			return;
+		}
 
 		var item = new Item({
 			createdBy: req.session.user._id,
@@ -118,10 +121,15 @@ function ItemsController() {
 	};
 
 	this.fav = function(req,res){
+		if(!req.session.user || req.session.user.adminLvl==9){
+			res.json({errors: ['You are not allowed to favorite an item...']})
+			return;
+		}
+
 		var itemId = req.params.item_id;
 		Item.findOne({_id: itemId}, function(error, item){
 			if(error){
-				res.json({errors: ['Cannot find item to vote...']});
+				res.json({errors: ['Cannot find item to fav...']});
 				return;
 			}else{
 				if(item.favedByUsers.hasOwnProperty(req.session.user._id)){
@@ -139,15 +147,15 @@ function ItemsController() {
 	};
 
 	this.persist = function(req,res){
-		if(req.session.user.adminLvl<9){
-			res.json({errors: ['User is not allowed to make this change...']})
+		if(!req.session.user || req.session.user.adminLvl<9){
+			res.json({errors: ['You are not allowed to favorite an item...']})
 			return;
 		}
 
 		var itemId = req.params.item_id;
 		Item.findOne({_id: itemId}, function(error, item){
 			if(error){
-				res.json({errors: ['Cannot find item to vote...']});
+				res.json({errors: ['Cannot find item to persist...']});
 				return;
 			}else{
 				if(!item.persist){
@@ -165,6 +173,12 @@ function ItemsController() {
 
 
 	this.vote = function(req,res){
+
+		if(!req.session.user || req.session.user.adminLvl==9){
+			res.json({errors: ['You are not allowed to vote on an item...']})
+			return;
+		}
+
 		var itemId = req.params.item_id;
 		Item.findOne({_id: itemId}, function(error, item){
 			if(error){
@@ -225,7 +239,7 @@ function ItemsController() {
 	};
 
 	this.destroy = function(req, res){
-		if(req.session.user.adminLvl<9){
+		if(!req.session.user || req.session.user.adminLvl<9){
 			res.json({errors: ['You are not allowed to delete things.']});
 			return;
 		}
@@ -238,6 +252,7 @@ function ItemsController() {
 			});
 		});
 	}
+
 	this.walmart = function(req, res){
 		console.log('walmart');
 		console.log(req.params.upcId);
@@ -249,8 +264,8 @@ function ItemsController() {
 		      console.log(err);
 					res.json({errors: ['The UPC did not a match please check the upc']})
 		    });
-
 	}
+
 	this.walmartItem = function(req, res){
 		console.log('walmartItem');
 		console.log(req.params.itemId);
@@ -262,8 +277,8 @@ function ItemsController() {
 		      console.log(err);
 					res.json({errors: ['The Item did not a match please check the upc']})
 		    });
-
 	}
+
 	this.sams = function(req, res){
 		console.log('samssssssss');
       var itemId = req.params.itemId;

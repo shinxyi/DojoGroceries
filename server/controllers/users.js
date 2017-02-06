@@ -72,7 +72,6 @@ function UsersController() {
 
 			var password = req.body.password || undefined;
 			if(!password || password.length<1){
-				console.log('users.js authenticate(): no user found with supplied email.');
 				res.json({ errors: ['Invalid email/password combination.'] });
 				return;
 			}
@@ -96,7 +95,6 @@ function UsersController() {
 
 				if(user.adminLvl>0){
 					req.session.user = user;
-					console.log('user in session==>', req.session.user);
 				}else{
 					console.log('User cannot be logged in b/c admin lvl too low.', user);
 				}
@@ -116,7 +114,6 @@ function UsersController() {
 
 		this.deauthenticate = function(req, res) {
 			req.session.user = false;
-			// console.log('logged out =>', req.session.user);
 			res.json({user: false})
 		};
 
@@ -128,6 +125,12 @@ function UsersController() {
 		}
 
 		this.updateAdminLvl = function(req, res) {
+
+			if(!req.session.user || req.session.user.adminLvl<9){
+				res.json({errors: ['You are not allowed edit users...']})
+				return;
+			}
+
 			User.findOne({ _id: req.params.id }, function(error, user) {
 				if (error) {
 					console.log('users.js - update(): error retrieving user.\n', error);
@@ -151,6 +154,10 @@ function UsersController() {
 		};
 
 		this.batchOne = function(req,res){
+			if(!req.session.user || req.session.user.adminLvl<9){
+				res.json({errors: ['You are not allowed edit users...']})
+				return;
+			}
 			// list of user ids to be set to user level '1'
 			var idList = req.body;
 			console.log(idList); //can delete
@@ -193,7 +200,7 @@ function UsersController() {
 
 		this.changePassword = function(req,res){
 			//if a user is not an admin or the user is not stored in session at all
-			if(req.session.user._id < 9 || !req.session.user._id){
+			if(!req.session.user || req.session.user._id < 9){
 				res.json({errors:["You do not have the proper authority to complete this function."]});
 				return;
 			};
