@@ -76,3 +76,9 @@
 .fi-check{
   color:#22bb5b;
 }
+
+.description{
+  height:180px;
+  width:230px;
+  overflow-y: auto;
+}

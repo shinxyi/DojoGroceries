@@ -5,17 +5,17 @@
 <div class="top-bar">
   <div class="top-bar-left">
     <ul class="dropdown menu" data-dropdown-menu>
-      <li class="menu-text">Dojo Groceries</li>
-      <li class="active"><a name="home">Home</a></li>
-      <li><a name="suggestions">Suggestions</a></li>
-      <li><a name="database">Database</a></li>
-      <li><a name="users">Users</a></li>
-      <li><a name="stats">Stats</a></li>
+      <li class="menu-text">Fūdo Dojo</li>
+      <li class="active"><a name="home"><i class="foundicon-globe"></i> Home</a></li>
+      <li><a name="suggestions"><i class="foundicon-star"></i> Suggestions</a></li>
+      <li><a name="database"><i class="foundicon-search"></i> Database</a></li>
+      <li><a name="users"><i class="foundicon-address-book"></i> Users</a></li>
+      <li><a name="stats"><i class="foundicon-graph"></i> Stats</a></li>
     </ul>
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li class="menu-text" ng-if="userCtrl.user.adminLvl==9">Week's budget: ${{groceryCtrl.currentBudget}} | <span ng-style="groceryCtrl.leftOver < 0 && {'color':'red'}" > Budget remaining: ${{groceryCtrl.leftOver}}</span></li>
+      <li ng-if="userCtrl.user.adminLvl==9"><span id="menu-budget">Budget: <span ng-style="groceryCtrl.leftOver < 0 && {'color':'red'}"><span ng-style="groceryCtrl.leftOver >= 0 && {'color':'green'}"><b>{{(groceryCtrl.leftOver | currency) || "$0.00"}}</span></span> / {{(groceryCtrl.currentBudget | currency) || "$0.00"}}</b> </span></li>
       <li><a ng-click="userCtrl.logout()">Logout</a></li>
     </ul>
   </div>

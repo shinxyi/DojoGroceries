@@ -85,7 +85,7 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
     });
   };
 
-    
-  
+
+
 
 }]);
