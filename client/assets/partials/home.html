@@ -6,21 +6,23 @@
 
       <div>
         <fieldset class="fieldset">
-          <legend><span class="warning label">Budget This Week!</span></legend>
+          <legend><span class="warning label">Budget Management</span></legend>
           <!-- START OF BUDGET -->
           <div class="callout alert" ng-if="groceryCtrl.budgeterrors">
             <ul>
               <li ng-repeat="err in groceryCtrl.budgeterrors">{{err}}</li>
             </ul>
           </div>
-          <h3>The current budget is: ${{groceryCtrl.currentBudget}}</h3>
-
-          <label>Change the budget!
-            $<input type="number" name="newBudget" ng-model="groceryCtrl.newBudget" />
-          </label>
-          <div class="right">
-            <input type="submit" class="button" value="Set Budget!" ng-click="groceryCtrl.setBudget();">
+          <div class="callout warning">
+            <h4>Current Budget: <b>{{(groceryCtrl.currentBudget | currency) || "$0.00"}}</b></h4>
           </div>
+          <div class="input-group">
+            <span class="input-group-label">$</span>
+            <input class="input-group-field" type="number" min="0" step='0.01' name="newBudget" ng-model="groceryCtrl.newBudget">
+            <div class="input-group-button">
+              <input type="submit" class="button" value="Update" ng-click="groceryCtrl.setBudget();">
+            </div>
+            </div>
         </fieldset>
       </div>
 
@@ -45,26 +47,28 @@
     </div>
     <div class="medium-8 columns">
       <div id="groceries">
-        <fieldset class="fieldset">
-          <legend><span class="success label">Grocery List:</label></legend>
-            <form>
+          <h3><b>The Grocery List</b> <i class="fi-shopping-cart"></i></h3>
+          <hr>
+          <div class="row">
+              <div class="small-4 columns">
+                <label for="middle-label" class="text-right middle"><b>Select a Week</b>:</label>
+              </div>
+              <div class="small-8 columns">
+                <select id="suggestion_category" ng-model="userCtrl.groceryweek" ng-change="groceryCtrl.refresh(userCtrl.groceryweek);">
+                  <option ng-repeat="week in groceryCtrl.groceryweeks" value="{{week}}" ng-model="userCtrl.groceryweek"> {{week}}</option>
+                </select>
+              </div>
+            </div>
 
-              <div class="row">
-                  <div class="small-3 columns">
-                    <label for="middle-label" class="text-right middle">Select a Week:</label>
-                  </div>
-                  <div class="small-9 columns">
-                    <select id="suggestion_category" ng-model="userCtrl.groceryweek" ng-change="groceryCtrl.refresh(userCtrl.groceryweek);">
-                      <option ng-repeat="week in groceryCtrl.groceryweeks" value="{{week}}" ng-model="userCtrl.groceryweek"> {{week}}</option>
-                    </select>
-                  </div>
+            <div class="row">
+                <div class="small-4 columns text-right middle">
+                  <a ng-click="groceryCtrl.filter('')"><i class="foundicon-remove"></i></a> <a class="button" ng-click="groceryCtrl.filter('Walmart')">Walmart</a> <a class="button" ng-click="groceryCtrl.filter('Sams')">Sam's Club</a>
                 </div>
-            </form>
+                <div class="small-8 columns">
+                  <input type="text" ng-model="groceryCtrl.filter.place" placeholder="Search..."/>
+                </div>
+              </div>
 
-
-            <a class="button" ng-click="groceryCtrl.filter('Walmart')">Walmart</a> <a class="button" ng-click="groceryCtrl.filter('Sams')">Sam's Club</a>
-
-            <input type="text" ng-model="groceryCtrl.filter.place" placeholder="Search..."/><br />
 
             <table>
               <thead>
@@ -102,8 +106,9 @@
                 </tr>
               </tbody>
             </table>
-        </fieldset>
-
+            <div class="right">
+              <h5>Total Spendings: <b>{{(groceryCtrl.amountSpent | currency) || "$0.00"}}</b></h5>
+            </div>
       </div>
     </div>
 </div>
