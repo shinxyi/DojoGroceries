@@ -49,6 +49,7 @@ app.factory('groceriesFactory', ['$http', function($http) {
       this.removeFromGroceries(itemId, groceries.week, function(){
         _this.addToGroceries(itemId, groceries.week, callbackornot);
         callback();
+        callbacks['updateExpenses'](groceryweek);
       })
     }else{
       callback();

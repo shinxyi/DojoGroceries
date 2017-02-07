@@ -92,7 +92,8 @@
                   </td>
                   <td>
                     <span class="flag"><a><i class="foundicon-remove" ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)"></i></a></span>
-                    <a ng-click="itemCtrl.getOne(item._id)"><b>{{ item.name }}</b></a>
+                    <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.groceryweek==userCtrl.thisweek"><b>{{ item.name }}</b></a>
+                    <b ng-if="userCtrl.groceryweek!=userCtrl.thisweek">{{ item.name }}</b>
                   </td>
                   <td>{{ item.price | currency }}<br/><sup>(per unit)</sup></td>
                   <td>{{ item.quantity }}</td>

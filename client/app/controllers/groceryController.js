@@ -31,6 +31,14 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
     })
   })
 
+  groceriesFactory.registerCbs("updateExpenses", function(week){
+    groceriesFactory.currentExpenses(week, function(returnedData){
+      self.amountSpent = returnedData.data.currentExpenses;
+      self.leftOver = (self.currentBudget - self.amountSpent).toFixed(2);
+    });
+  })
+
+
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
     self.refresh(self.thisweek);

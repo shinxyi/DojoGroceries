@@ -22,6 +22,16 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     })
     .state('dashboard',{
       url: '/dashboard',
+      resolve: {
+        user: function (usersFactory, $location) {
+          var user = usersFactory.user();
+          console.log('this is user~~', user);
+          if(!user.adminLvl){
+            $location.url('/');
+            return
+          }
+        }
+      },
       views:{
 
         '': {
@@ -51,8 +61,11 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       resolve: {
         user: function (usersFactory, $location) {
           var user = usersFactory.user();
-          if(user.adminLvl<8){
+          if(user.adminLvl!={}&&user.adminLvl<8){
             $location.url('/dashboard');
+            return
+          }else if(!user.adminLvl){
+            $location.url('/');
             return
           }
         }
