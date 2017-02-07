@@ -9,7 +9,7 @@ app.factory('usersFactory', ['$http',  function($http) {
   var callbacks = {};
 
   this.user = function () {
-    return storedUser
+    return storedUser;
   }
 
   this.registerCbs = function(name, callback){
