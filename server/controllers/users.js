@@ -178,6 +178,7 @@ function UsersController() {
 		};
 
 		this.getStatUser = function(req,res){
+			console.log("getStatUser>>>>>>>>>", req.session.user._id);
 			User.findOne({_id:req.session.user._id}, function(err, user){
 				if(err){
 					console.log(err);

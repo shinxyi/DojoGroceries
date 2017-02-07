@@ -64,6 +64,7 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
       }else{
         self.info = {};
         self.user = returnedData;
+        userStats();
         $location.url('/dashboard');
       }
     })
@@ -133,4 +134,13 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
       self.pwNew='';
     });
   };
+
+  //generates user 'stats' informatio for display on top bar. 
+  var userStats = function(){
+    usersFactory.getStatUser(function(user){
+      console.log(user);
+      self.statUser = user; 
+    });
+  };
+
 }]);
