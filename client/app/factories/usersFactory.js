@@ -1,15 +1,43 @@
-app.factory('usersFactory', ['$http',  function($http) {
+app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
 
   function UsersFactory(){
 
   console.log('loading users Factory');
-  var storedUser = {};
+  // if($cookies.get('stored_id')){
+  //   var user_id = {id: $cookies.get('stored_id')};
+  //   var storedUser = {adminLvl: $cookies.get('storedadminLvl'), _id: $cookies.get('stored_id'), name: $cookies.get('storedname')}
+  //   $http.post('/users/reloguser', user_id).then(function(returned_data){
+  //     console.log(returned_data.data);
+  //     storedUser = returned_data.data;
+  //       // console.log('user??? ->', storedUser);
+  //   });
+  // }
+  // else {
+  //   var storedUser={}
+  // };
   var thisweek;
+  var self = this;
+
+  this.storedUser = "undefined";
 
   var callbacks = {};
 
-  this.user = function () {
-    return storedUser;
+  this.user = function (callback) {
+    if(self.storedUser!=="undefined"){
+      return callback(self.storedUser);
+    }else if ($cookies.get('stored_id')){
+      var user_id = {id: $cookies.get('stored_id')};
+      $http.post('/users/reloguser', user_id).then(function(returned_data){
+        console.log(returned_data.data);
+        self.storedUser = returned_data.data;
+        callbacks['updateUser']();
+        user_id = ""
+        return callback(self.storedUser);
+
+      })
+    }else{
+      return callback("undefined");
+    }
   }
 
   this.registerCbs = function(name, callback){
@@ -30,6 +58,9 @@ app.factory('usersFactory', ['$http',  function($http) {
     }else{
       $http.post('/users/authenticate', user).then(function(returned_data){
           storedUser = returned_data.data;
+          $cookies.put('stored_id', storedUser._id);
+          // $cookies.put('storedadminLvl', storedUser.adminLvl);
+          // $cookies.put('storedname', storedUser.name);
           // console.log('user??? ->', storedUser);
           callback(returned_data.data);
       });
@@ -38,7 +69,12 @@ app.factory('usersFactory', ['$http',  function($http) {
 
   this.logout = function(callback) {
     // console.log('user!!! ->', storedUser);
-    storedUser={};
+    storedUser="undefined";
+    $cookies.remove('stored_id');
+    console.log('storedUser-->', storedUser);
+    // $cookies.put('storedadminLvl', '');
+    // $cookies.put('storedname', '');
+
     // console.log('user** ->', storedUser);
   	$http.get('/users/deauthenticate').then(function(returnedData) {
   		callback(returnedData);

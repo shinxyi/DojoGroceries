@@ -24,6 +24,13 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
     })
   })
 
+  usersFactory.registerCbs('updateUser', function(){
+    usersFactory.user(function(returnedData){
+      self.user = returnedData;
+    })
+  })
+
+
   var refresh = function(){
     usersFactory.index(function(returnedData){
       self.allUsers = returnedData;
