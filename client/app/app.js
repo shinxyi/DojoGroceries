@@ -27,9 +27,9 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
           console.log('THis is the cookie -->', $cookies.get('stored_id'));
           console.log($cookies.get('stored_id')===undefined);
           if($cookies.get('stored_id')===undefined){
-            console.log('***');
+            // console.log('***');
             $location.url('/');
-            console.log('!!!');
+            // console.log('!!!');
             return;
           }
 
