@@ -13,6 +13,7 @@ module.exports = function(app) {
 
 	app.post('/users', users.create);
 	app.post('/users/authenticate', users.authenticate);
+	app.post('/users/reloguser', users.reLogUser);
 	app.get('/users/deauthenticate', users.deauthenticate);
 	app.get('/users', users.index);
 	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels

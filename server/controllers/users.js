@@ -214,6 +214,24 @@ function UsersController() {
 
 		}
 
+	this.reLogUser = function(req, res) {
+		console.log('you have tried to relog', req.body.id);
+		User.findOne({_id: req.body.id}, function(error, user) {
+
+			// var returnedUser = user;
+			var returnedUser = {
+					_id: user._id,
+					name: user.name,
+					votes: user.votes,
+					adminLvl: user.adminLvl,
+					numberOfCommentsCreated: user.numberOfCommentsCreated,
+					numberOfItemsCreated: user.numberOfItemsCreated
+			}
+			console.log(returnedUser);
+			res.json(returnedUser);
+		});
 	};
+
+};
 
 module.exports = new UsersController();

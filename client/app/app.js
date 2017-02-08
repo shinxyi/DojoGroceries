@@ -1,4 +1,4 @@
-var app = angular.module('app', [ 'ui.router','ngMaterial']);
+var app = angular.module('app', [ 'ui.router','ngMaterial','ngCookies']);
 
 app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
@@ -23,13 +23,29 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     .state('dashboard',{
       url: '/dashboard',
       resolve: {
-        user: function (usersFactory, $location) {
-          var user = usersFactory.user();
-          console.log('this is user~~', user);
-          if(!user.adminLvl){
+        user: function (usersFactory, $location, $cookies) {
+          console.log('THis is the cookie -->', $cookies.get('stored_id'));
+          console.log($cookies.get('stored_id')===undefined);
+          if($cookies.get('stored_id')===undefined){
+            // console.log('***');
             $location.url('/');
-            return
+            // console.log('!!!');
+            return;
           }
+
+          usersFactory.user(function(user){
+            console.log("User in APP.js-->",user);
+            if(!user.adminLvl){
+              $location.url('/');
+              return;
+            }
+          });
+            // console.log('this is user~~', user);
+          // console.log('this is user~~', user);
+          // if(!user.adminLvl){
+          //   $location.url('/');
+          //   return
+          // }
         }
       },
       views:{
@@ -61,7 +77,7 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       resolve: {
         user: function (usersFactory, $location) {
           var user = usersFactory.user();
-          if(user.adminLvl!={}&&user.adminLvl<8){
+          if(user!="undefined"&&user.adminLvl<8){
             $location.url('/dashboard');
             return
           }else if(!user.adminLvl){
