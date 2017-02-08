@@ -40,12 +40,6 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
               return;
             }
           });
-            // console.log('this is user~~', user);
-          // console.log('this is user~~', user);
-          // if(!user.adminLvl){
-          //   $location.url('/');
-          //   return
-          // }
         }
       },
       views:{
@@ -76,14 +70,15 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       url: '/admin_dashboard',
       resolve: {
         user: function (usersFactory, $location) {
-          var user = usersFactory.user();
-          if(user!="undefined"&&user.adminLvl<8){
-            $location.url('/dashboard');
-            return
-          }else if(!user.adminLvl){
-            $location.url('/');
-            return
-          }
+          usersFactory.user(function(user){
+            if(user!="undefined"&&user.adminLvl<8){
+              $location.url('/dashboard');
+              return
+            }else if(!user.adminLvl){
+              $location.url('/');
+              return
+            }
+          });
         }
       },
       views:{
