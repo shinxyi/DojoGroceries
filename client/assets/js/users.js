@@ -28,6 +28,9 @@
       name = undefined;
       email = undefined;
 
+      $('#changepwUserName').text('');
+      $('#changepwUserName').text('');
+
       $('#deleteUserName').text('');
       $('#deleteUserEmail').text('');
     })
@@ -36,6 +39,21 @@
       $('span[name="'+id+'"]').trigger('click');
       $('.ui-icon-closethick').trigger('click');
     })
+
+    $(document).on('click', 'a[name="changethisPassword"]',function(){
+      name = $(this).parent().siblings().find('i').text();
+      email = $(this).parent().siblings('td[name="email"]').text();
+      $('#changepwUserName').text(name);
+      $('#changepwUserEmail').text(email);
+
+      $("#dialog2").removeClass('hidden');
+      $("#dialog2").dialog();
+    })
+
+    $(document).on('click', '#submitChangePassword',function(){
+      $('.ui-icon-closethick').trigger('click');
+    })
+
 
 
   });

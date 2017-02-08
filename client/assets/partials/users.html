@@ -5,6 +5,18 @@
   <button class="button" id="deleteUser" ng-click="userCtrl.delete(userCtrl.toDelete.id)">Yes</button>
 </div>
 
+<div id="dialog2" class="hidden" title="Change Password">
+  <p><b>Name:</b><span id="changepwUserName"></span> | <b>Email:</b><span id="changepwUserEmail"></span></p>
+  <label>New Password
+    <input type="password" ng-model="userCtrl.pwNew" placeholder="please enter a new password">
+  </label>
+  <label>Confirm Password
+    <input type="password" ng-model="userCtrl.pwNew2" placeholder="please enter a new password">
+  </label>
+  <button id="submitChangePassword" class="success button" ng-click="userCtrl.changeUserPassword();">Change Password</button>
+</div>
+
+
 <h2>All Users</h2>
 
 <div class="callout alert" ng-if="userCtrl.errors3">
@@ -27,9 +39,9 @@
     <tr>
       <th width="250">Name</th>
       <th width="400">Email</th>
-      <th width="250">Created At</th>
-      <th width="200">User Level</th>
-      <th width="200">
+      <th width="200">Created At</th>
+      <th width="250">User Level</th>
+      <th width="150">
         Batch Approve Users<br/>
         <a class="button tiny success" ng-click="userCtrl.processBatch();">Process Batch.</a>
       </th>
@@ -46,7 +58,10 @@
         <span class="hidden" ng-click="userCtrl.delete(user._id)" name="{{user._id}}"></span>
       </td>
       <td name="email">{{user.email}}</td>
-      <td>{{user.createdAt | date:'medium'}}</td>
+      <td>
+        {{user.createdAt | date:'MMM d, y'}}<br/>
+        {{user.createdAt | date:'h:mm:ss a'}}
+      </td>
       <td ng-if="user.adminLvl>0">
         {{user.adminLvl}} - <span ng-if="user.adminLvl==9"><i class="fi-star"></i> Admin</span> <span ng-if="user.adminLvl==1">User</span> <span ng-if="user.adminLvl==0">Unapproved</span><br/>
         <a name="edit"><sub>Edit</sub></a>
@@ -78,11 +93,11 @@
       </td>
       <td><input type="checkbox" ng-model="userCtrl.batchProcessInfo[user._id]"></td>
       <td>
-        <button class="button" type="button" data-toggle="{{userCtrl._id}}">Change</button>
-          <div class="dropdown-pane" id="{{userCtrl._id}}" data-dropdown>
+        <button class="button" type="button" name="changethisPassword" ng-click="userCtrl.setChangePw(user.email)">Change</button>
+          <!-- <div class="dropdown-pane" id="{{userCtrl._id}}" data-dropdown>
             this is some text
             <input type="text" ng-model="userCtrl.someInfo" placeholder="change password...">
-          </div>
+          </div> -->
       </td>
     </tr>
 

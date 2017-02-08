@@ -128,18 +128,26 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
     });
   };
 
-  self.changeUserPassword = function(){
-    usersFactory.changeUserPassword(self.pwEmail, self.pwNew, function(){
-      self.pwEmail='';
-      self.pwNew='';
-    });
+  self.setChangePw = function(email){
+    self.pwEmail=email;
   };
 
-  //generates user 'stats' informatio for display on top bar. 
+  self.changeUserPassword = function(){
+    if (self.pwNew != self.pwNew2){
+      self.errors = ['Passwords do not match.'];
+    }else{
+      usersFactory.changeUserPassword(self.pwEmail, self.pwNew, function(){
+        self.pwNew='';
+        self.pwEmail='';
+      });
+    }
+  };
+
+  //generates user 'stats' informatio for display on top bar.
   var userStats = function(){
     usersFactory.getStatUser(function(user){
       console.log(user);
-      self.statUser = user; 
+      self.statUser = user;
     });
   };
 
