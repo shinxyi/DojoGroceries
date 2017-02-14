@@ -6,7 +6,6 @@ app.factory('itemsFactory', ['$http', function($http) {
 
 
   this.getAllItems = function(callback){
-  	console.log('GETTING ALL ITEMS!!!');
   	$http.get('/items').then(function(response) {
       callback(response.data);
   	});
@@ -70,7 +69,7 @@ app.factory('itemsFactory', ['$http', function($http) {
     $http.get('/walmartItem/'+id).then(callback);
 
   }
-  
+
   this.sams = function(id, callback){
     if(typeof id != "number"){
       callback({ errors: ['Sams Club Item# is incorrect format.']})

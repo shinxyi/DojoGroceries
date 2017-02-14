@@ -27,6 +27,7 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   usersFactory.registerCbs('updateUser', function(){
     usersFactory.user(function(returnedData){
       self.user = returnedData;
+      console.log('STEP5, user controller user-->', self.user);
     })
   })
 
@@ -66,7 +67,6 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
         self.info = {};
         self.user = returnedData;
         $location.url('/admin_dashboard');
-
         refresh();
       }else{
         self.info = {};
@@ -87,10 +87,12 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
     usersFactory.create(self.info2, function(returnedData){
       if(returnedData.errors){
         self.errors2 = returnedData.errors;
-      }else if(!returnedData.hasOwnProperty('user')){
+      }else if(returnedData.adminLvl===10){
         self.user = returnedData;
         self.info2 = {};
-        $location.url('/dashboard');
+        $location.url('/admin_dashboard');
+        refresh();
+        console.log('STEP 1, user controller user', self.user);
       }else{
         self.success = [returnedData.user + ', your account has been successfully created. Please wait for an admin to approve your account.'];
         self.info2={};
@@ -99,7 +101,9 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   };
 
   self.editAdminLvl = function(user_id, adminLvl){
-    usersFactory.editAdminLvl(user_id, Number(adminLvl));
+    if(adminLvl!==""){
+      usersFactory.editAdminLvl(user_id, Number(adminLvl));
+    }
   }
 
   self.delete = function(user_id){
@@ -142,11 +146,11 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
     });
   };
 
-  //generates user 'stats' informatio for display on top bar. 
+  //generates user 'stats' informatio for display on top bar.
   var userStats = function(){
     usersFactory.getStatUser(function(user){
       console.log(user);
-      self.statUser = user; 
+      self.statUser = user;
     });
   };
 

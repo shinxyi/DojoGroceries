@@ -24,17 +24,12 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       url: '/dashboard',
       resolve: {
         user: function (usersFactory, $location, $cookies) {
-          console.log('THis is the cookie -->', $cookies.get('stored_id'));
-          console.log($cookies.get('stored_id')===undefined);
           if($cookies.get('stored_id')===undefined){
-            // console.log('***');
             $location.url('/');
-            // console.log('!!!');
             return;
           }
 
           usersFactory.user(function(user){
-            console.log("User in APP.js-->",user);
             if(!user.adminLvl){
               $location.url('/');
               return;
@@ -70,6 +65,7 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       url: '/admin_dashboard',
       resolve: {
         user: function (usersFactory, $location) {
+          console.log('STEP2');
           usersFactory.user(function(user){
             if(user!="undefined"&&user.adminLvl<8){
               $location.url('/dashboard');
@@ -78,6 +74,7 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
               $location.url('/');
               return
             }
+            console.log('STEP6');
           });
         }
       },

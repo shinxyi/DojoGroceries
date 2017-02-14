@@ -41,7 +41,7 @@ function UsersController() {
 
 			User.findOne({}, function(error, found){
 				if(!found){
-					user.adminLvl = 9;
+					user.adminLvl = 10;
 				}
 				user.save(function(error, user) {
 					if (error) {
@@ -135,6 +135,11 @@ function UsersController() {
 					res.json({ errors: processError(error) });
 					return;
 				}
+				if(req.session.user.adminLvl==9&&user.adminLvl>8){
+					console.log('users.js - update(): You do not have the admin power to change this user admin level.\n', error);
+					res.json({ errors: processError(error) });
+					return;
+				}
 
 				user.adminLvl = req.params.adminLvl;
 				user.save(function(error, updatedUser) {
@@ -159,19 +164,21 @@ function UsersController() {
 			var idList = req.body;
 			//looping through each id in the list to individually update each user
 			for(var i = 0; i<idList.length; i++){
-				User.findOne({_id:idList[i]}, function(err, aUser){
-					if(err){
-						console.log(err);
-					}
-					else{
-						aUser.adminLvl = 1;
-						aUser.save(function(err2, data){
-							if(err2){
-								console.log(err2);
-							};
-						});
-					};
-				});
+				if(idList[i]!=req.session.user._id){
+					User.findOne({_id:idList[i]}, function(err, aUser){
+						if(err){
+							console.log(err);
+						}
+						else{
+							aUser.adminLvl = 1;
+							aUser.save(function(err2, data){
+								if(err2){
+									console.log(err2);
+								};
+							});
+						};
+					});
+				};
 			};
 
 			res.redirect('/users')

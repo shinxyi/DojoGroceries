@@ -3,7 +3,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   var self= this;
 
   this.activated = false;
-  self.suggestion = {};
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -20,6 +19,11 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       $('#lazylink .accordion-content').css("display","block");
       $('#itemform .accordion-content').css("display","none");
       self.suggestion = {};
+      usersFactory.user(function(returnedData){
+        var userAdminLvl = returnedData.adminLvl;
+        self.suggestion.vote = userAdminLvl<9 ? true : false;
+      })
+      self.suggestion.quantity = 1;
     });
   }
 
@@ -56,9 +60,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           delete self.success;
           self.errors = returnedData.errors;
         }else{
-          self.suggestion = {};
           delete self.errors;
-          self.success = [returnedData.item.name +' has been successfully added!'];
+          if(self.suggestion.vote){
+            self.success = [returnedData.item.name +' has been successfully added and automatically voted onto the weekly suggestion list! Please visit "home" to see your new item.'];
+          }else{
+            self.success = [returnedData.item.name +' has been successfully added!'];
+          }
           refresh();
         }
       })

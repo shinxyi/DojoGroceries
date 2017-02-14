@@ -3,7 +3,6 @@ app.controller('commentController', ['commentsFactory', '$location', function(co
   var self= this;
 
   var refresh = function(){
-    console.log('getting Inbox&&&&');
     commentsFactory.getFlaggedComments(function(returnedData){
       self.inbox = returnedData;
     });
