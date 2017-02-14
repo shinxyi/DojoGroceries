@@ -47,13 +47,18 @@
       </td>
       <td name="email">{{user.email}}</td>
       <td>{{user.createdAt | date:'medium'}}</td>
+
       <td ng-if="user.adminLvl>0">
-        {{user.adminLvl}} - <span ng-if="user.adminLvl==9"><i class="fi-star"></i> Admin</span> <span ng-if="user.adminLvl==1">User</span> <span ng-if="user.adminLvl==0">Unapproved</span><br/>
-        <a name="edit"><sub>Edit</sub></a>
+        {{user.adminLvl}} -
+         <span ng-if="user.adminLvl==10"><i class="fi-star"></i> Super Admin</span>
+         <span ng-if="user.adminLvl==9"><i class="fi-star"></i> Admin</span>
+         <span ng-if="user.adminLvl==1">User</span><br/>
+        <a name="edit" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<9"><sub>Edit</sub></a>
 
-        <form id="{{$index}}" class="hidden" ng-submit="userCtrl.editAdminLvl(user._id, userCtrl.changeToAdminLvl[user._id])">
+        <form id="{{$index}}" class="hidden" ng-submit="userCtrl.editAdminLvl(user._id, userCtrl.changeToAdminLvl[user._id])" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<10">
           <select ng-model="userCtrl.changeToAdminLvl[user._id]">
             <option value=""> Change User Level</option>
+            <option value="10" ng-if="userCtrl.user.adminLvl===10"> 10 - Super Admin </option>
             <option value="9"> 9 - Admin </option>
             <option value="1"> 1 - User </option>
             <option value="0"> 0 - Unapproved </option>
@@ -62,13 +67,14 @@
         </form>
       </td>
 
-      <td ng-if="user.adminLvl==0" class=yellow>
-        {{user.adminLvl}} - <span ng-if="user.adminLvl==9"><i class="fi-star"></i> Admin</span> <span ng-if="user.adminLvl==1">User</span> <span ng-if="user.adminLvl==0">Unapproved</span><br/>
+      <td ng-if="user.adminLvl==0" class="yellow">
+        {{user.adminLvl}} - Unapproved<br/>
         <a name="edit"><sub>Edit</sub></a>
 
         <form id="{{$index}}" class="hidden" ng-submit="userCtrl.editAdminLvl(user._id, userCtrl.changeToAdminLvl[user._id])">
           <select ng-model="userCtrl.changeToAdminLvl[user._id]">
             <option value=""> Change User Level</option>
+            <option value="10"> 10 - Super Admin </option>
             <option value="9"> 9 - Admin </option>
             <option value="1"> 1 - User </option>
             <option value="0"> 0 - Unapproved </option>
@@ -76,7 +82,7 @@
           <button type="button submit" class="success button">Save</button>
         </form>
       </td>
-      <td><input type="checkbox" ng-model="userCtrl.batchProcessInfo[user._id]"></td>
+      <td><input type="checkbox" ng-model="userCtrl.batchProcessInfo[user._id]" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<9"></td>
       <td>
         <button class="button" type="button" data-toggle="{{userCtrl._id}}">Change</button>
           <div class="dropdown-pane" id="{{userCtrl._id}}" data-dropdown>

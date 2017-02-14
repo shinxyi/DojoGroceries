@@ -7,38 +7,31 @@
     <h2>Search the Database</h2>
     <input type="text" ng-model="itemCtrl.filter" placeholder="Search..."/><br />
 
-    <div class="left">
-      <div class="callout media-object suggest-able" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:createdAt:true" ng-if="!item.voting_list.hasOwnProperty(userCtrl.thisweek)">
-        <div class="media-object-section">
-          <div class="thumbnail">
-            <img src="{{ item.img }}"/>
-          </div>
-          <br/>
+    <div>
+
+      <div class="card" ng-repeat="item in itemCtrl.items | filter:itemCtrl.filter | orderBy:createdAt:true" ng-if="!item.voting_list.hasOwnProperty(userCtrl.thisweek)">
+        <div class="card-divider">
+          <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl>8"><b>{{ item.name }}</b></a>
+          <b ng-if="userCtrl.user.adminLvl<9">{{ item.name }}</b>
+        </div>
+        <img src="{{ item.img }}">
+        <div class="card-section">
           <!--Admin:-->
-          <div ng-if="userCtrl.user.adminLvl==9">
+          <div ng-if="userCtrl.user.adminLvl>8">
             <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> <i class="fi-shopping-cart"></i></span></a>
             <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> <i class="fi-shopping-cart"></i></span></a>
-            | <a ng-click="itemCtrl.persist(item._id)" ng-if="!item.persist">Persist on Grocery Lists</a>
-            <a ng-click="itemCtrl.persist(item._id)" ng-if="item.persist">Turn off Persist</a>
+            | <a ng-click="itemCtrl.persist(item._id)" ng-if="!item.persist">Auto-Add</a>
+            <a ng-click="itemCtrl.persist(item._id)" ng-if="item.persist"><i class="fi-check"></i>Auto-added!</a>
           </div>
           <!--User:-->
-          <button type="button" class="success button" ng-click="userCtrl.vote(item._id)" ng-if="userCtrl.user.adminLvl<9">Suggest!</button>
-          <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&!item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="foundicon-heart"></i> Add to Fav's</a>
-          <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="fi-heart"></i> Favorited!</a>
-        </div>
-        <div class="media-object-section">
-          <h4>
-            <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl==9"><b>{{ item.name }}</b></a>
-            <b ng-if="userCtrl.user.adminLvl<9">{{ item.name }}</b>
-             | {{ item.price | currency }}
-          </h4>
-          <div class="indent">
-            <h6><b>Category:</b> {{ item.category }}</h6>
-            <p class="description">{{ item.description }}</p>
+          <div ng-if="userCtrl.user.adminLvl<9">
+            <a ng-click="userCtrl.vote(item._id)"><i class="fi-plus"></i> Vote!</a> |
+            <a ng-click="itemCtrl.fav(item._id)" ng-if="!item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="foundicon-heart"></i> Favorite</a>
+            <a ng-click="itemCtrl.fav(item._id)" ng-if="item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="fi-heart"></i> Fav'd!</a>
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
 
@@ -162,7 +155,7 @@
                     <label for="suggestion_quantity" class="text-right middle">Quantity</label>
                   </div>
                   <div class="small-9 columns">
-                    <input type="number" class="input-group-field" id="suggestion_quantity" min="1" step='1' ng-model="itemCtrl.suggestion.quantity" value="{{itemCtrl.suggestion.quantity || 1}}"/>
+                    <input type="number" class="input-group-field" id="suggestion_quantity" min="1" step='1' ng-model="itemCtrl.suggestion.quantity"/>
                   </div>
                 </div>
 
@@ -178,7 +171,10 @@
                   </div>
                 </div>
                 <div class="right">
-                  <input id="suggestion_add" ng-model="itemCtrl.suggestion.vote" type="checkbox"><label for="suggestion_add">Add this item to this week's suggestion list!</label>
+                  <span ng-if="userCtrl.user.adminLvl<9">
+                    <input id="suggestion_add" ng-model="itemCtrl.suggestion.vote" type="checkbox">
+                    <label for="suggestion_add">Add this item to this week's suggestion list!</label>
+                  </span>
                   <input type="submit" class="button" value="Add!">
                 </div>
             </form>

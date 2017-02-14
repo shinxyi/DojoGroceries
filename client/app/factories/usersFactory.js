@@ -3,32 +3,21 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
   function UsersFactory(){
 
   console.log('loading users Factory');
-  // if($cookies.get('stored_id')){
-  //   var user_id = {id: $cookies.get('stored_id')};
-  //   var storedUser = {adminLvl: $cookies.get('storedadminLvl'), _id: $cookies.get('stored_id'), name: $cookies.get('storedname')}
-  //   $http.post('/users/reloguser', user_id).then(function(returned_data){
-  //     console.log(returned_data.data);
-  //     storedUser = returned_data.data;
-  //       // console.log('user??? ->', storedUser);
-  //   });
-  // }
-  // else {
-  //   var storedUser={}
-  // };
   var thisweek;
   var self = this;
 
-  this.storedUser = "undefined";
+  self.storedUser = "undefined";
 
   var callbacks = {};
 
   this.user = function (callback) {
+    console.log('STEP3');
     if(self.storedUser!=="undefined"){
+      console.log('STEP4, user factory user-->', self.storedUser);
       return callback(self.storedUser);
     }else if ($cookies.get('stored_id')){
       var user_id = {id: $cookies.get('stored_id')};
       $http.post('/users/reloguser', user_id).then(function(returned_data){
-        console.log(returned_data.data);
         self.storedUser = returned_data.data;
         callbacks['updateUser']();
         user_id = ""
@@ -52,37 +41,26 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
   }
 
   this.login = function(user, callback){
-	// console.log('user ->', user);
     if(!user||!(user.hasOwnProperty('email'))){
         callback({errors: ['Fields cannot be empty!']});
     }else{
       $http.post('/users/authenticate', user).then(function(returned_data){
-          storedUser = returned_data.data;
-          $cookies.put('stored_id', storedUser._id);
-          // $cookies.put('storedadminLvl', storedUser.adminLvl);
-          // $cookies.put('storedname', storedUser.name);
-          // console.log('user??? ->', storedUser);
+          self.storedUser = returned_data.data;
+          $cookies.put('stored_id', self.storedUser._id);
           callback(returned_data.data);
       });
     }
   };
 
   this.logout = function(callback) {
-    // console.log('user!!! ->', storedUser);
-    storedUser="undefined";
+    self.storedUser="undefined";
     $cookies.remove('stored_id');
-    console.log('storedUser-->', storedUser);
-    // $cookies.put('storedadminLvl', '');
-    // $cookies.put('storedname', '');
-
-    // console.log('user** ->', storedUser);
   	$http.get('/users/deauthenticate').then(function(returnedData) {
   		callback(returnedData);
   	});
   };
 
   this.create = function(user, callback){
-  	// console.log('user ->', user);
       if(!user||!(user.hasOwnProperty('email'))){
           callback({errors: ['Fields cannot be empty!']});
       }else if(user.password != user.password2){
@@ -91,6 +69,10 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
           callback({errors: ['Password length must be between 8-32 characters!']});
       }else{
           $http.post('/users', user).then(function(returned_data){
+            if(returned_data.data.adminLvl===10){
+              self.storedUser = returned_data.data;
+              $cookies.put('stored_id', self.storedUser._id);
+            }
             callback(returned_data.data);
         })
       }
@@ -99,20 +81,16 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
   this.vote = function(item_id, callback){
     var vote;
 
-    if(!(storedUser.votes[thisweek])){
-      console.log('going through path A');
+    if(!(self.storedUser.votes[thisweek])){
       vote = '1';
-    }else if(!(storedUser.votes[thisweek].hasOwnProperty(item_id)) || storedUser.votes[thisweek][item_id]<1){
-      console.log('going through path B');
+    }else if(!(self.storedUser.votes[thisweek].hasOwnProperty(item_id)) || storedUser.votes[thisweek][item_id]<1){
       vote = '1';
-    }else if(storedUser.votes[thisweek].hasOwnProperty(item_id) && storedUser.votes[thisweek][item_id]>0){
-      console.log('going through path C');
+    }else if(self.storedUser.votes[thisweek].hasOwnProperty(item_id) && storedUser.votes[thisweek][item_id]>0){
       vote = '-1';
     }
 
     $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){
-      // console.log('storedUser --->', storedUser);
-      storedUser = returned_data.data.user;
+      self.storedUser = returned_data.data.user;
       callback(returned_data.data);
       callbacks['updateItems']();
     })
@@ -126,7 +104,7 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
 
 
   this.editAdminLvl = function(user_id, adminLvl){
-    if(storedUser.adminLvl<9||typeof adminLvl != 'number' || adminLvl<9&&adminLvl>1){
+    if(self.storedUser.adminLvl<9||typeof adminLvl != 'number' || adminLvl<9&&adminLvl>1){
       return;
     }
 
@@ -150,7 +128,6 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
   this.changeUserPassword = function(email, pw, callback){
     data = {email, pw};
     $http.post("/users/changepassword", data).then(function(returnedData){
-      // console.log(returnedData);
       callback(returnedData);
     });
   };

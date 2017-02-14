@@ -14,7 +14,7 @@
             vote(s)
           </span>
         </div>
-        <div class="votes" ng-if="userCtrl.user.adminLvl==9">
+        <div class="votes" ng-if="userCtrl.user.adminLvl>8">
             <span class="warning badge">{{ item.voting_list[userCtrl.thisweek] }}</span>
             vote(s)
         </div>
@@ -28,11 +28,11 @@
           <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&!item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="foundicon-heart"></i> Add to Fav's</a>
           <a ng-click="itemCtrl.fav(item._id)" ng-if="userCtrl.user.adminLvl<9&&item.favedByUsers.hasOwnProperty(userCtrl.user._id)"><i class="fi-heart"></i> Favorited!</a>
           <!--Admin-->
-          <div ng-if="userCtrl.user.adminLvl==9">
+          <div ng-if="userCtrl.user.adminLvl>8">
             <a ng-click="groceryCtrl.removeFromGroceries(item._id, userCtrl.groceryweek)" ng-if="groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><span class="remove"><i class="fi-minus"></i> <i class="fi-shopping-cart"></i></span></a>
             <a ng-click="groceryCtrl.addToGroceries(item._id, userCtrl.groceryweek)" ng-if="!groceryCtrl.groceryDictionary.hasOwnProperty(item._id)"><i class="fi-plus"></i> <i class="fi-shopping-cart"></i></span></a>
-            | <a ng-click="itemCtrl.persist(item._id)" ng-if="!item.persist"><i class="foundicon-checkmark"></i> Persist on Grocery Lists</a>
-            <a ng-click="itemCtrl.persist(item._id)" ng-if="item.persist"><i class="fi-check"></i> Persisted!</a>
+            | <a ng-click="itemCtrl.persist(item._id)" ng-if="!item.persist"><i class="foundicon-checkmark"></i> Auto-Add to Grocery Lists</a>
+            <a ng-click="itemCtrl.persist(item._id)" ng-if="item.persist"><i class="fi-check"></i> Auto-added!</a>
           </div>
 
         </div>
@@ -40,7 +40,7 @@
 
 
           <h4>
-            <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl==9"><b>{{ item.name }}</b></a>
+            <a ng-click="itemCtrl.getOne(item._id)" ng-if="userCtrl.user.adminLvl>8"><b>{{ item.name }}</b></a>
             <b ng-if="userCtrl.user.adminLvl<9">{{ item.name }}</b>
           </h4>
 
@@ -57,7 +57,7 @@
               <div class="right" ng-if="comment.userId!=userCtrl.user._id && comment.active==1">
                 <span class="flagged"><i class="fi-flag"></i> Flagged</span>
               </div>
-              <div class="right" ng-if="comment.userId==userCtrl.user._id || userCtrl.user.adminLvl==9">
+              <div class="right" ng-if="comment.userId==userCtrl.user._id || userCtrl.user.adminLvl>8">
                 <a ng-click="commentCtrl.delete(comment._id)">Delete</a>
               </div>
             </div>
