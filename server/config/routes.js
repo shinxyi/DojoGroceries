@@ -27,6 +27,7 @@ module.exports = function(app) {
 
 	app.get('/items', items.index);
 	app.post('/items', items.create);
+	app.get('/items/develop_budget_list/', items.developBudgetList);
 	app.get('/items/:item_id', items.show);
 	app.put('/items/:item_id/fav', items.fav);
 	app.put('/items/:item_id/persist', items.persist);

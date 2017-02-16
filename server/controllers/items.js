@@ -275,8 +275,31 @@ function ItemsController() {
 			  console.log(err);
 				res.json({errors: ["The item did not a match please check the Item number"]});
 			});
-	}
+	};
 
+	this.developBudgetList = function(req,res){
+		Item.find({}, function(err,allItems){
+			if(err){console.log(err)}
+			else{
+				var weekList = [];
+				for(var i=0;i<allItems.length;i++){
+					if(allItems[i].voting_list.hasOwnProperty(week)){
+						weekList.push(allItems[i]);
+					};
+				};
+				weekList = weekList.sort((a,b)=>{
+					if(a.voting_list[week]>b.voting_list[week]){
+						return -1
+					}
+					if(a.voting_list[week]<b.voting_list[week]){
+						return 1
+					} 
+					return 0
+				});
+				res.json({weekList});
+			};
+		});
+	};
 };
 
 module.exports = new ItemsController();

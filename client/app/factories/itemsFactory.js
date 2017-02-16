@@ -79,6 +79,12 @@ app.factory('itemsFactory', ['$http', function($http) {
     $http.get('/sams/'+id).then(callback);
   }
 
+  this.developBudgetList = function(callback){
+    $http.get('/items/develop_budget_list').then(function(returnedData){
+      callback(returnedData.data);
+    });
+  };
+
 
 
 }
