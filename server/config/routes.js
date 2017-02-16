@@ -16,12 +16,14 @@ module.exports = function(app) {
 	app.post('/users/reloguser', users.reLogUser);
 	app.get('/users/deauthenticate', users.deauthenticate);
 	app.get('/users', users.index);
-	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels
 	app.get('/users/week', users.week);
+	app.post('/users/forgot_password/', users.forgotPassword);
 	app.post('/users/batchProcessToOne', users.batchOne);
 	app.post('/users/batchProcessDelete', users.batchDelete);
 	app.get('/users/getstatuser', users.getStatUser);
 	app.post('/users/changepassword', users.changePassword);
+	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels
+
 
 ///////
 

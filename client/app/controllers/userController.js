@@ -174,4 +174,10 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
     });
   };
 
+  self.forgotPassword = function(){
+    usersFactory.forgotPassword(self.forgotPasswordEmail, function(){
+      console.log('done...');
+    })
+  }
+
 }]);
