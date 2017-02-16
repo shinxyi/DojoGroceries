@@ -21,4 +21,16 @@
     </fieldset>
 </form>
 
+<form ng-submit="userCtrl.forgotPassword();">
+  <fieldset class="fieldset">
+    <legend>Password Reset</legend>
+    <label>Email
+      <input type="email" name="forgotPasswordEmail" ng-model="userCtrl.forgotPasswordEmail">
+    </label>
+    <div class="right">
+      <input type="submit" class="button" value="Send Email.">
+    </div>
+  </fieldset>
+</form>
+
 <a name="register">Don't have an account? Register!</a>

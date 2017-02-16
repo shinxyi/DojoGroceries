@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
 	moment = require('moment'),
-	bcrypt = require('bcryptjs');
+	bcrypt = require('bcryptjs'),
+	nodemailer = require('nodemailer');
 
 var User = mongoose.model('User');
 
@@ -271,6 +272,60 @@ function UsersController() {
 		});
 	};
 
+	this.forgotPassword = function(req,res){
+		//node mailer initialization
+		var transporter = nodemailer.createTransport({
+			service: "Gmail",
+			auth:{
+				user: 'fudodojo@gmail.com',
+				pass: 'fudodojo123'
+			}
+		});
+
+		//generate random password
+		var randomPassword = "";
+    	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    	for(var i=0;i<10;i++){
+        	randomPassword += possible.charAt(Math.floor(Math.random() * possible.length));
+    	};
+    	console.log(randomPassword);
+
+		User.findOne({email:req.body.email}, function(err,user){
+			if(err){
+				console.log(err);
+			}
+			else if(!user){
+				res.json({errors:['Email Address Not Found.']});
+			}
+			else{
+				user.password = randomPassword;
+				user.save(function(err2,savedUser){
+					if(err2){
+						console.log(err2)
+					}
+					else{
+						var text = "Your password reset for Fudo Dojo was successfully completed. Here is your new password:", randomPassword;
+						var mailOptions = {
+							from: 'fudodojo@gmail.com',
+							to: req.body.email,
+							subject: "Password Reset for Fudo Dojo",
+							text: text
+						};
+						transporter.sendMail(mailOptions, function(mailerr, info){
+							if(mailerr){
+								console.log(mailerr);
+							}
+							else{
+								console.log("User with email address", req.body.email, "has had their password changed to:", randomPassword);
+								res.json({errors:["Password reset email successfully sent. Check your email to view your new password."]});
+							};
+						});
+					};
+				});
+			};
+		});
+	};
 };
 
 module.exports = new UsersController();

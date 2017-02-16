@@ -138,6 +138,13 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
     });
   };
 
+  this.forgotPassword = function(email, callback){
+    var data = {email};
+    $http.post("/users/forgot_password/", data).then(function(returnedData){
+      callback(returnedData);
+    }) 
+  }
+
 
 
 
