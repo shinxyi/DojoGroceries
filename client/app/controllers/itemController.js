@@ -222,4 +222,14 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   self.getBudget();
 
+  var developBudgetList = function(){
+    itemsFactory.developBudgetList(function(returnedData){
+      self.budgetList = returnedData.weekList;
+      console.log("BUDGET LIST IS!!!", self.budgetList);
+    });
+  };
+
+  developBudgetList();
+
+
 }]);
