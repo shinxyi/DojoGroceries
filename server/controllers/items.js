@@ -22,7 +22,6 @@ function ItemsController() {
 	var week = 	moment().week().toString() + moment().year().toString();
 
 	this.index = function(req, res){
-
 		Item.find({active: true})
 			.populate({path:'comments',
 								match: {$and:[{active: {$gt: 0}}, {week: week}]}

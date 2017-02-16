@@ -44,28 +44,7 @@ function GroceriesController() {
 				res.json({errors: ['Issue finding Grocery List...']});
 				return;
 			}
-
-			if(!glist){
-				var newGlist = new GroceryList({ week: req.params.week});
-				Item.find({active:true, persist:true}, function(err, items){
-					for(var x=0;x<items.length;x++){
-						newGlist.list[items[x]['_id']]= items[x];
-					}
-					newGlist.save(function(error, newGlist){
-						if(error){
-							console.log('groceries.js controller - grocery list cannot be created');
-							res.json({ errors: processError(error) });
-							return;
-						}else{
-							res.json({list: newGlist});
-							return;
-						}
-					})
-
-				})
-			}else{
-				res.json({list: glist});
-			}
+			res.json({list: glist});
 
 		})
 	};

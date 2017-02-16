@@ -18,6 +18,7 @@ app.use(session({
 
 require('./server/config/mongoose');
 require('./server/config/routes')(app);
+require('./server/cronjobs/automated');
 
 
 app.listen(port, function() {
