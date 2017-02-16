@@ -119,6 +119,12 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
     });
   };
 
+  this.batchProcessDelete = function(list, callback){
+    $http.post("/users/batchProcessDelete", list).then(function(returnedData){
+      callback(returnedData.data);
+    });
+  };
+
   this.getStatUser = function(callback){
     $http.get("/users/getstatuser").then(function(returnedData){
       callback(returnedData.data);

@@ -139,6 +139,26 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
     });
   };
 
+  self.deleteBatch = function(){
+    var listOfIds = [];
+    for(var key in self.batchProcessInfo){
+      listOfIds.push(key);
+    };
+    usersFactory.batchProcessDelete(listOfIds, function(returnedData){
+      self.allUsers = returnedData;
+      var count =0;
+
+      for(var x=0;x<self.allUsers.length;x++){
+        if(self.allUsers[x].adminLvl==0){
+          count++;
+        };
+      };
+      self.pendingUsersCount = count;
+      self.batchProcessInfo = {};
+    });
+  };
+
+
   self.changeUserPassword = function(){
     usersFactory.changeUserPassword(self.pwEmail, self.pwNew, function(){
       self.pwEmail='';

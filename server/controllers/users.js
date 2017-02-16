@@ -184,6 +184,38 @@ function UsersController() {
 			res.redirect('/users')
 		};
 
+		this.batchDelete = function(req,res){
+			if(!req.session.user || req.session.user.adminLvl<9){
+				res.json({errors: ['You are not allowed edit users...']})
+				return;
+			}
+			// list of user ids to be set to user level '1'
+			var idList = req.body;
+			//looping through each id in the list to individually update each user
+			for(var i = 0; i<idList.length; i++){
+				if(idList[i]!=req.session.user._id){
+					User.findOne({_id:idList[i]}, function(err, aUser){
+						if(err){
+							console.log(err);
+						}
+						else{
+							//only allows batch processing for users who are less than level 9
+							if(aUser.adminLvl<9){
+								aUser.adminLvl = -1;
+								aUser.save(function(err2, data){
+									if(err2){
+										console.log(err2);
+									};
+								});
+							};
+						};
+					});
+				};
+			};
+
+			res.redirect('/users')
+		};
+
 		this.getStatUser = function(req,res){
 			console.log("getStatUser>>>>>>>>>", req.session.user._id);
 			User.findOne({_id:req.session.user._id}, function(err, user){

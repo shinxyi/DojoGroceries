@@ -19,6 +19,7 @@ module.exports = function(app) {
 	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels
 	app.get('/users/week', users.week);
 	app.post('/users/batchProcessToOne', users.batchOne);
+	app.post('/users/batchProcessDelete', users.batchDelete);
 	app.get('/users/getstatuser', users.getStatUser);
 	app.post('/users/changepassword', users.changePassword);
 
