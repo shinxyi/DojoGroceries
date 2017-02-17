@@ -105,6 +105,12 @@ app.factory('groceriesFactory', ['$http', function($http) {
     })
   }
 
+  this.getWeekInfo = function(week, callback){
+    $http.get("/groceries/get_week_info/"+week).then(function(returnedData){
+      callback(returnedData.data);
+    });
+  }
+
 
 };
 

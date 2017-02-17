@@ -185,6 +185,18 @@ function GroceriesController() {
 			};
 		});
 	};
+
+	this.getWeekInfo = function(req,res){
+		GroceryList.findOne({week:req.params.week}, function(err, result){
+			if(err){
+				console.log(err)
+			}
+			else{
+				console.log('getWeekInfo says:', result)
+				res.json(result);
+			};
+		});
+	};
 };
 
 
