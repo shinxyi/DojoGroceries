@@ -108,6 +108,21 @@
       </div>
     </fieldset>
 
+    <form ng-submit="userCtrl.userNewPassword()">
+      <fieldset>
+        <legend>Change your password</legend>
+        <label>New Password:
+          <input type="password" name="newpw" ng-model="userCtrl.userNewPasswordEntry"/>
+        </label>
+        <div class="right">
+          <input type="submit" class="button" value="Change.">
+        </div>
+      </fieldset>
+        <div ng-if="userCtrl.passwordChangeConfirm" class="callout primary">
+          <p>You have successfully changed your password!</p>
+        </div>
+    </form>
+
     <b>Still don't see anything you like?</b><a name="database"> Suggest something from the database!</a>
   </div>
 </div>

@@ -234,7 +234,7 @@ function UsersController() {
 			});
 		};
 
-		this.changePassword = function(req,res){
+		this.adminChangePassword = function(req,res){
 			//if a user is not an admin or the user is not stored in session at all
 			if(!req.session.user || req.session.user._id < 9){
 				res.json({errors:["You do not have the proper authority to complete this function."]});
@@ -323,6 +323,28 @@ function UsersController() {
 						});
 					};
 				});
+			};
+		});
+	};
+
+	this.userChangePassword = function(req,res){
+		User.findById(req.body._id, function(err, foundUser){
+			if(err){
+				console.log(err)
+			}
+			else if(foundUser){
+				foundUser.password = req.body.newPassword;
+				foundUser.save(function(err2, result){
+					if(err2){
+						console.log(err)
+					}
+					else{
+						res.json({done:true});
+					};
+				});
+			}
+			else{
+				console.log("error finding user...")
 			};
 		});
 	};

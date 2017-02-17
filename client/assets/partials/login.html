@@ -21,7 +21,9 @@
     </fieldset>
 </form>
 
-<form ng-submit="userCtrl.forgotPassword();">
+<button ng-click="forgotBoolean=!forgotBoolean" class="button warning">Forgot Password?</button>
+
+<form ng-submit="userCtrl.forgotPassword();" ng-init="forgotBoolean=true" ng-class={hide:forgotBoolean}>
   <fieldset class="fieldset">
     <legend>Password Reset</legend>
     <label>Email
@@ -32,5 +34,5 @@
     </div>
   </fieldset>
 </form>
-
+<br>
 <a name="register">Don't have an account? Register!</a>

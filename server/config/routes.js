@@ -21,7 +21,8 @@ module.exports = function(app) {
 	app.post('/users/batchProcessToOne', users.batchOne);
 	app.post('/users/batchProcessDelete', users.batchDelete);
 	app.get('/users/getstatuser', users.getStatUser);
-	app.post('/users/changepassword', users.changePassword);
+	app.post('/users/changepassword', users.adminChangePassword); //for admin to change a user password with an email and pw
+	app.post('/users/user_change_password', users.userChangePassword); //for user change password
 	app.put('/users/:id/:adminLvl', users.updateAdminLvl); //for admin to change user levels
 
 

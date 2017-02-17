@@ -177,7 +177,22 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   self.forgotPassword = function(){
     usersFactory.forgotPassword(self.forgotPasswordEmail, function(){
       console.log('done...');
-    })
-  }
+    });
+  };
+
+  self.userNewPassword = function(){
+    //extra security measure...
+    if(!self.user){
+      return
+    };
+    var data = self.user;
+    data.newPassword = self.userNewPasswordEntry;
+    usersFactory.userNewPassword(data, function(returnedData){
+      if(returnedData.done){
+        self.passwordChangeConfirm = true;
+        self.userNewPasswordEntry = '';
+      }
+    });
+  };
 
 }]);

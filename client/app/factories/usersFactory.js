@@ -142,9 +142,14 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
     var data = {email};
     $http.post("/users/forgot_password/", data).then(function(returnedData){
       callback(returnedData);
-    }) 
-  }
+    }); 
+  };
 
+  this.userNewPassword = function(userObject, callback){
+    $http.post("/users/user_change_password", userObject).then(function(returnedData){
+      callback(returnedData.data);
+    });
+  };
 
 
 
