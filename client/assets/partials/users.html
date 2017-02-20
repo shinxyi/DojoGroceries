@@ -5,113 +5,110 @@
   <button class="button" id="deleteUser" ng-click="userCtrl.delete(userCtrl.toDelete.id)">Yes</button>
 </div>
 
-<h2>All Users</h2>
+<div class="row">
+  <div class="medium-1 columns"><br></div>
+  <div class="medium-10 columns inherit">
 
-<div class="callout alert" ng-if="userCtrl.errors3">
-  <ul>
-    <li ng-repeat="err in userCtrl.errors3">{{err}}</li>
-  </ul>
-</div>
+    <h2>All Users</h2>
 
-<div class="callout success" ng-if="userCtrl.success3">
-  <ul>
-    <li ng-repeat="msg in userCtrl.success3">{{msg}}</li>
-  </ul>
-</div>
-
-
-<input type="text" ng-model="userCtrl.filter" placeholder="Search..."/><br />
-
-<table class="center">
-  <thead>
-    <tr>
-      <th width="250">Name</th>
-      <th width="400">Email</th>
-      <th width="250">Created At</th>
-      <th width="200">User Level</th>
-      <th width="200">
-        Batch Approve Users<br/>
-        <a class="button tiny success" ng-click="userCtrl.processBatch();">Process Batch.</a>
-        <a class="button tiny warning" ng-click="userCtrl.deleteBatch();">Delete Batch.</a>
-      </th>
-      <th width="200">
-        Change Password
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="user in userCtrl.allUsers | filter:userCtrl.filter | orderBy:'-createdAt' track by $index">
-      <td>
-        <span ng-if="user._id!=userCtrl.user._id" class="flag"><a id="{{user._id}}" name="deleteUser"><i class="foundicon-remove"></i></a></span>
-        <i>{{user.name}}</i>
-        <span class="hidden" ng-click="userCtrl.delete(user._id)" name="{{user._id}}"></span>
-      </td>
-      <td name="email">{{user.email}}</td>
-      <td>{{user.createdAt | date:'medium'}}</td>
-
-      <td ng-if="user.adminLvl>0">
-        {{user.adminLvl}} -
-         <span ng-if="user.adminLvl==10"><i class="fi-star"></i> Super Admin</span>
-         <span ng-if="user.adminLvl==9"><i class="fi-star"></i> Admin</span>
-         <span ng-if="user.adminLvl==1">User</span><br/>
-        <a name="edit" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<9"><sub>Edit</sub></a>
-
-        <form id="{{$index}}" class="hidden" ng-submit="userCtrl.editAdminLvl(user._id, userCtrl.changeToAdminLvl[user._id])" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<10">
-          <select ng-model="userCtrl.changeToAdminLvl[user._id]">
-            <option value=""> Change User Level</option>
-            <option value="10" ng-if="userCtrl.user.adminLvl===10"> 10 - Super Admin </option>
-            <option value="9"> 9 - Admin </option>
-            <option value="1"> 1 - User </option>
-            <option value="0"> 0 - Unapproved </option>
-          </select>
-          <button type="button submit" class="success button">Save</button>
-        </form>
-      </td>
-
-      <td ng-if="user.adminLvl==0" class="yellow">
-        {{user.adminLvl}} - Unapproved<br/>
-        <a name="edit"><sub>Edit</sub></a>
-
-        <form id="{{$index}}" class="hidden" ng-submit="userCtrl.editAdminLvl(user._id, userCtrl.changeToAdminLvl[user._id])">
-          <select ng-model="userCtrl.changeToAdminLvl[user._id]">
-            <option value=""> Change User Level</option>
-            <option value="10"> 10 - Super Admin </option>
-            <option value="9"> 9 - Admin </option>
-            <option value="1"> 1 - User </option>
-            <option value="0"> 0 - Unapproved </option>
-          </select>
-          <button type="button submit" class="success button">Save</button>
-        </form>
-      </td>
-      <td><input type="checkbox" ng-model="userCtrl.batchProcessInfo[user._id]" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<9"></td>
-      <td>
-        <button class="button" type="button" data-toggle="{{userCtrl._id}}">Change</button>
-          <div class="dropdown-pane" id="{{userCtrl._id}}" data-dropdown>
-            this is some text
-            <input type="text" ng-model="userCtrl.someInfo" placeholder="change password...">
-          </div>
-      </td>
-    </tr>
-
-  </tbody>
-</table>
-
-<div class="medium-6 columns float-left">
-  <fieldset class="fieldset">
-    <legend><span class="warning label">Change a user's password</span></legend>
-    <div class="row">
-      <div class="medium-5 columns">
-        <label>User's email
-          <input type="text" ng-model="userCtrl.pwEmail" placeholder="email@domain.com">
-        </label>
-      </div>
-
-      <div class="medium-5 columns">
-        <label>New Password
-          <input type="text" ng-model="userCtrl.pwNew" placeholder="please enter a new password">
-        </label>
-      </div>
+    <div class="callout alert" ng-if="userCtrl.errors3">
+      <ul>
+        <li ng-repeat="err in userCtrl.errors3">{{err}}</li>
+      </ul>
     </div>
-    <button class="success button" ng-click="userCtrl.changeUserPassword();">Change Password</button>
-  </fieldset>
+
+    <div class="callout success" ng-if="userCtrl.success3">
+      <ul>
+        <li ng-repeat="msg in userCtrl.success3">{{msg}}</li>
+      </ul>
+    </div>
+
+
+    <input type="text" ng-model="userCtrl.filter" placeholder="Search..."/><br />
+
+    <table class="center">
+      <thead>
+        <tr>
+          <th width="250">Name</th>
+          <th width="250">Email</th>
+          <th width="200">Created At</th>
+          <th width="250">User Level</th>
+          <th width="200">
+            Batch Approve Users<br/>
+            <a class="button tiny success" ng-click="userCtrl.processBatch();">Process Batch.</a>
+            <a class="button tiny warning" ng-click="userCtrl.deleteBatch();">Delete Batch.</a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in userCtrl.allUsers | filter:userCtrl.filter | orderBy:'-createdAt' track by $index">
+          <td>
+            <span ng-if="user._id!=userCtrl.user._id" class="flag"><a id="{{user._id}}" name="deleteUser"><i class="foundicon-remove"></i></a></span>
+            <i>{{user.name}}</i>
+            <span class="hidden" ng-click="userCtrl.delete(user._id)" name="{{user._id}}"></span>
+          </td>
+          <td name="email">{{user.email}}</td>
+          <td><sup>{{user.createdAt | date:'medium'}}</sup></td>
+
+          <td ng-if="user.adminLvl>0">
+            {{user.adminLvl}} -
+             <span ng-if="user.adminLvl==10"><i class="fi-star"></i> Super Admin</span>
+             <span ng-if="user.adminLvl==9"><i class="fi-star"></i> Admin</span>
+             <span ng-if="user.adminLvl==1">User</span><br/>
+            <a name="edit" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<9"><sub>Edit</sub></a>
+
+            <form id="{{$index}}" class="hidden" ng-submit="userCtrl.editAdminLvl(user._id, userCtrl.changeToAdminLvl[user._id])" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<10">
+              <select ng-model="userCtrl.changeToAdminLvl[user._id]">
+                <option value=""> Change User Level</option>
+                <option value="10" ng-if="userCtrl.user.adminLvl===10"> 10 - Super Admin </option>
+                <option value="9"> 9 - Admin </option>
+                <option value="1"> 1 - User </option>
+                <option value="0"> 0 - Unapproved </option>
+              </select>
+              <button type="button submit" class="success button">Save</button>
+            </form>
+          </td>
+
+          <td ng-if="user.adminLvl==0" class="yellow">
+            {{user.adminLvl}} - Unapproved<br/>
+            <a name="edit"><sub>Edit</sub></a>
+
+            <form id="{{$index}}" class="hidden" ng-submit="userCtrl.editAdminLvl(user._id, userCtrl.changeToAdminLvl[user._id])">
+              <select ng-model="userCtrl.changeToAdminLvl[user._id]">
+                <option value=""> Change User Level</option>
+                <option value="10"> 10 - Super Admin </option>
+                <option value="9"> 9 - Admin </option>
+                <option value="1"> 1 - User </option>
+                <option value="0"> 0 - Unapproved </option>
+              </select>
+              <button type="button submit" class="success button">Save</button>
+            </form>
+          </td>
+          <td><input type="checkbox" ng-model="userCtrl.batchProcessInfo[user._id]" ng-if="(userCtrl.user.adminLvl==10&&user._id!=userCtrl.user._id)||user.adminLvl<9"></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <div class="medium-6 columns float-left">
+      <fieldset class="fieldset">
+        <legend><span class="warning label">Change a user's password</span></legend>
+        <div class="row">
+          <div class="medium-5 columns">
+            <label>User's email
+              <input type="text" ng-model="userCtrl.pwEmail" placeholder="email@domain.com">
+            </label>
+          </div>
+
+          <div class="medium-5 columns">
+            <label>New Password
+              <input type="text" ng-model="userCtrl.pwNew" placeholder="please enter a new password">
+            </label>
+          </div>
+        </div>
+        <button class="success button" ng-click="userCtrl.changeUserPassword();">Change Password</button>
+      </fieldset>
+    </div>
+  </div>
+  <div class="medium-1 columns"><br></div>
 </div>

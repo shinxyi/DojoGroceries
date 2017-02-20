@@ -136,12 +136,12 @@
   overflow-y: auto;
 }
 
-#menu-budget{
-  background-color: yellow;
-}
-
 .card{
   width: 180px;
   display: inline-block;
   margin-right: 10px;
+}
+
+.itemdescription{
+  font-size:12px;
 }

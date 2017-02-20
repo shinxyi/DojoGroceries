@@ -155,7 +155,7 @@ function GroceriesController() {
 				var sum = 0;
 				for(var item in glist.list){
 					var temp = glist.list[item];
-					sum += temp.price;
+					sum += temp.price*temp.quantity;
 				};
 			res.json({"currentExpenses": sum, "forWeek":req.body.week});
 			}

@@ -78,3 +78,8 @@
   width:230px;
   overflow-y: auto;
 }
+
+.label.secondary{
+  background: #fff;
+  color: #767676;
+}

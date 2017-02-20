@@ -12,7 +12,7 @@
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li>Your stats: Votes:{{userCtrl.statUser.numberOfVotesCreated}} | Comments:{{userCtrl.statUser.numberOfCommentsCreated}} | Items: {{userCtrl.statUser.numberOfItemsCreated}} | </li>
+      <li><span class="label secondary"><b>Your Stats</b> [ Votes: <b>{{userCtrl.statUser.numberOfVotesCreated || 0 }}</b> | Comments: <b>{{userCtrl.statUser.numberOfCommentsCreated || 0 }}</b> | Items: <b>{{userCtrl.statUser.numberOfItemsCreated || 0 }}</b> ] </span></li>
       <li><a ng-click="userCtrl.logout()">Logout</a></li>
     </ul>
   </div>
