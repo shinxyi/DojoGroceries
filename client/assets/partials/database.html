@@ -52,7 +52,18 @@
             <a class="accordion-title"><b>Lazy Link</b> Auto-Populate the Form! </a>
             <div class="accordion-content" data-tab-content>
 
-              <form ng-submit="itemCtrl.walmart()">
+              <form ng-submit="itemCtrl.anyitem()">
+                <span class="input-group-label">Sams and Walmart Item # or Walmart UPC</span>
+                <div class="input-group">
+                  <!-- <lable class="">Sams and Walmart Item # or Walmart UPC</lable> -->
+                  <input class="input-group-field" type="text" ng-model="itemCtrl.anyItem.id">
+                  <div class="input-group-button">
+                    <input type="submit" class="button" value="Submit">
+                  </div>
+                </div>
+              </form>
+
+              <!-- <form ng-submit="itemCtrl.walmart()">
                 <div class="input-group">
                   <span class="input-group-label">Walmart UPC#</span>
                   <input class="input-group-field" type="text" ng-model="itemCtrl.walmart.id">
@@ -80,7 +91,7 @@
                     <input type="submit" class="button" value="Submit">
                   </div>
                 </div>
-              </form>
+              </form> -->
 
               <div class="progressLineardemoBasicUsage" ng-show="itemCtrl.activated">
                 <div class="callout alert" ng-class="{'visible' : !itemCtrl.activated}">
