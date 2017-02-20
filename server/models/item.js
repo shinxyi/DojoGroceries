@@ -11,6 +11,10 @@ var ItemSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
+	exclusion: {
+		type: Boolean,
+		default: false
+	},
 	createdBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: [true, 'UserId required to create item.']

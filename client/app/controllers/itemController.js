@@ -92,6 +92,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   }
 
   self.update = function(itemId, groceryweek){
+    console.log(self.updateItem);
     itemsFactory.update(itemId, self.updateItem, function(returnedData){
       if(returnedData.errors){
         self.errors = returnedData.errors;
@@ -228,7 +229,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       self.activated = true;
       console.log(self.anyItem.id);
       itemsFactory.walmart(self.anyItem.id, function(returnedData){
-        if(returnedData.data.errors){
+        if(!returnedData.data || returnedData.data.errors){
           self.activated = false;
           self.errors = returnedData.data.errors;
         }else{
@@ -258,7 +259,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       self.activated = true;
       console.log(self.anyItem.id);
       itemsFactory.sams(self.anyItem.id, function(returnedData){
-        if(!returnedData.data.title){
+        console.log(returnedData.data);
+        if(!returnedData.data || !returnedData.data.title){
+        // if(returnedData.data.errors){
           // self.errors = returnedData.errors;
           self.activated = false;
           self.errors = ["The item did not a match please check the Item number"];
@@ -281,14 +284,17 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         }
       })
     }
-    else if(self.anyItem.id.length > 7 && self.anyItem.id.length < 12){
+    else if(self.anyItem.id.length >= 7 && self.anyItem.id.length < 12){
       console.log("walmart");
       self.activated = true;
       console.log(self.anyItem.id);
       itemsFactory.walmartItem(self.anyItem.id, function(returnedData){
-        if(returnedData.data.errors){
+        if(!returnedData.data || returnedData.data.errors){
           self.activated = false;
-          self.errors = returnedData.data.errors;
+          if(returnedData.data && returnedData.data.errors){
+            self.errors = returnedData.data.errors;
+          }else{self.errors = ["Undefined Item"]}
+
         }else{
           // self.suggestion = returnedData;
           self.errors = undefined;
