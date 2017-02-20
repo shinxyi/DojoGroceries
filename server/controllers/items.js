@@ -119,7 +119,7 @@ function ItemsController() {
 	};
 
 	this.fav = function(req,res){
-		if(!req.session.user || req.session.user.adminLvl==9){
+		if(!req.session.user || req.session.user.adminLvl>8){
 			res.json({errors: ['You are not allowed to favorite an item...']})
 			return;
 		}
@@ -172,7 +172,7 @@ function ItemsController() {
 
 	this.vote = function(req,res){
 
-		if(!req.session.user || req.session.user.adminLvl==9){
+		if(!req.session.user || req.session.user.adminLvl>8){
 			res.json({errors: ['You are not allowed to vote on an item...']})
 			return;
 		}
