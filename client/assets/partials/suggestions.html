@@ -89,7 +89,7 @@
 
   <div class="medium-3 columns">
 
-    <fieldset class="fieldset fav-food" ng-if="userCtrl.user.adminLvl===9">
+    <fieldset class="fieldset fav-food" ng-if="userCtrl.user.adminLvl>8">
       <legend>Auto-Added Foods</legend>
       <sup>These items are automatically added to future grocery lists. Click on the <i class="foundicon-remove"></i> icon to un-persist an item.</sup><br/>
       <div class="thumbnail" ng-repeat="item in itemCtrl.items" ng-if="item.persist===true">

@@ -79,15 +79,19 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
   };
 
   this.vote = function(item_id, callback){
+    console.log('voting stored user-->', self.storedUser);
+
     var vote;
 
     if(!(self.storedUser.votes[thisweek])){
       vote = '1';
-    }else if(!(self.storedUser.votes[thisweek].hasOwnProperty(item_id)) || storedUser.votes[thisweek][item_id]<1){
+    }else if(!(self.storedUser.votes[thisweek].hasOwnProperty(item_id)) || self.storedUser.votes[thisweek][item_id]<1){
       vote = '1';
-    }else if(self.storedUser.votes[thisweek].hasOwnProperty(item_id) && storedUser.votes[thisweek][item_id]>0){
+    }else if(self.storedUser.votes[thisweek].hasOwnProperty(item_id) && self.storedUser.votes[thisweek][item_id]>0){
       vote = '-1';
     }
+
+    console.log('voting vote-->', vote);
 
     $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){
       self.storedUser = returned_data.data.user;
@@ -142,7 +146,7 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
     var data = {email};
     $http.post("/users/forgot_password/", data).then(function(returnedData){
       callback(returnedData);
-    }); 
+    });
   };
 
   this.userNewPassword = function(userObject, callback){

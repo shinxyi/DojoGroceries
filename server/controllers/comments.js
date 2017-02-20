@@ -82,7 +82,7 @@ function CommentsController() {
   		}
 
       Comment.findOne({_id: req.params.comment_id}, function(err, comment) {
-        if(comment.userId==req.session.user._id|| req.session.user.adminLvl==9){
+        if(comment.userId==req.session.user._id|| req.session.user.adminLvl>8){
           comment.active = 0;
           comment.save(function(err){
             if(err){

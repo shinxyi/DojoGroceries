@@ -40,7 +40,7 @@ function GroceriesController() {
 		}
 
 		GroceryList.findOne({week: req.params.week}, function(error, glist){
-			if(error){
+			if(error||!glist){
 				res.json({errors: ['Issue finding Grocery List...']});
 				return;
 			}
