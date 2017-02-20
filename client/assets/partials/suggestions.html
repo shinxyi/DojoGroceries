@@ -45,8 +45,8 @@
           </h4>
 
           <div class="indent">
-            <h6><b>Category:</b> {{ item.category }} | {{ item.price | currency }} </h6>
-            <p>{{ item.description }}</p>
+            <h6><b>Category:</b> {{ item.category }} | <i>{{ item.price | currency }}</i> </h6>
+            <p class="itemdescription">{{ item.description }}</p>
             <div class="callout secondary" ng-repeat="comment in item.comments | orderBy:'createdAt'" ng-if="comment.week==userCtrl.thisweek">
               <b>{{ comment.userName }}</b> says:
               <sup>{{ comment.createdAt | date: 'EEE MM/dd/yy h:mm a'}}</sup>
@@ -74,9 +74,13 @@
               <form ng-submit="commentCtrl.comment(item._id, commentCtrl.msg[item._id], $index);commentCtrl.msg=''">
                 <label>
                   Write a Comment!
-                  <textarea placeholder="What do you have to say about {{item.name}}?" ng-model="commentCtrl.msg[item._id]"></textarea>
-                  <div class="right">
-                    <input type="submit" class="button success" value="Send!">
+                  <div class="row">
+                    <div class="medium-10 column">
+                      <textarea placeholder="What do you have to say about {{item.name}}?" ng-model="commentCtrl.msg[item._id]"></textarea>
+                    </div>
+                    <div class="medium-2 column">
+                      <input type="submit" class="button" value="Send!">
+                    </div>
                   </div>
                 </label>
               </form>
@@ -101,27 +105,29 @@
 
     <fieldset class="fieldset fav-food" ng-if="userCtrl.user.adminLvl<9">
       <legend>Your <i class="fi-heart"></i> Favorite Foods</legend>
-      <sup>Click on the <i class="foundicon-remove"></i> icon to un-favorite an item. Click on any item to vote/suggest it for the week. Clicking on an item again will undo your action. </sup><br/>
+      <sup>Click on the <i class="foundicon-remove"></i> icon to un-favorite an item. These items are automatically voted for you on a weekly basis. </sup><br/>
       <div class="thumbnail" ng-repeat="item in itemCtrl.items" ng-if="item.favedByUsers.hasOwnProperty(userCtrl.user._id)">
         <div class="unfav"><a ng-click="itemCtrl.fav(item._id)"><i class="foundicon-remove"></i></a></div>
-        <img src="{{ item.img }}" ng-click="userCtrl.vote(item._id)" />
+        <img src="{{ item.img }}"/>
       </div>
     </fieldset>
 
-    <form ng-submit="userCtrl.userNewPassword()">
-      <fieldset>
-        <legend>Change your password</legend>
-        <label>New Password:
-          <input type="password" name="newpw" ng-model="userCtrl.userNewPasswordEntry"/>
-        </label>
-        <div class="right">
-          <input type="submit" class="button" value="Change.">
-        </div>
-      </fieldset>
-        <div ng-if="userCtrl.passwordChangeConfirm" class="callout primary">
-          <p>You have successfully changed your password!</p>
-        </div>
-    </form>
+    <fieldset class="fieldset">
+      <legend>Change your password</legend>
+        <form ng-submit="userCtrl.userNewPassword()">
+
+          <label>New Password:
+            <input type="password" name="newpw" ng-model="userCtrl.userNewPasswordEntry"/>
+          </label>
+          <div class="right">
+            <input type="submit" class="button" value="Change.">
+          </div>
+        </form>
+
+      <div ng-if="userCtrl.passwordChangeConfirm" class="callout primary">
+        <p>You have successfully changed your password!</p>
+      </div>
+    </fieldset>
 
     <b>Still don't see anything you like?</b><a name="database"> Suggest something from the database!</a>
   </div>
