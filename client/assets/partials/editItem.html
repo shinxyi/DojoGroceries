@@ -97,11 +97,16 @@
               </div>
               <div class="right">
                 <br/><br/><br/>
+                <span  ng-if="userCtrl.user.adminLvl>5">
+                  <input id="suggestion_add" ng-model="itemCtrl.updateItem.exclude" type="checkbox">
+                  <label for="suggestion_add">Exclude product from all future adds</label>
+                </span>
                 <input type="submit" class="button" value="Edit!">
               </div>
+
             </div>
           </form>
-        </div>
+        </div
       </div>
     </div>
 

@@ -62,6 +62,7 @@ function ItemsController() {
 			item.price= req.body.price;
 			item.category= req.body.category;
 			item.quantity= req.body.quantity;
+			item.exclusion= req.body.exclude;
 
 			item.save(function (error){
 				if(error){
@@ -293,7 +294,7 @@ function ItemsController() {
 					}
 					if(a.voting_list[week]<b.voting_list[week]){
 						return 1
-					} 
+					}
 					return 0
 				});
 				res.json({weekList});

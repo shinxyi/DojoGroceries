@@ -21,6 +21,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.0",
     "body-parser": "^1.15.2",
+    "cron": "^1.2.1",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "isomorphic-fetch": "^2.2.1",
