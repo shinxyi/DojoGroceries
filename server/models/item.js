@@ -19,6 +19,12 @@ var ItemSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		required: [true, 'UserId required to create item.']
 	},
+	sId: {
+		type: String,
+		unique: [true, 'Item already exist.'],
+		minlength: [2, 'Item name requires at least 2 characters.'],
+		required: [true, 'Name required to create item.']
+	},
 	img: {
 		type: String,
 		required: [true, 'Image required to create item.']

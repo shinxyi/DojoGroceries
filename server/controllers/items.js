@@ -86,6 +86,7 @@ function ItemsController() {
 		var item = new Item({
 			createdBy: req.session.user._id,
 			name: req.body.name,
+			sId: req.body.sId,
 			img: req.body.img,
 			description: req.body.description,
 			id: req.body.id,
