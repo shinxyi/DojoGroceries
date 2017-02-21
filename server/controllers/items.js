@@ -91,9 +91,8 @@ function ItemsController() {
 					console.log('THis itmes exclude status',item.exclusion);
 					res.json({ errors: ["This can not be added please consult with an admin"] });
 					return;
-				}
-				else if(!item.active){
-					console.log('THis itmes delete status',item.active);
+				}else if(!item.active && !item.exclusion){
+					console.log('This items delete status',item.active);
 					Item.findOne({sId: req.body.sId}, function(error, item){
 						if (error) {
 							console.log('items.js - update(): error retrieving item\n', error);
@@ -109,11 +108,12 @@ function ItemsController() {
 							}
 
 							res.json({item: item});
+							return;
 						})
 					})
 				}
-				res.json({ errors: ["This item already exist"] });
-				return;
+				// res.json({ errors: ["This item already exist"] });
+				// return;
 			}
 			else{
 				var item = new Item({
