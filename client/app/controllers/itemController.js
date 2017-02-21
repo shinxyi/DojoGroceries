@@ -2,7 +2,9 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   var self= this;
 
+
   this.activated = false;
+
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
@@ -24,6 +26,8 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
         self.suggestion.vote = userAdminLvl<9 ? true : false;
       })
       self.suggestion.quantity = 1;
+      self.anyItem.id = ""
+
     });
   }
 
@@ -54,6 +58,8 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   self.create = function(){
       // self.suggestion.user_id = "5882481503508f55b6ace298";
       // console.log(session.user._id);
+      self.suggestion.sId = self.anyItem.id;
+      console.log(self.suggestion);
       console.log("This should the print when you hit create");
       itemsFactory.create(self.suggestion, function(returnedData){
         if(returnedData.errors){
@@ -93,6 +99,10 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   self.update = function(itemId, groceryweek){
     console.log(self.updateItem);
+    if (self.updateItem.exclude){
+      self.delete(self.updateItem._id)
+    }
+
     itemsFactory.update(itemId, self.updateItem, function(returnedData){
       if(returnedData.errors){
         self.errors = returnedData.errors;
