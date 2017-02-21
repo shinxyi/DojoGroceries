@@ -94,13 +94,14 @@ function ItemsController() {
 				}
 				else if(!item.active){
 					console.log('THis itmes delete status',item.active);
-					Item.findOne({sId: req.body.sId}, function(error, item){
-						if (error) {
-							console.log('items.js - update(): error retrieving item\n', error);
-							res.json({ errors: processError(error) });
-							return;
-						}
-						item.active = true;
+					// Item.findOne({sId: req.body.sId}, function(error, item){
+					// 	if (error) {
+					// 		console.log('items.js - update(): error retrieving item\n', error);
+					// 		res.json({ errors: processError(error) });
+					// 		return;
+					// 	}
+						item.active= true;
+						console.log("this is the line before the save");
 
 						item.save(function (error){
 							if(error){
@@ -109,11 +110,12 @@ function ItemsController() {
 							}
 
 							res.json({item: item});
-						})
+							return;
+						// })
 					})
 				}
-				res.json({ errors: ["This item already exist"] });
-				return;
+				// // res.json({ errors: ["This item already exist"] });
+				// return;
 			}
 			else{
 				var item = new Item({
