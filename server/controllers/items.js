@@ -78,45 +78,85 @@ function ItemsController() {
 
 	this.create = function(req, res) {
 
+
 		if(!req.session.user){
 			res.json({errors: ['You are not allowed to create an item...']})
 			return;
 		}
 
-		var item = new Item({
-			createdBy: req.session.user._id,
-			name: req.body.name,
-			sId: req.body.sId,
-			img: req.body.img,
-			description: req.body.description,
-			id: req.body.id,
-			from: req.body.from,
-			price: req.body.price,
-			category: req.body.category,
-			quantity: req.body.quantity
-		});
+		Item.findOne({sId: req.body.sId}, function(error, item){
 
-		item.save(function(error, item) {
-			if (error) {
-				console.log('items.js - create(): error retrieving created item\n', error);
-				res.json({ errors: processError(error) });
+			if(item){
+				if(item.exclusion){
+					console.log('THis itmes exclude status',item.exclusion);
+					res.json({ errors: ["This can not be added please consult with an admin"] });
+					return;
+				}
+				else if(!item.active){
+					console.log('THis itmes delete status',item.active);
+					Item.findOne({sId: req.body.sId}, function(error, item){
+						if (error) {
+							console.log('items.js - update(): error retrieving item\n', error);
+							res.json({ errors: processError(error) });
+							return;
+						}
+						item.active = true;
+
+						item.save(function (error){
+							if(error){
+								res.json({ errors: processError(error) });
+								return;
+							}
+
+							res.json({item: item});
+						})
+					})
+				}
+				res.json({ errors: ["This item already exist"] });
 				return;
 			}
+			else{
+				var item = new Item({
+					createdBy: req.session.user._id,
+					name: req.body.name,
+					sId: req.body.sId,
+					img: req.body.img,
+					description: req.body.description,
+					id: req.body.id,
+					from: req.body.from,
+					price: req.body.price,
+					category: req.body.category,
+					quantity: req.body.quantity
+				});
 
-			//incrementing the user's numberOfItemsCreated field by 1 upon successful item creation. as long as there is no error, value is incremented with no other form of validation.
-			User.update({_id:req.session.user._id}, {$inc:{numberOfItemsCreated:1}}, function(err, updateInfo){
-				if(err){
-					console.log(err);
-				};
-			});
+				item.save(function(error, item) {
+					if (error) {
+						console.log('items.js - create(): error retrieving created item\n', error);
+						res.json({ errors: processError(error) });
+						return;
+					}
 
-			if(req.body.vote){
-				res.redirect('/items/'+ item._id +'/1');
-				return;
+					//incrementing the user's numberOfItemsCreated field by 1 upon successful item creation. as long as there is no error, value is incremented with no other form of validation.
+					User.update({_id:req.session.user._id}, {$inc:{numberOfItemsCreated:1}}, function(err, updateInfo){
+						if(err){
+							console.log(err);
+						};
+					});
+
+					if(req.body.vote){
+						res.redirect('/items/'+ item._id +'/1');
+						return;
+					}
+
+					res.json({ item: item });
+				});
 			}
 
-			res.json({ item: item });
-		});
+		})
+
+
+		//
+
 	};
 
 	this.fav = function(req,res){
