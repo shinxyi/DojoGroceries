@@ -1,20 +1,18 @@
 <div class="row">
 	<div class="panel" class="large-4 columns">
+		<h2>Stats Page</h2>
 		<fieldset>
 			<legend>Pick a week.</legend>
 			<select ng-model="statCtrl.selectedWeek">
 				<option ng-repeat="o in statCtrl.listOfWeeks" value="{{o}}">{{o}}</option>
 			</select>
 			<div class="right">
-				<button ng-click="statCtrl.getWeek();">Get Week's Data</button>
+				<button class="success button" ng-click="statCtrl.getWeek();">Get Week's Data</button>
 			</div>
 		</fieldset>
 	</div>
 
-	<h2>Stats Page</h2>
-	<div ng-repeat="w in statCtrl.allData">
-	<h4>For week {{w.week}}</h4>
-	<table>
+	<table ng-if="statCtrl.statOneWeek">
 		<tr>
 			<th>Item Name</th>
 			<th>Price</th>
@@ -22,7 +20,7 @@
 			<th>From</th>
 			<th>Category</th>
 		</tr>
-		<tr ng-repeat="i in w.items">
+		<tr ng-repeat="i in statCtrl.statOneWeek.list">
 			<td>{{i.name}}</td>
 			<td>{{i.price}}</td>
 			<td>{{i.quantity}}</td>
@@ -30,5 +28,5 @@
 			<td>{{i.category}}</td>
 		</tr>
 	</table>
-	</div>
+
 </div>

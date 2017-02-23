@@ -5,21 +5,22 @@ app.controller('statController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
 	var self = this;
 
-	groceriesFactory.history(function(returnedData){
-		self.allData = returnedData.data;
-		self.listOfWeeks = [];
-		for(var i=0;i<self.allData.length;i++){
-			self.listOfWeeks.push(self.allData[i].week);
-		};
-	});
+	// code to get all grocery lists, if desired... 
+	// groceriesFactory.history(function(returnedData){
+	// 	self.allData = returnedData.data;
+	// 	self.listOfWeeks = [];
+	// 	for(var i=0;i<self.allData.length;i++){
+	// 		self.listOfWeeks.push(self.allData[i].week);
+	// 	};
+	// });
 
 	self.getWeek = function(){
 		console.log(self.selectedWeek);
 		groceriesFactory.getWeekInfo(self.selectedWeek, function(returnedData){
 			console.log("getWeek reports:>>>>>>>>>>>>>", returnedData);
-			//now...build a single view for this 2/17 chetan 
-		})
-	}
+ 			self.statOneWeek = returnedData;
+		});
+	};
 
 
 
