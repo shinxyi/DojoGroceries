@@ -59,6 +59,7 @@ app.factory('groceriesFactory', ['$http', function($http) {
   }
 
   this.addToGroceries = function(item_id, week, callback){
+
     $http.post('/groceries/' + item_id +'/'+ week).then(function(response) {
       callback();
 

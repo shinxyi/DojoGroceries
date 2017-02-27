@@ -6,7 +6,7 @@ var CronJob = require('cron').CronJob,
     GroceryList = mongoose.model('GroceryList');
 
 //At the first of every month....
-new CronJob('0 0 1 * * *', function() {
+new CronJob('0 0 0 1 * *', function() {
   //we want to deactivate user if creation date was less than or equal to four months ago
   var fourmonthsago = moment().subtract(4, 'months');
   console.log("Starting Drop Students Cron Job");
@@ -22,7 +22,7 @@ new CronJob('0 0 1 * * *', function() {
 }, null, true, 'America/Los_Angeles');
 
 //Every week....
-new CronJob('0 0 * * 0 *', function() {
+new CronJob('0 0 0 * * 0', function() {
 
   //create new grocery list & add persisted items
   var week = moment().week().toString() + moment().year().toString();

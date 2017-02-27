@@ -4,7 +4,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
 
   this.activated = false;
-
+  self.anyItem = "";
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
