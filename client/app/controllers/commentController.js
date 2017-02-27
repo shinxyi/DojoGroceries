@@ -12,14 +12,11 @@ app.controller('commentController', ['commentsFactory', '$location', function(co
 
   commentsFactory.registerCbs('updateComments', function(){
     commentsFactory.getFlaggedComments(function(returnedData){
-      console.log('getting updated comments!');
       self.inbox = returnedData;
-      console.log(self.inbox);
     });
   })
 
   self.comment = function(item_id, comment, index){
-    console.log('comment->', comment);
       commentsFactory.create(item_id, comment, function(returnedData){
         if(returnedData.errors){
           self.thisOne = index;

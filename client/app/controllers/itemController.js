@@ -8,7 +8,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
-    // console.log('this week in Items Controller->', self.thisweek);
   })
 
   var refresh = function(){
@@ -56,11 +55,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   })
 
   self.create = function(){
-      // self.suggestion.user_id = "5882481503508f55b6ace298";
-      // console.log(session.user._id);
       self.suggestion.sId = self.anyItem.id;
-      console.log(self.suggestion);
-      console.log("This should the print when you hit create");
       itemsFactory.create(self.suggestion, function(returnedData){
         if(returnedData.errors){
           delete self.success;
@@ -235,9 +230,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   self.getBudget();
   self.anyitem = function () {
     if(self.anyItem.id.length >= 12){
-      console.log("UPC");
       self.activated = true;
-      console.log(self.anyItem.id);
       itemsFactory.walmart(self.anyItem.id, function(returnedData){
         if(!returnedData.data || returnedData.data.errors){
           self.activated = false;
@@ -246,7 +239,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           // self.suggestion = returnedData;
           self.errors = undefined;
           self.activated = false;
-          console.log(returnedData.data);
           self.suggestion.name = returnedData.data.productName;
           self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
           self.suggestion.img = returnedData.data.imageAssets[0].versions.thumbnail;
@@ -254,9 +246,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           self.suggestion.from = 'Walmart';
           self.suggestion.price = returnedData.data.buyingOptions.price.currencyAmount;
           var category = returnedData.data.categoryPath.categoryPathName.split('/')
-          console.log(category);
-          console.log(category.length-1);
-          console.log(category[3]);
           self.suggestion.category = category[category.length-1];
           // alert('hi');
           $('#lazylink .accordion-content').css("display","none");
@@ -265,11 +254,8 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       })
     }
     else if(self.anyItem.id.length < 7){
-      console.log("sams");
       self.activated = true;
-      console.log(self.anyItem.id);
       itemsFactory.sams(self.anyItem.id, function(returnedData){
-        console.log(returnedData.data);
         if(!returnedData.data || !returnedData.data.title){
         // if(returnedData.data.errors){
           // self.errors = returnedData.errors;
@@ -279,7 +265,6 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           self.errors = undefined;
           self.activated = false;
           // self.suggestion = returnedData;
-          console.log(returnedData.data);
           // console.log(typeof(returnedData.data.price));
           // console.log(returnedData.data.category);
           self.suggestion.name = returnedData.data.title;
@@ -295,9 +280,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       })
     }
     else if(self.anyItem.id.length >= 7 && self.anyItem.id.length < 12){
-      console.log("walmart");
       self.activated = true;
-      console.log(self.anyItem.id);
       itemsFactory.walmartItem(self.anyItem.id, function(returnedData){
         if(!returnedData.data || returnedData.data.errors){
           self.activated = false;
@@ -309,16 +292,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           // self.suggestion = returnedData;
           self.errors = undefined;
           self.activated = false;
-          console.log(returnedData.data);
           self.suggestion.name = returnedData.data.productName;
           self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
           self.suggestion.img = returnedData.data.imageAssets[0].versions.thumbnail;
           self.suggestion.from = 'Walmart';
           self.suggestion.price = returnedData.data.buyingOptions.price.currencyAmount;
           var category = returnedData.data.categoryPath.categoryPathName.split('/')
-          console.log(category);
-          console.log(category.length-1);
-          console.log(category[3]);
           self.suggestion.category = category[category.length-1];
           // alert('hi');
           $('#lazylink .accordion-content').css("display","none");
@@ -327,14 +306,12 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
       })
     }
     else{
-      console.log("something else");
     }
   }
 
   var developBudgetList = function(){
     itemsFactory.developBudgetList(function(returnedData){
       self.budgetList = returnedData.weekList;
-      console.log("BUDGET LIST IS!!!", self.budgetList);
     });
   };
 

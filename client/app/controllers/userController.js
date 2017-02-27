@@ -27,7 +27,6 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   usersFactory.registerCbs('updateUser', function(){
     usersFactory.user(function(returnedData){
       self.user = returnedData;
-      console.log('STEP5, user controller user-->', self.user);
     })
   })
 
@@ -49,11 +48,9 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   usersFactory.getWeek(function(returnedData){
     self.thisweek = returnedData;
     self.groceryweek = self.thisweek;
-    console.log('this grocery week->', self.groceryweek);
   })
 
   self.setGroceryWeek = function(week){
-    console.log('setting grocery week!');
     self.groceryweek = week;
   }
 
@@ -92,7 +89,6 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
         self.info2 = {};
         $location.url('/admin_dashboard');
         refresh();
-        console.log('STEP 1, user controller user', self.user);
       }else{
         self.success = [returnedData.user + ', your account has been successfully created. Please wait for an admin to approve your account.'];
         self.info2={};
@@ -107,7 +103,6 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   }
 
   self.delete = function(user_id){
-    console.log('user being deleted->', user_id);
     usersFactory.editAdminLvl(user_id, -1);
   }
 
@@ -118,14 +113,11 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   };
 
   self.processBatch = function(){
-    console.log(self.batchProcessInfo);
     var listOfIds = [];
     for(var key in self.batchProcessInfo){
       listOfIds.push(key);
     };
-    console.log("Here is the list...", listOfIds);
     usersFactory.batchProcessToOne(listOfIds, function(returnedData){
-      console.log('UPDATING USER LIST **** ');
       self.allUsers = returnedData;
       var count =0;
 
@@ -169,14 +161,12 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
   //generates user 'stats' informatio for display on top bar.
   var userStats = function(){
     usersFactory.getStatUser(function(user){
-      console.log(user);
       self.statUser = user;
     });
   };
 
   self.forgotPassword = function(){
     usersFactory.forgotPassword(self.forgotPasswordEmail, function(){
-      console.log('done...');
     });
   };
 

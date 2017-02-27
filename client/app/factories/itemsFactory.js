@@ -13,7 +13,6 @@ app.factory('itemsFactory', ['$http', function($http) {
 
   this.create = function(item, callback){
       if(!(item.hasOwnProperty('vote'))){ item.vote = false; }
-      console.log('item trying to be created ->', item);
     	$http.post('/items', item).then(function (response) {
     		callback(response.data);
     	});
@@ -55,7 +54,6 @@ app.factory('itemsFactory', ['$http', function($http) {
     //   callback({ errors: ['Walmart UPC# is incorrect format.']})
     //   return;
     // }
-    console.log(id);
     $http.get('/walmart/'+id).then(callback);
 
   }
@@ -65,7 +63,6 @@ app.factory('itemsFactory', ['$http', function($http) {
       callback({ errors: ['Walmart ID# is incorrect format.']})
       return;
     }
-    console.log(id);
     $http.get('/walmartItem/'+id).then(callback);
 
   }
@@ -75,7 +72,6 @@ app.factory('itemsFactory', ['$http', function($http) {
       callback({ errors: ['Sams Club Item# is incorrect format.']})
       return;
     }
-    console.log(id);
     $http.get('/sams/'+id).then(callback);
   }
 

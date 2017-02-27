@@ -19,8 +19,6 @@ app.factory('groceriesFactory', ['$http', function($http) {
         if(groceries==="undefined"){
           groceries = response.data.list;
         }
-        console.log('indexing groceries - groceriesFactory');
-        console.log(response.data);
         var array = [];
         for(var key in response.data.list.list){
           array.push(response.data.list.list[key]);

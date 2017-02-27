@@ -2,7 +2,6 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
 
   function UsersFactory(){
 
-  console.log('loading users Factory');
   var thisweek;
   var self = this;
 
@@ -11,9 +10,7 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
   var callbacks = {};
 
   this.user = function (callback) {
-    console.log('STEP3');
     if(self.storedUser!=="undefined"){
-      console.log('STEP4, user factory user-->', self.storedUser);
       return callback(self.storedUser);
     }else if ($cookies.get('stored_id')){
       var user_id = {id: $cookies.get('stored_id')};
@@ -91,7 +88,6 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
       vote = '-1';
     }
 
-    console.log('voting vote-->', vote);
 
     $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){
       self.storedUser = returned_data.data.user;

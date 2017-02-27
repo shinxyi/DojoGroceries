@@ -5,7 +5,7 @@ app.controller('statController', ['itemsFactory', 'commentsFactory', 'usersFacto
 
 	var self = this;
 
-	// code to get all grocery lists, if desired... 
+	// code to get all grocery lists, if desired...
 	// groceriesFactory.history(function(returnedData){
 	// 	self.allData = returnedData.data;
 	// 	self.listOfWeeks = [];
@@ -15,9 +15,7 @@ app.controller('statController', ['itemsFactory', 'commentsFactory', 'usersFacto
 	// });
 
 	self.getWeek = function(){
-		console.log(self.selectedWeek);
 		groceriesFactory.getWeekInfo(self.selectedWeek, function(returnedData){
-			console.log("getWeek reports:>>>>>>>>>>>>>", returnedData);
  			self.statOneWeek = returnedData;
 		});
 	};

@@ -65,7 +65,6 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       url: '/admin_dashboard',
       resolve: {
         user: function (usersFactory, $location) {
-          console.log('STEP2');
           usersFactory.user(function(user){
             if(user!="undefined"&&user.adminLvl<8){
               $location.url('/dashboard');
@@ -74,7 +73,6 @@ app.config( function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
               $location.url('/');
               return
             }
-            console.log('STEP6');
           });
         }
       },

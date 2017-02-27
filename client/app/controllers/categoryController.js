@@ -14,7 +14,6 @@ app.controller('categoryController', ['categoriesFactory', '$location', function
         })
       }else{
         self.categories = returnedData;
-        console.log('self.categories ->', self.categories);
       }
     });
   }
