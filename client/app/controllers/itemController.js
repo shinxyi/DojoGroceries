@@ -229,26 +229,24 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
   };
 
   self.getBudget();
+
   self.anyitem = function () {
     if(self.anyItem.id.length >= 12){
       self.activated = true;
-      itemsFactory.walmart(self.anyItem.id, function(returnedData){
+      itemsFactory.walmartUPC(self.anyItem.id, function(returnedData){
         if(!returnedData.data || returnedData.data.errors){
           self.activated = false;
           self.errors = returnedData.data.errors;
         }else{
-          // self.suggestion = returnedData;
           self.errors = undefined;
           self.activated = false;
-          self.suggestion.name = returnedData.data.productName;
+          self.suggestion.name = returnedData.data.name;
           self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
-          self.suggestion.img = returnedData.data.imageAssets[0].versions.thumbnail;
-          // self.suggestion.img = returnedData.data.imageAssets[1].versions.thumbnail;
+          self.suggestion.img = returnedData.data.thumbnailImage;
           self.suggestion.from = 'Walmart';
-          self.suggestion.price = returnedData.data.buyingOptions.price.currencyAmount;
-          var category = returnedData.data.categoryPath.categoryPathName.split('/')
+          self.suggestion.price = returnedData.data.msrp;
+          var category = returnedData.data.categoryPath.split('/')
           self.suggestion.category = category[category.length-1];
-          // alert('hi');
           $('#lazylink .accordion-content').css("display","none");
           $('#itemform .accordion-content').css("display","block");
         }
@@ -282,25 +280,26 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
     }
     else if(self.anyItem.id.length >= 7 && self.anyItem.id.length < 12){
       self.activated = true;
-      itemsFactory.walmartItem(self.anyItem.id, function(returnedData){
-        if(!returnedData.data || returnedData.data.errors){
+      itemsFactory.walmartItemID(self.anyItem.id, function(returnedData){
+        //if(!returnedData.data || returnedData.data.errors){
+        console.log("HERE IS THE RETURNED DATA", returnedData)
+        if(1>2){
           self.activated = false;
           if(returnedData.data && returnedData.data.errors){
             self.errors = returnedData.data.errors;
           }else{self.errors = ["Undefined Item"]}
 
         }else{
-          // self.suggestion = returnedData;
+          self.suggestion = {};
           self.errors = undefined;
           self.activated = false;
-          self.suggestion.name = returnedData.data.productName;
+          self.suggestion.name = returnedData.data.name.replace(/(<([^>]+)>)/ig,"");
           self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
-          self.suggestion.img = returnedData.data.imageAssets[0].versions.thumbnail;
+          self.suggestion.img = returnedData.data.thumbnailImage;
           self.suggestion.from = 'Walmart';
-          self.suggestion.price = returnedData.data.buyingOptions.price.currencyAmount;
-          var category = returnedData.data.categoryPath.categoryPathName.split('/')
+          self.suggestion.price = returnedData.data.msrp;
+          var category = returnedData.data.categoryPath.split('/')
           self.suggestion.category = category[category.length-1];
-          // alert('hi');
           $('#lazylink .accordion-content').css("display","none");
           $('#itemform .accordion-content').css("display","block");
         }

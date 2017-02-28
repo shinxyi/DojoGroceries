@@ -288,28 +288,59 @@ function ItemsController() {
 		});
 	}
 
-	this.walmart = function(req, res){
-      	var upc = req.params.upcId;
-     	walmart.getItemByUPC(upc).then(function(item) {
+	//DEPRECATED WALMART PACKAGE SEARCH FUNCTION
+	// this.walmartUPC = function(req, res){
+ //      	var upc = req.params.upcId;
+ //     	walmart.getItemByUPC(upc).then(function(item) {
 
-        res.json(item.product);
-        }).catch(function(err) {
-		      console.log(err);
-					res.json({errors: ['The UPC did not a match please check the upc']})
-		    });
-	}
+ //        res.json(item.product);
+ //        }).catch(function(err) {
+	// 	      console.log(err);
+	// 				res.json({errors: ['The UPC did not a match please check the upc']})
+	// 	    });
+	// };
 
-	this.walmartItem = function(req, res){
-      var item = req.params.itemId;
-      walmart.getItem(item).then(function(item) {
-          res.json(item.product);
-        }).catch(function(err) {
-		      console.log(err);
-					res.json({errors: ['The Item did not a match please check the upc']})
-		    });
-	}
+	//new walmart upc search function that uses request instead of 'walmart' package.
+	this.walmartUPC2 = function(req,res){
+		console.log("WALMART UPC2 FIRING!!!")
+		var upc = req.params.upcId;
+		var url = "http://api.walmartlabs.com/v1/items?apiKey=gqc6u7vwpe83xy5majn7wpwn&upc="+upc;
+		request(url, function(err,response,body){
+			if(err){
+				res.json({errors: ['The UPC did not a match please check the upc']});
+			}
+			else{
+				body = JSON.parse(body);
+				body = body.items[0];
+				res.json(body);
+			};
+		});
+	};	
+
+	//DEPRECATED WALMART PACKAGE SEARCH FUNCTION
+	// this.walmartItem = function(req, res){
+ //      var item = req.params.itemId;
+ //      walmart.getItem(item).then(function(item) {
+ //          res.json(item.product);
+ //        }).catch(function(err) {
+	// 	      console.log(err);
+	// 				res.json({errors: ['The Item did not a match please check the upc']})
+	// 	    });
+	// };
+
+	//new walmart item id search function that uses request instead of 'walmart' package.
+	this.walmartItem2 = function(req,res){
+		console.log('walmart item 2 FIRING!!!!!!!!!!!')
+		var id = req.params.itemId;
+		var url = "http://api.walmartlabs.com/v1/items/"+id+"?apiKey=gqc6u7vwpe83xy5majn7wpwn&format=json";
+		// var url2 = "http://api.walmartlabs.com/v1/items/12417832?apiKey=gqc6u7vwpe83xy5majn7wpwn&format=json";
+		request(url, function(err,response,body){
+			err ? (  res.json({errors:['Could not find an item with a matching WalMart Item ID. Please try another ID.']})  ) : ( res.json(JSON.parse(body))   );
+		});
+	};
 
 	this.sams = function(req, res){
+	  console.log('SAMS FIRING!!!!!!!!!!!')
       var itemId = req.params.itemId;
 			sams.search(itemId, function(result) {
 				res.json(result);

@@ -49,21 +49,18 @@ app.factory('itemsFactory', ['$http', function($http) {
     })
   }
 
-  this.walmart = function(id, callback){
+  this.walmartUPC = function(upc, callback){
     // if(typeof id != "number"){
     //   callback({ errors: ['Walmart UPC# is incorrect format.']})
     //   return;
     // }
-    $http.get('/walmart/'+id).then(callback);
+    $http.get('/walmart/'+upc).then(callback);
 
   }
 
-  this.walmartItem = function(id, callback){
-    if(typeof id != "number"){
-      callback({ errors: ['Walmart ID# is incorrect format.']})
-      return;
-    }
-    $http.get('/walmartItem/'+id).then(callback);
+  this.walmartItemID = function(itemID, callback){
+    itemID = Number(itemID);
+    $http.get('/walmartItem/'+itemID).then(callback);
 
   }
 
