@@ -85,12 +85,12 @@ app.controller('groceryController', ['groceriesFactory', 'usersFactory', '$locat
   };
 
 
-  // self.currentExpenses = function(week){
-  //   groceriesFactory.currentExpenses(week, function(returnedData){
-  //     self.amountSpent = returnedData.data.currentExpenses;
-  //     self.leftOver = (self.currentBudget - self.amountSpent).toFixed(2);
-  //   });
-  // };
+  self.currentExpenses = function(week){
+    groceriesFactory.currentExpenses(week, function(returnedData){
+      self.amountSpent = returnedData.data.currentExpenses;
+      self.leftOver = (self.currentBudget - self.amountSpent).toFixed(2);
+    });
+  };
 
 
 }]);

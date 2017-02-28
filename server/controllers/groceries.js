@@ -157,8 +157,7 @@ function GroceriesController() {
 					var temp = glist.list[item];
 					sum += temp.price*temp.quantity;
 				};
-			//res.json({"currentExpenses": sum, "forWeek":req.body.week});
-			res.json({error:['wait for future implementation of sort by budget feature']})
+			res.json({"currentExpenses": sum, "forWeek":req.body.week});
 			}
 
 		});
