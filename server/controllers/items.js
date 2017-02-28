@@ -213,6 +213,7 @@ function ItemsController() {
 
 	this.vote = function(req,res){
 
+		console.log('voting....');
 		if(!req.session.user || req.session.user.adminLvl>8){
 			res.json({errors: ['You are not allowed to vote on an item...']})
 			return;
@@ -225,12 +226,12 @@ function ItemsController() {
 				return;
 			}else{
 				req.params.vote = parseInt(req.params.vote);
-
 				User.findOne({_id: req.session.user._id}, function(err,user){
 
-					if( !(user.votes.hasOwnProperty(week)) || !(user.votes[week].hasOwnProperty(item._id))){
-						console.log('User has never voted on this before... vote is...', req.params.vote);
+					if( !(user.votes.hasOwnProperty(week))){
 						user.votes[week] = {};
+						user.votes[week][itemId] = req.params.vote;
+					}else if(!(user.votes[week].hasOwnProperty(item._id))){
 						user.votes[week][itemId] = req.params.vote;
 					}else{
 						user.votes[week][item._id] = -user.votes[week][item._id];
@@ -315,7 +316,7 @@ function ItemsController() {
 				res.json(body);
 			};
 		});
-	};	
+	};
 
 	//DEPRECATED WALMART PACKAGE SEARCH FUNCTION
 	// this.walmartItem = function(req, res){
