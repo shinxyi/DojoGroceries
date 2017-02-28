@@ -241,7 +241,10 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           self.errors = undefined;
           self.activated = false;
           self.suggestion.name = returnedData.data.name;
-          self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
+          var temp = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"")
+          temp = $('<p />').html(temp).text();
+          temp = $.parseHTML(temp)[0].textContent;
+          self.suggestion.description = temp;
           self.suggestion.img = returnedData.data.thumbnailImage;
           self.suggestion.from = 'Walmart';
           self.suggestion.price = returnedData.data.salePrice ? returnedData.data.salePrice : returnedData.data.msrp;
@@ -294,7 +297,10 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           self.errors = undefined;
           self.activated = false;
           self.suggestion.name = returnedData.data.name.replace(/(<([^>]+)>)/ig,"");
-          self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
+          var temp = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"")
+          temp = $('<p />').html(temp).text();
+          temp = $.parseHTML(temp)[0].textContent;
+          self.suggestion.description = temp;
           self.suggestion.img = returnedData.data.thumbnailImage;
           self.suggestion.from = 'Walmart';
           self.suggestion.price = returnedData.data.salePrice ? returnedData.data.salePrice : returnedData.data.msrp;
