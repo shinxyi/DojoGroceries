@@ -21,7 +21,7 @@
 
         <div class="media-object-section">
           <div class="thumbnail">
-            <img src="{{ item.img }}"/>
+            <img ng-src="{{ item.img }}"/>
           </div>
           <br/>
           <!--User-->
@@ -98,7 +98,7 @@
       <sup>These items are automatically added to future grocery lists. Click on the <i class="foundicon-remove"></i> icon to un-persist an item.</sup><br/>
       <div class="thumbnail" ng-repeat="item in itemCtrl.items" ng-if="item.persist===true">
         <div class="unfav"><a ng-click="itemCtrl.persist(item._id)"><i class="foundicon-remove"></i></a></div>
-        <img src="{{ item.img }}" />
+        <img ng-src="{{ item.img }}" />
       </div>
     </fieldset>
 
@@ -108,7 +108,7 @@
       <sup>Click on the <i class="foundicon-remove"></i> icon to un-favorite an item. These items are automatically voted for you on a weekly basis. </sup><br/>
       <div class="thumbnail" ng-repeat="item in itemCtrl.items" ng-if="item.favedByUsers.hasOwnProperty(userCtrl.user._id)">
         <div class="unfav"><a ng-click="itemCtrl.fav(item._id)"><i class="foundicon-remove"></i></a></div>
-        <img src="{{ item.img }}"/>
+        <img ng-src="{{ item.img }}"/>
       </div>
     </fieldset>
 
