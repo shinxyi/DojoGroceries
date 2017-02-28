@@ -244,7 +244,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
           self.suggestion.img = returnedData.data.thumbnailImage;
           self.suggestion.from = 'Walmart';
-          self.suggestion.price = returnedData.data.msrp;
+          self.suggestion.price = returnedData.data.salePrice ? returnedData.data.salePrice : returnedData.data.msrp;
           var category = returnedData.data.categoryPath.split('/')
           self.suggestion.category = category[category.length-1];
           $('#lazylink .accordion-content').css("display","none");
@@ -297,7 +297,7 @@ app.controller('itemController', ['itemsFactory', 'commentsFactory', 'usersFacto
           self.suggestion.description = returnedData.data.longDescription.replace(/(<([^>]+)>)/ig,"");
           self.suggestion.img = returnedData.data.thumbnailImage;
           self.suggestion.from = 'Walmart';
-          self.suggestion.price = returnedData.data.msrp;
+          self.suggestion.price = returnedData.data.salePrice ? returnedData.data.salePrice : returnedData.data.msrp;
           var category = returnedData.data.categoryPath.split('/')
           self.suggestion.category = category[category.length-1];
           $('#lazylink .accordion-content').css("display","none");
