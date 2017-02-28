@@ -39,8 +39,8 @@ module.exports = function(app) {
 	app.get('/items/:item_id/:vote', items.vote);
 
 
-	app.get('/walmart/:upcId', items.walmart);
-	app.get('/walmartItem/:itemId', items.walmartItem);
+	app.get('/walmart/:upcId', items.walmartUPC2);
+	app.get('/walmartItem/:itemId', items.walmartItem2);
 	app.get('/sams/:itemId', items.sams);
 
 ///////
