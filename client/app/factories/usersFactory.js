@@ -76,7 +76,6 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
   };
 
   this.vote = function(item_id, callback){
-    console.log('voting stored user-->', self.storedUser);
 
     var vote;
 
@@ -91,7 +90,7 @@ app.factory('usersFactory', ['$http', '$cookies',  function($http, $cookies) {
 
     $http.get('/items/'+ item_id +'/'+ vote).then(function(returned_data){
       self.storedUser = returned_data.data.user;
-      callback(returned_data.data);
+      callback(returned_data.data.user);
       callbacks['updateItems']();
     })
   }

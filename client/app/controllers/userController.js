@@ -76,7 +76,7 @@ app.controller('userController', ['usersFactory', 'groceriesFactory', '$location
 
   self.vote = function(item_id){
     usersFactory.vote(item_id, function(returnedData){
-      self.user = returnedData.user;
+      self.user = returnedData;
     })
   }
 
